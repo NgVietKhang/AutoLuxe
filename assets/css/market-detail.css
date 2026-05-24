@@ -1,0 +1,485 @@
+/* =============================================
+   MARKET-DETAIL.CSS - AutoLuxe Supercar Web
+   Marketplace post detail + showroom reviews
+   ============================================= */
+
+/* === Detail Layout (2-col desktop) === */
+.md-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2xl);
+  margin-bottom: var(--space-3xl);
+}
+
+/* === Image Section === */
+.md-detail__image-wrap {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--color-bg-elevated);
+  aspect-ratio: 4 / 3;
+}
+
+.md-detail__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.md-detail__image--fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-4xl);
+  color: var(--color-text-muted);
+  width: 100%;
+  height: 100%;
+}
+
+/* === Info Section === */
+.md-detail__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.md-detail__badge {
+  align-self: flex-start;
+}
+
+.md-detail__title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+
+.md-detail__price {
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-black);
+  color: var(--color-accent);
+}
+
+/* === Specs Grid === */
+.md-specs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm) var(--space-lg);
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+
+.md-specs__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.md-specs__label {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.md-specs__value {
+  font-size: var(--fs-base);
+  color: var(--color-text-primary);
+  font-weight: var(--fw-medium);
+}
+
+/* === Description === */
+.md-description {
+  margin-bottom: var(--space-2xl);
+}
+
+.md-description__title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.md-description__text {
+  font-size: var(--fs-base);
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
+/* === Seller Info === */
+.md-seller {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.md-seller__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  flex-shrink: 0;
+}
+
+.md-seller__name {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-primary);
+}
+
+.md-seller__email {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
+
+/* === Back Link === */
+.md-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xl);
+  transition: color var(--transition-fast);
+}
+
+.md-back:hover {
+  color: var(--color-accent);
+}
+
+/* === Not Found State === */
+.md-not-found {
+  text-align: center;
+  padding: var(--space-4xl) var(--space-md);
+}
+
+.md-not-found__icon {
+  font-size: var(--fs-4xl);
+  opacity: 0.5;
+  margin-bottom: var(--space-md);
+}
+
+.md-not-found__title {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-sm);
+}
+
+.md-not-found__desc {
+  font-size: var(--fs-base);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xl);
+}
+
+/* === Buy Now Section (Phase 8) === */
+.md-buy-section {
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-xl);
+  padding: var(--space-lg);
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.md-buy-section__btn {
+  min-width: 220px;
+  font-size: var(--fs-md) !important;
+  padding: var(--space-md) var(--space-2xl) !important;
+}
+
+.md-buy-section--pending {
+  border-color: var(--color-warning);
+  background-color: rgba(243, 156, 18, 0.08);
+}
+
+.md-buy-section__status {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  color: var(--color-warning);
+}
+
+/* =========================================
+   REVIEWS SECTION
+   ========================================= */
+
+.md-reviews {
+  margin-top: var(--space-2xl);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-2xl);
+}
+
+.md-reviews__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.md-reviews__title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+}
+
+/* === Rating Summary === */
+.md-rating-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg) var(--space-xl);
+}
+
+.md-rating-summary__score {
+  font-size: var(--fs-3xl);
+  font-weight: var(--fw-black);
+  color: var(--color-gold);
+  line-height: 1;
+}
+
+.md-rating-summary__stars {
+  color: var(--color-gold);
+  font-size: var(--fs-lg);
+  letter-spacing: 2px;
+}
+
+.md-rating-summary__count {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
+
+/* === Review Form === */
+.md-review-form {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  margin-bottom: var(--space-xl);
+}
+
+.md-review-form__title {
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-lg);
+}
+
+.md-review-form__notice {
+  font-size: var(--fs-sm);
+  color: var(--color-warning);
+  background-color: rgba(243, 156, 18, 0.12);
+  border: 1px solid var(--color-warning);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  text-align: center;
+}
+
+.md-review-form__notice a {
+  color: var(--color-accent);
+  font-weight: var(--fw-semibold);
+  text-decoration: underline;
+}
+
+/* === Star Rating Input === */
+.md-star-input {
+  display: flex;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+}
+
+.md-star-input__btn {
+  background: none;
+  border: none;
+  font-size: var(--fs-xl);
+  cursor: pointer;
+  color: var(--color-border-light);
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  padding: 2px;
+  line-height: 1;
+}
+
+.md-star-input__btn:hover,
+.md-star-input__btn.is-active {
+  color: var(--color-gold);
+  transform: scale(1.15);
+}
+
+.md-star-input__label {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  margin-left: var(--space-sm);
+  align-self: center;
+}
+
+/* === Review Form Actions === */
+.md-review-form__actions {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  margin-top: var(--space-md);
+}
+
+.md-review-form__charcount {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+
+/* === Sort Controls === */
+.md-reviews__sort {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.md-reviews__sort-label {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.md-reviews__sort-select {
+  min-width: 140px;
+}
+
+/* === Review List === */
+.md-review-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* === Single Review Item === */
+.md-review-item {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+
+.md-review-item__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-sm);
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.md-review-item__author {
+  font-size: var(--fs-base);
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-primary);
+}
+
+.md-review-item__date {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+}
+
+.md-review-item__stars {
+  color: var(--color-gold);
+  font-size: var(--fs-sm);
+  letter-spacing: 1px;
+  margin-bottom: var(--space-sm);
+}
+
+.md-review-item__content {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+/* === Empty Reviews State === */
+.md-reviews__empty {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-md);
+  color: var(--color-text-muted);
+}
+
+.md-reviews__empty-icon {
+  font-size: var(--fs-3xl);
+  opacity: 0.4;
+  margin-bottom: var(--space-sm);
+}
+
+.md-reviews__empty-text {
+  font-size: var(--fs-base);
+  color: var(--color-text-secondary);
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 1023px) {
+  .md-detail {
+    gap: var(--space-xl);
+  }
+
+  .md-detail__title {
+    font-size: var(--fs-xl);
+  }
+
+  .md-detail__price {
+    font-size: var(--fs-2xl);
+  }
+}
+
+@media (max-width: 767px) {
+  .md-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .md-detail__image-wrap {
+    aspect-ratio: 16 / 10;
+  }
+
+  .md-specs {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .md-rating-summary {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .md-review-form__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .md-seller {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .md-reviews__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

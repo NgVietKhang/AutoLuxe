@@ -1,0 +1,141 @@
+/* =============================================
+   BRANDS.CSS - AutoLuxe Supercar Web
+   Brands page specific styles
+   ============================================= */
+
+/* === Brands Grid === */
+.brands-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+}
+
+/* === Brand Card === */
+.brand-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+}
+
+.brand-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--color-border-light);
+}
+
+/* Header with icon + name */
+.brand-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.brand-card__icon {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-black);
+  color: var(--color-accent);
+  border: 2px solid var(--color-accent);
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.brand-card__name {
+  font-family: var(--font-heading);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+}
+
+.brand-card__origin {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-xs);
+}
+
+/* Description */
+.brand-card__desc {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  margin-bottom: var(--space-lg);
+}
+
+/* Featured model */
+.brand-card__featured {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.brand-card__featured-label {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: var(--fw-semibold);
+}
+
+.brand-card__featured-link {
+  font-size: var(--fs-sm);
+  color: var(--color-accent);
+  font-weight: var(--fw-semibold);
+  transition: color var(--transition-fast);
+}
+
+.brand-card__featured-link:hover {
+  color: var(--color-accent-hover);
+}
+
+/* Footer */
+.brand-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+/* =============================================
+   RESPONSIVE - BRANDS
+   ============================================= */
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .brands-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .brands-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-card {
+    padding: var(--space-lg);
+  }
+
+  .brand-card__name {
+    font-size: var(--fs-lg);
+  }
+
+  .brand-card__featured {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+  }
+}

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutoLuxe - Siêu Xe Đẳng Cấp</title>
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/auth.css">
+  <link rel="stylesheet" href="assets/css/home.css">
+  <link rel="stylesheet" href="assets/css/notification.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <a href="index.html" class="site-header__brand">Auto<span>Luxe</span></a>
+
+      <nav class="site-nav" id="siteNav">
+        <ul class="site-nav__list">
+          <li><a href="index.html" class="site-nav__link is-active">Trang chủ</a></li>
+          <li><a href="./pages/catalog.html" class="site-nav__link">Catalog</a></li>
+          <li><a href="./pages/brands.html" class="site-nav__link">Thương hiệu</a></li>
+          <li><a href="./pages/marketplace.html" class="site-nav__link">Marketplace</a></li>
+          <li><a href="./pages/wishlist.html" class="site-nav__link">Wishlist</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-header__cta">
+        <a href="./pages/auth.html" class="btn btn--primary btn--sm">Đăng nhập</a>
+      </div>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="site-main">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero__content">
+        <h1 class="hero__title">Đỉnh Cao <span>Tốc Độ</span> &amp; Nghệ Thuật</h1>
+        <p class="hero__subtitle">Khám phá bộ sưu tập siêu xe đẳng cấp nhất thế giới. Từ Ferrari đến Bugatti — trải nghiệm sức mạnh và vẻ đẹp cơ khí hoàn hảo.</p>
+        <div class="hero__actions">
+          <a href="./pages/catalog.html" class="btn btn--primary btn--lg">Khám phá Catalog</a>
+          <a href="./pages/brands.html" class="btn btn--secondary btn--lg">Xem hãng xe</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Cars Section -->
+    <section class="featured section">
+      <div class="container">
+        <h2 class="section-title section-title--center">Siêu Xe Nổi Bật</h2>
+        <div class="divider divider--center"></div>
+        <p class="section-subtitle section-subtitle--center">Những mẫu xe được yêu thích nhất tại AutoLuxe.</p>
+
+        <div class="featured__grid">
+          <article class="card">
+            <div class="card__image" style="background-image:url('https://images.unsplash.com/photo-1592198084033-aade902d1aae?w=600&q=80');background-size:cover;background-position:center;"></div>
+            <div class="card__body">
+              <h3 class="card__title">Ferrari SF90 Stradale</h3>
+              <p class="card__meta">Ferrari &bull; 2024</p>
+              <p class="card__desc">Hybrid supercar với 986 mã lực, tăng tốc 0-100km/h trong 2.5 giây.</p>
+            </div>
+            <div class="card__footer">
+              <span class="badge">Hot</span>
+              <a href="./pages/car-detail.html?id=ferrari-sf90-stradale" class="btn btn--secondary btn--sm">Chi tiết</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__image" style="background-image:url('https://images.unsplash.com/photo-1621135802920-133df287f89c?w=600&q=80');background-size:cover;background-position:center;"></div>
+            <div class="card__body">
+              <h3 class="card__title">Lamborghini Revuelto</h3>
+              <p class="card__meta">Lamborghini &bull; 2024</p>
+              <p class="card__desc">V12 hybrid mạnh mẽ nhất lịch sử Lamborghini với 1015 mã lực.</p>
+            </div>
+            <div class="card__footer">
+              <span class="badge badge--outline">New</span>
+              <a href="./pages/car-detail.html?id=lamborghini-revuelto" class="btn btn--secondary btn--sm">Chi tiết</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__image" style="background-image:url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=600&q=80');background-size:cover;background-position:center;"></div>
+            <div class="card__body">
+              <h3 class="card__title">McLaren 750S</h3>
+              <p class="card__meta">McLaren &bull; 2024</p>
+              <p class="card__desc">Siêu phẩm từ Woking với 750PS và trọng lượng siêu nhẹ.</p>
+            </div>
+            <div class="card__footer">
+              <span class="badge badge--outline">Premium</span>
+              <a href="./pages/car-detail.html?id=mclaren-750s" class="btn btn--secondary btn--sm">Chi tiết</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__image" style="background-image:url('https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=600&q=80');background-size:cover;background-position:center;"></div>
+            <div class="card__body">
+              <h3 class="card__title">Porsche 911 GT3 RS</h3>
+              <p class="card__meta">Porsche &bull; 2024</p>
+              <p class="card__desc">Chiếc 911 thuần chất đường đua nhất với khí động học chủ động.</p>
+            </div>
+            <div class="card__footer">
+              <span class="badge badge--outline">Track</span>
+              <a href="./pages/car-detail.html?id=porsche-911-gt3-rs" class="btn btn--secondary btn--sm">Chi tiết</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__image" style="background-image:url('https://images.unsplash.com/photo-1563720223185-11003d516935?w=600&q=80');background-size:cover;background-position:center;"></div>
+            <div class="card__body">
+              <h3 class="card__title">Bugatti Chiron</h3>
+              <p class="card__meta">Bugatti &bull; 2024</p>
+              <p class="card__desc">1500 mã lực, tốc độ tối đa 420km/h — đỉnh cao kỹ thuật ô tô.</p>
+            </div>
+            <div class="card__footer">
+              <span class="badge">Ultimate</span>
+              <a href="./pages/car-detail.html?id=bugatti-chiron" class="btn btn--secondary btn--sm">Chi tiết</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__image" style="background-image:url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80');background-size:cover;background-position:center;"></div>
+            <div class="card__body">
+              <h3 class="card__title">Aston Martin Valkyrie</h3>
+              <p class="card__meta">Aston Martin &bull; 2024</p>
+              <p class="card__desc">Hypercar với động cơ V12 Cosworth và khí động học F1 thuần túy.</p>
+            </div>
+            <div class="card__footer">
+              <span class="badge badge--outline">Hypercar</span>
+              <a href="./pages/car-detail.html?id=aston-martin-valkyrie" class="btn btn--secondary btn--sm">Chi tiết</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Brand Strip Section -->
+    <section class="brand-strip">
+      <div class="container">
+        <h2 class="section-title section-title--center">Thương Hiệu Huyền Thoại</h2>
+        <div class="divider divider--center"></div>
+        <p class="section-subtitle section-subtitle--center">Khám phá những nhà sản xuất siêu xe hàng đầu thế giới.</p>
+
+        <div class="brand-strip__grid">
+          <a href="./pages/brands.html" class="brand-strip__item">
+            <div class="brand-strip__icon">F</div>
+            <span class="brand-strip__name">Ferrari</span>
+            <span class="brand-strip__origin">Italy</span>
+          </a>
+          <a href="./pages/brands.html" class="brand-strip__item">
+            <div class="brand-strip__icon">L</div>
+            <span class="brand-strip__name">Lamborghini</span>
+            <span class="brand-strip__origin">Italy</span>
+          </a>
+          <a href="./pages/brands.html" class="brand-strip__item">
+            <div class="brand-strip__icon">M</div>
+            <span class="brand-strip__name">McLaren</span>
+            <span class="brand-strip__origin">UK</span>
+          </a>
+          <a href="./pages/brands.html" class="brand-strip__item">
+            <div class="brand-strip__icon">P</div>
+            <span class="brand-strip__name">Porsche</span>
+            <span class="brand-strip__origin">Germany</span>
+          </a>
+          <a href="./pages/brands.html" class="brand-strip__item">
+            <div class="brand-strip__icon">B</div>
+            <span class="brand-strip__name">Bugatti</span>
+            <span class="brand-strip__origin">France</span>
+          </a>
+          <a href="./pages/brands.html" class="brand-strip__item">
+            <div class="brand-strip__icon">A</div>
+            <span class="brand-strip__name">Aston Martin</span>
+            <span class="brand-strip__origin">UK</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div class="site-footer__info">
+          <p class="site-footer__brand">Auto<span>Luxe</span></p>
+          <p class="site-footer__desc">Nền tảng khám phá và chia sẻ đam mê siêu xe hàng đầu. Kết nối cộng đồng yêu tốc độ và nghệ thuật ô tô.</p>
+        </div>
+        <div class="site-footer__col">
+          <h4 class="site-footer__heading">Khám phá</h4>
+          <ul class="site-footer__links">
+            <li><a href="./pages/catalog.html" class="site-footer__link">Catalog</a></li>
+            <li><a href="./pages/brands.html" class="site-footer__link">Thương hiệu</a></li>
+            <li><a href="./pages/marketplace.html" class="site-footer__link">Marketplace</a></li>
+          </ul>
+        </div>
+        <div class="site-footer__col">
+          <h4 class="site-footer__heading">Tài khoản</h4>
+          <ul class="site-footer__links">
+            <li><a href="./pages/auth.html" class="site-footer__link">Đăng nhập</a></li>
+            <li><a href="./pages/post-editor.html" class="site-footer__link">Đăng tin</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">
+        <p>&copy; 2024 AutoLuxe. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/toast.js"></script>
+  <script src="assets/js/notifications.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/wishlist.js"></script>
+</body>
+</html>

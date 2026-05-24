@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi tiết tin rao - AutoLuxe</title>
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/variables.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/auth.css">
+  <link rel="stylesheet" href="../assets/css/marketplace.css">
+  <link rel="stylesheet" href="../assets/css/market-detail.css">
+  <link rel="stylesheet" href="../assets/css/wishlist.css">
+  <link rel="stylesheet" href="../assets/css/notification.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="site-header__brand">Auto<span>Luxe</span></a>
+
+      <nav class="site-nav" id="siteNav">
+        <ul class="site-nav__list">
+          <li><a href="../index.html" class="site-nav__link">Trang chủ</a></li>
+          <li><a href="./catalog.html" class="site-nav__link">Catalog</a></li>
+          <li><a href="./brands.html" class="site-nav__link">Thương hiệu</a></li>
+          <li><a href="./marketplace.html" class="site-nav__link is-active">Marketplace</a></li>
+          <li><a href="./wishlist.html" class="site-nav__link">Wishlist</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-header__cta">
+        <a href="./auth.html" class="btn btn--primary btn--sm">Đăng nhập</a>
+      </div>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="site-main">
+    <section class="section">
+      <div class="container" id="mdContent">
+        <!-- Content rendered by JS -->
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div class="site-footer__info">
+          <p class="site-footer__brand">Auto<span>Luxe</span></p>
+          <p class="site-footer__desc">Nền tảng khám phá và chia sẻ đam mê siêu xe hàng đầu. Kết nối cộng đồng yêu tốc độ và nghệ thuật ô tô.</p>
+        </div>
+        <div class="site-footer__col">
+          <h4 class="site-footer__heading">Khám phá</h4>
+          <ul class="site-footer__links">
+            <li><a href="./catalog.html" class="site-footer__link">Catalog</a></li>
+            <li><a href="./brands.html" class="site-footer__link">Thương hiệu</a></li>
+            <li><a href="./marketplace.html" class="site-footer__link">Marketplace</a></li>
+          </ul>
+        </div>
+        <div class="site-footer__col">
+          <h4 class="site-footer__heading">Tài khoản</h4>
+          <ul class="site-footer__links">
+            <li><a href="./auth.html" class="site-footer__link">Đăng nhập</a></li>
+            <li><a href="./post-editor.html" class="site-footer__link">Đăng tin</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">
+        <p>&copy; 2024 AutoLuxe. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/toast.js"></script>
+  <script src="../assets/js/notifications.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/seed.js"></script>
+  <script src="../assets/js/marketplace.js"></script>
+  <script src="../assets/js/wishlist.js"></script>
+  <script src="../assets/js/market-detail.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      MarketDetail.init();
+    });
+  </script>
+</body>
+</html>

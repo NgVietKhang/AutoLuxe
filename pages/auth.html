@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng Nhập - AutoLuxe</title>
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/variables.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/auth.css">
+  <link rel="stylesheet" href="../assets/css/notification.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="site-header__brand">Auto<span>Luxe</span></a>
+
+      <nav class="site-nav" id="siteNav">
+        <ul class="site-nav__list">
+          <li><a href="../index.html" class="site-nav__link">Trang chủ</a></li>
+          <li><a href="./catalog.html" class="site-nav__link">Catalog</a></li>
+          <li><a href="./brands.html" class="site-nav__link">Thương hiệu</a></li>
+          <li><a href="./marketplace.html" class="site-nav__link">Marketplace</a></li>
+          <li><a href="./wishlist.html" class="site-nav__link">Wishlist</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-header__cta">
+        <a href="./auth.html" class="btn btn--primary btn--sm">Đăng nhập</a>
+      </div>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="site-main">
+    <section class="section">
+      <div class="container auth-container">
+        <h1 class="section-title section-title--center">Tài Khoản</h1>
+        <div class="divider divider--center"></div>
+        <p class="section-subtitle section-subtitle--center">Đăng nhập hoặc tạo tài khoản mới để sử dụng đầy đủ tính năng AutoLuxe.</p>
+
+        <!-- Logged-in state message -->
+        <div id="authLoggedIn" style="display:none; text-align:center; margin-bottom:var(--space-xl);">
+          <p style="color:var(--color-success); font-size:var(--fs-lg); margin-bottom:var(--space-md);">Bạn đã đăng nhập với tên <strong id="loggedInName"></strong></p>
+          <button class="btn btn--secondary" id="btnAuthLogout">Đăng xuất</button>
+        </div>
+
+        <!-- Auth forms wrapper (hidden when logged in) -->
+        <div id="authFormsWrapper">
+          <!-- Tab Switch -->
+          <div class="auth-tabs">
+            <button class="btn btn--primary btn--sm is-active-tab" id="tabLogin" type="button">Đăng nhập</button>
+            <button class="btn btn--secondary btn--sm" id="tabRegister" type="button">Đăng ký</button>
+          </div>
+
+          <!-- Login Form -->
+          <form id="loginForm" novalidate>
+            <div class="auth-message auth-message--error" id="loginError"></div>
+            <div class="auth-message auth-message--success" id="loginSuccess"></div>
+
+            <div class="input-group">
+              <label class="label" for="loginEmail">Email *</label>
+              <input type="email" class="input" id="loginEmail" placeholder="you@example.com" autocomplete="email">
+              <span class="field-error" id="loginEmailError"></span>
+            </div>
+
+            <div class="input-group">
+              <label class="label" for="loginPassword">Mật khẩu *</label>
+              <input type="password" class="input" id="loginPassword" placeholder="Nhập mật khẩu..." autocomplete="current-password">
+              <span class="field-error" id="loginPasswordError"></span>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--lg" id="loginSubmit" style="width:100%; margin-top:var(--space-md);">Đăng nhập</button>
+          </form>
+
+          <!-- Register Form -->
+          <form id="registerForm" style="display:none;" novalidate>
+            <div class="auth-message auth-message--error" id="registerError"></div>
+            <div class="auth-message auth-message--success" id="registerSuccess"></div>
+
+            <div class="input-group">
+              <label class="label" for="regName">Tên hiển thị *</label>
+              <input type="text" class="input" id="regName" placeholder="Tên của bạn (ít nhất 2 ký tự)" autocomplete="name">
+              <span class="field-error" id="regNameError"></span>
+            </div>
+
+            <div class="input-group">
+              <label class="label" for="regEmail">Email *</label>
+              <input type="email" class="input" id="regEmail" placeholder="you@example.com" autocomplete="email">
+              <span class="field-error" id="regEmailError"></span>
+            </div>
+
+            <div class="input-group">
+              <label class="label" for="regPassword">Mật khẩu *</label>
+              <input type="password" class="input" id="regPassword" placeholder="Tối thiểu 6 ký tự" autocomplete="new-password">
+              <span class="field-error" id="regPasswordError"></span>
+            </div>
+
+            <div class="input-group">
+              <label class="label" for="regConfirm">Xác nhận mật khẩu *</label>
+              <input type="password" class="input" id="regConfirm" placeholder="Nhập lại mật khẩu" autocomplete="new-password">
+              <span class="field-error" id="regConfirmError"></span>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--lg" id="registerSubmit" style="width:100%; margin-top:var(--space-md);">Tạo tài khoản</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div class="site-footer__info">
+          <p class="site-footer__brand">Auto<span>Luxe</span></p>
+          <p class="site-footer__desc">Nền tảng khám phá và chia sẻ đam mê siêu xe hàng đầu. Kết nối cộng đồng yêu tốc độ và nghệ thuật ô tô.</p>
+        </div>
+        <div class="site-footer__col">
+          <h4 class="site-footer__heading">Khám phá</h4>
+          <ul class="site-footer__links">
+            <li><a href="./catalog.html" class="site-footer__link">Catalog</a></li>
+            <li><a href="./brands.html" class="site-footer__link">Thương hiệu</a></li>
+            <li><a href="./marketplace.html" class="site-footer__link">Marketplace</a></li>
+          </ul>
+        </div>
+        <div class="site-footer__col">
+          <h4 class="site-footer__heading">Tài khoản</h4>
+          <ul class="site-footer__links">
+            <li><a href="./auth.html" class="site-footer__link">Đăng nhập</a></li>
+            <li><a href="./post-editor.html" class="site-footer__link">Đăng tin</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">
+        <p>&copy; 2024 AutoLuxe. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/toast.js"></script>
+  <script src="../assets/js/notifications.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script>
+    (function () {
+      'use strict';
+
+      // DOM references
+      var tabLogin = document.getElementById('tabLogin');
+      var tabRegister = document.getElementById('tabRegister');
+      var loginForm = document.getElementById('loginForm');
+      var registerForm = document.getElementById('registerForm');
+      var authFormsWrapper = document.getElementById('authFormsWrapper');
+      var authLoggedIn = document.getElementById('authLoggedIn');
+      var loggedInName = document.getElementById('loggedInName');
+      var btnAuthLogout = document.getElementById('btnAuthLogout');
+
+      // Check if already logged in
+      function checkAuthState() {
+        var session = Auth.getSession();
+        if (session) {
+          authFormsWrapper.style.display = 'none';
+          authLoggedIn.style.display = 'block';
+          loggedInName.textContent = session.fullName;
+        } else {
+          authFormsWrapper.style.display = 'block';
+          authLoggedIn.style.display = 'none';
+        }
+      }
+
+      checkAuthState();
+
+      // Logout from auth page
+      btnAuthLogout.addEventListener('click', function () {
+        Auth.logout();
+        Auth.updateHeaderUI();
+        checkAuthState();
+        clearAllErrors();
+      });
+
+      // Global resetAuthForms for auth.js logout callback
+      window.resetAuthForms = function () {
+        checkAuthState();
+      };
+
+      // Tab switching
+      function showTab(tab) {
+        clearAllErrors();
+        if (tab === 'login') {
+          loginForm.style.display = 'block';
+          registerForm.style.display = 'none';
+          tabLogin.className = 'btn btn--primary btn--sm is-active-tab';
+          tabRegister.className = 'btn btn--secondary btn--sm';
+        } else {
+          loginForm.style.display = 'none';
+          registerForm.style.display = 'block';
+          tabLogin.className = 'btn btn--secondary btn--sm';
+          tabRegister.className = 'btn btn--primary btn--sm is-active-tab';
+        }
+      }
+
+      tabLogin.addEventListener('click', function () { showTab('login'); });
+      tabRegister.addEventListener('click', function () { showTab('register'); });
+
+      // Error helpers
+      function showFieldError(fieldId, message) {
+        var input = document.getElementById(fieldId);
+        var errorEl = document.getElementById(fieldId + 'Error');
+        if (input) input.classList.add('input--error');
+        if (errorEl) {
+          errorEl.textContent = message;
+          errorEl.classList.add('is-visible');
+        }
+      }
+
+      function clearFieldError(fieldId) {
+        var input = document.getElementById(fieldId);
+        var errorEl = document.getElementById(fieldId + 'Error');
+        if (input) input.classList.remove('input--error');
+        if (errorEl) {
+          errorEl.textContent = '';
+          errorEl.classList.remove('is-visible');
+        }
+      }
+
+      function showFormMessage(id, message) {
+        var el = document.getElementById(id);
+        if (el) {
+          el.textContent = message;
+          el.classList.add('is-visible');
+        }
+      }
+
+      function hideFormMessage(id) {
+        var el = document.getElementById(id);
+        if (el) {
+          el.textContent = '';
+          el.classList.remove('is-visible');
+        }
+      }
+
+      function clearAllErrors() {
+        var fields = ['loginEmail', 'loginPassword', 'regName', 'regEmail', 'regPassword', 'regConfirm'];
+        fields.forEach(function (f) { clearFieldError(f); });
+        hideFormMessage('loginError');
+        hideFormMessage('loginSuccess');
+        hideFormMessage('registerError');
+        hideFormMessage('registerSuccess');
+      }
+
+      // LOGIN FORM SUBMIT
+      loginForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        clearAllErrors();
+
+        var email = document.getElementById('loginEmail').value;
+        var password = document.getElementById('loginPassword').value;
+
+        var loginBtn = document.getElementById('loginSubmit');
+        loginBtn.disabled = true;
+        loginBtn.textContent = 'Đang xử lý...';
+
+        // Small delay for UX
+        setTimeout(function () {
+          var result = Auth.login(email, password);
+
+          if (!result.success) {
+            result.errors.forEach(function (err) {
+              showFieldError(err.field, err.message);
+            });
+            // Focus first error field
+            if (result.errors.length > 0) {
+              var firstField = document.getElementById(result.errors[0].field);
+              if (firstField) firstField.focus();
+            }
+          } else {
+            showFormMessage('loginSuccess', 'Đăng nhập thành công! Đang chuyển hướng...');
+            Auth.updateHeaderUI();
+
+            setTimeout(function () {
+              // Check for redirect param
+              var params = new URLSearchParams(window.location.search);
+              var redirect = params.get('redirect');
+              if (redirect) {
+                window.location.href = redirect;
+              } else {
+                window.location.href = '../index.html';
+              }
+            }, 800);
+          }
+
+          loginBtn.disabled = false;
+          loginBtn.textContent = 'Đăng nhập';
+        }, 300);
+      });
+
+      // REGISTER FORM SUBMIT
+      registerForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        clearAllErrors();
+
+        var fullName = document.getElementById('regName').value;
+        var email = document.getElementById('regEmail').value;
+        var password = document.getElementById('regPassword').value;
+        var confirm = document.getElementById('regConfirm').value;
+
+        var regBtn = document.getElementById('registerSubmit');
+        regBtn.disabled = true;
+        regBtn.textContent = 'Đang xử lý...';
+
+        setTimeout(function () {
+          var result = Auth.register(fullName, email, password, confirm);
+
+          if (!result.success) {
+            result.errors.forEach(function (err) {
+              showFieldError(err.field, err.message);
+            });
+            // Focus first error field
+            if (result.errors.length > 0) {
+              var firstField = document.getElementById(result.errors[0].field);
+              if (firstField) firstField.focus();
+            }
+          } else {
+            showFormMessage('registerSuccess', 'Đăng ký thành công! Đang chuyển hướng...');
+            Auth.updateHeaderUI();
+
+            setTimeout(function () {
+              window.location.href = '../index.html';
+            }, 800);
+          }
+
+          regBtn.disabled = false;
+          regBtn.textContent = 'Tạo tài khoản';
+        }, 300);
+      });
+
+    })();
+  </script>
+</body>
+</html>

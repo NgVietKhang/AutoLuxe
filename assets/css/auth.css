@@ -1,0 +1,100 @@
+/* =============================================
+   AUTH.CSS - AutoLuxe Supercar Web
+   Authentication page styles
+   ============================================= */
+
+/* === Auth Container === */
+.auth-container {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* === Tab Switcher === */
+.auth-tabs {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-sm);
+}
+
+.auth-tabs .btn.is-active-tab {
+  background-color: var(--color-accent);
+  color: #ffffff;
+  border-color: var(--color-accent);
+}
+
+/* === Form Messages === */
+.auth-message {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-sm);
+  margin-bottom: var(--space-md);
+  display: none;
+}
+
+.auth-message--error {
+  background-color: rgba(231, 76, 60, 0.15);
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
+}
+
+.auth-message--success {
+  background-color: rgba(46, 204, 113, 0.15);
+  border: 1px solid var(--color-success);
+  color: var(--color-success);
+}
+
+.auth-message.is-visible {
+  display: block;
+}
+
+/* === Field Error === */
+.input--error {
+  border-color: var(--color-error) !important;
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15) !important;
+}
+
+.field-error {
+  font-size: var(--fs-xs);
+  color: var(--color-error);
+  margin-top: var(--space-xs);
+  display: none;
+}
+
+.field-error.is-visible {
+  display: block;
+}
+
+/* === Auth Greeting in Header === */
+.auth-greeting {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.auth-greeting strong {
+  color: var(--color-text-primary);
+}
+
+/* === Responsive === */
+@media (max-width: 767px) {
+  .auth-container {
+    max-width: 100%;
+  }
+
+  .auth-tabs {
+    flex-wrap: wrap;
+  }
+
+  .auth-greeting {
+    font-size: var(--fs-xs);
+  }
+
+  .site-header__cta {
+    gap: var(--space-xs) !important;
+    flex-wrap: wrap;
+  }
+}

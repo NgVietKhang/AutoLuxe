@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thương Hiệu - AutoLuxe</title>
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/variables.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/auth.css">
+  <link rel="stylesheet" href="../assets/css/brands.css">
+  <link rel="stylesheet" href="../assets/css/notification.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="site-header__brand">Auto<span>Luxe</span></a>
+
+      <nav class="site-nav" id="siteNav">
+        <ul class="site-nav__list">
+          <li><a href="../index.html" class="site-nav__link">Trang chủ</a></li>
+          <li><a href="./catalog.html" class="site-nav__link">Catalog</a></li>
+          <li><a href="./brands.html" class="site-nav__link is-active">Thương hiệu</a></li>
+          <li><a href="./marketplace.html" class="site-nav__link">Marketplace</a></li>
+          <li><a href="./wishlist.html" class="site-nav__link">Wishlist</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-header__cta">
+        <a href="./auth.html" class="btn btn--primary btn--sm">Đăng nhập</a>
+      </div>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="site-main">
+    <section class="section">
+      <div class="container">
+        <h1 class="section-title section-title--center">Thương Hiệu Siêu Xe</h1>
+        <div class="divider divider--center"></div>
+        <p class="section-subtitle section-subtitle--center">Tìm hiểu về những nhà sản xuất siêu xe danh tiếng nhất hành tinh.</p>
+
+        <div class="brands-grid">
+          <!-- Ferrari -->
+          <article class="brand-card">
+            <div class="brand-card__header">
+              <div class="brand-card__icon">F</div>
+              <div>
+                <h3 class="brand-card__name">Ferrari</h3>
+                <p class="brand-card__origin">Italy &bull; Thành lập 1947</p>
+              </div>
+            </div>
+            <p class="brand-card__desc">Biểu tượng của tốc độ và đam mê từ nước Ý. Ferrari không chỉ là xe, mà là một giấc mơ trên bốn bánh với lịch sử lẫy lừng tại Formula 1 và hơn 200 chiến thắng Grand Prix.</p>
+            <div class="brand-card__featured">
+              <span class="brand-card__featured-label">Mẫu tiêu biểu:</span>
+              <a href="./car-detail.html?id=ferrari-sf90-stradale" class="brand-card__featured-link">SF90 Stradale</a>
+            </div>
+            <div class="brand-card__footer">
+              <span class="badge">Legendary</span>
+              <a href="./catalog.html" class="btn btn--secondary btn--sm">Xem tất cả xe</a>
+            </div>
+          </article>
+
+          <!-- Lamborghini -->
+          <article class="brand-card">
+            <div class="brand-card__header">
+              <div class="brand-card__icon">L</div>
+              <div>
+                <h3 class="brand-card__name">Lamborghini</h3>
+                <p class="brand-card__origin">Italy &bull; Thành lập 1963</p>
+              </div>
+            </div>
+            <p class="brand-card__desc">Nổi tiếng với thiết kế góc cạnh táo bạo và âm thanh động cơ không thể nhầm lẫn. Lamborghini luôn phá vỡ mọi giới hạn của kỹ thuật ô tô và thẩm mỹ thiết kế.</p>
+            <div class="brand-card__featured">
+              <span class="brand-card__featured-label">Mẫu tiêu biểu:</span>
+              <a href="./car-detail.html?id=lamborghini-revuelto" class="brand-card__featured-link">Revuelto</a>
+            </div>
+            <div class="brand-card__footer">
+              <span class="badge badge--outline">Iconic</span>
+              <a href="./catalog.html" class="btn btn--secondary btn--sm">Xem tất cả xe</a>
+            </div>
+          </article>
+
+          <!-- McLaren -->
+          <article class="brand-card">
+            <div class="brand-card__header">
+              <div class="brand-card__icon">M</div>
+              <div>
+                <h3 class="brand-card__name">McLaren</h3>
+                <p class="brand-card__origin">United Kingdom &bull; Thành lập 1963</p>
+              </div>
+            </div>
+            <p class="brand-card__desc">Từ đường đua F1 đến đường phố, McLaren mang DNA racing thuần túy vào từng mẫu xe với công nghệ vật liệu nhẹ đột phá và hiệu suất khí động học vượt trội.</p>
+            <div class="brand-card__featured">
+              <span class="brand-card__featured-label">Mẫu tiêu biểu:</span>
+              <a href="./car-detail.html?id=mclaren-750s" class="brand-card__featured-link">750S</a>
+            </div>
+            <div class="brand-card__footer">
+              <span class="badge badge--outline">Racing DNA</span>
+              <a href="./catalog.html" class="btn btn--secondary btn--sm">Xem tất cả xe</a>
+            </div>
+          </article>
+
+          <!-- Porsche -->
+          <article class="brand-card">
+            <div class="brand-card__header">
+              <div class="brand-card__icon">P</div>
+              <div>
+                <h3 class="brand-card__name">Porsche</h3>
+                <p class="brand-card__origin">Germany &bull; Thành lập 1931</p>
+              </div>
+            </div>
+            <p class="brand-card__desc">Sự hoàn hảo của kỹ thuật Đức. Porsche kết hợp tính thực dụng hàng ngày với hiệu suất đường đua đỉnh cao, cùng truyền thống hơn 19.000 chiến thắng motorsport.</p>
+            <div class="brand-card__featured">
+              <span class="brand-card__featured-label">Mẫu tiêu biểu:</span>
+              <a href="./car-detail.html?id=porsche-911-gt3-rs" class="brand-card__featured-link">911 GT3 RS</a>
+            </div>
+            <div class="brand-card__footer">
+              <span class="badge badge--outline">Precision</span>
+              <a href="./catalog.html" class="btn btn--secondary btn--sm">Xem tất cả xe</a>
+            </div>
+          </article>
+
+          <!-- Bugatti -->
+          <article class="brand-card">
+            <div class="brand-card__header">
+              <div class="brand-card__icon">B</div>
+              <div>
+                <h3 class="brand-card__name">Bugatti</h3>
+                <p class="brand-card__origin">France &bull; Thành lập 1909</p>
+              </div>
+            </div>
+            <p class="brand-card__desc">Đỉnh cao của tốc độ và xa xỉ. Mỗi chiếc Bugatti là một tác phẩm nghệ thuật cơ khí với sức mạnh vượt trội mọi giới hạn, nơi khoa học kỹ thuật gặp gỡ nghệ thuật chế tác.</p>
+            <div class="brand-card__featured">
+              <span class="brand-card__featured-label">Mẫu tiêu biểu:</span>
+              <a href="./car-detail.html?id=bugatti-chiron" class="brand-card__featured-link">Chiron</a>
+            </div>
+            <div class="brand-card__footer">
+              <span class="badge">Ultimate</span>
+              <a href="./catalog.html" class="btn btn--secondary btn--sm">Xem tất cả xe</a>
+            </div>
+          </article>
+
+          <!-- Koenigsegg -->
+          <article class="brand-card">
+            <div class="brand-card__header">
+              <div class="brand-card__icon">K</div>
+              <div>
+                <h3 class="brand-card__name">Koenigsegg</h3>
+                <p class="brand-card__origin">Sweden &bull; Thành lập 1994</p>
+              </div>
+            </div>
+            <p class="brand-card__desc">Nhà sản xuất megacar Thụy Điển với triết lý đổi mới không ngừng. Koenigsegg liên tục phá vỡ kỷ lục tốc độ thế giới bằng công nghệ tự phát triển 100%.</p>
+            <div class="brand-card__featured">
+              <span class="brand-card__featured-label">Mẫu tiêu biểu:</span>
+              <a href="./car-detail.html?id=koenigsegg-jesko" class="brand-card__featured-link">Jesko</a>
+            </div>
+            <div class="brand-card__footer">
+              <span class="badge">Megacar</span>
+              <a href="./catalog.html" class="btn btn--secondary btn--sm">Xem tất cả xe</a>
+            </div>
+          </article>
+
+          <!-- Aston Martin -->
+          <article class="brand-card">
+            <div class="brand-card__header">
+              <div class="brand-card__icon">A</div>
+              <div>
+                <h3 class="brand-card__name">Aston Martin</h3>
+                <p class="brand-card__origin">United Kingdom &bull; Thành lập 1913</p>
+              </div>
+            </div>
+            <p class="brand-card__desc">Sự thanh lịch của quý ông Anh Quốc. Aston Martin kết hợp vẻ đẹp cổ điển với hiệu suất thể thao đầy mê hoặc, biểu tượng của James Bond và phong cách sống xa hoa.</p>
+            <div class="brand-card__featured">
+              <span class="brand-card__featured-label">Mẫu tiêu biểu:</span>
+              <a href="./car-detail.html?id=aston-martin-valkyrie" class="brand-card__featured-link">Valkyrie</a>
+            </div>
+            <div class="brand-card__footer">
+              <span class="badge badge--outline">Elegant</span>
+              <a href="./catalog.html" class="btn btn--secondary btn--sm">Xem tất cả xe</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="site-footer__grid">
+        <div class="site-footer__info">
+          <p class="site-footer__brand">Auto<span>Luxe</span></p>
+          <p class="site-footer__desc">Nền tảng khám phá và chia sẻ đam mê siêu xe hàng đầu. Kết nối cộng đồng yêu tốc độ và nghệ thuật ô tô.</p>
+        </div>
+        <div class="site-footer__col">
+          <h4 class="site-footer__heading">Khám phá</h4>
+          <ul class="site-footer__links">
+            <li><a href="./catalog.html" class="site-footer__link">Catalog</a></li>
+            <li><a href="./brands.html" class="site-footer__link">Thương hiệu</a></li>
+            <li><a href="./marketplace.html" class="site-footer__link">Marketplace</a></li>
+          </ul>
+        </div>
+        <div class="site-footer__col">
+          <h4 class="site-footer__heading">Tài khoản</h4>
+          <ul class="site-footer__links">
+            <li><a href="./auth.html" class="site-footer__link">Đăng nhập</a></li>
+            <li><a href="./post-editor.html" class="site-footer__link">Đăng tin</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="site-footer__bottom">
+        <p>&copy; 2024 AutoLuxe. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/toast.js"></script>
+  <script src="../assets/js/notifications.js"></script>
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

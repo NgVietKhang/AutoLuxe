@@ -1,0 +1,208 @@
+/* =============================================
+   HOME.CSS - AutoLuxe Supercar Web
+   Landing page specific styles
+   ============================================= */
+
+/* === Hero Section === */
+.hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  margin-top: calc(-1 * var(--space-2xl));
+  background:
+    linear-gradient(
+      135deg,
+      rgba(13, 13, 13, 0.92) 0%,
+      rgba(28, 28, 28, 0.85) 40%,
+      rgba(13, 13, 13, 0.90) 100%
+    ),
+    url('https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=1920&q=80') center/cover no-repeat;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 80%, rgba(230, 57, 70, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  padding: var(--space-3xl) var(--space-md);
+}
+
+.hero__title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-4xl);
+  font-weight: var(--fw-black);
+  color: var(--color-text-primary);
+  line-height: 1.1;
+  margin-bottom: var(--space-md);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.hero__title span {
+  color: var(--color-accent);
+}
+
+.hero__subtitle {
+  font-size: var(--fs-lg);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--space-2xl);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero__actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
+/* === Featured Section === */
+.featured {
+  padding: var(--space-4xl) 0;
+}
+
+.featured__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+}
+
+.featured .card__image {
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  background-color: var(--color-bg-elevated);
+  position: relative;
+}
+
+.featured .card__image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(34, 34, 34, 0.5) 0%, transparent 50%);
+}
+
+/* === Brand Strip Section === */
+.brand-strip {
+  padding: var(--space-4xl) 0;
+  background-color: var(--color-bg-secondary);
+}
+
+.brand-strip__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-md);
+}
+
+.brand-strip__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) var(--space-md);
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.brand-strip__item:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-md);
+}
+
+.brand-strip__icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-black);
+  color: var(--color-accent);
+  margin-bottom: var(--space-sm);
+  border: 2px solid var(--color-border-light);
+  border-radius: var(--radius-full);
+}
+
+.brand-strip__name {
+  font-family: var(--font-heading);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  letter-spacing: 0.5px;
+}
+
+.brand-strip__origin {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-xs);
+}
+
+/* =============================================
+   RESPONSIVE - HOME
+   ============================================= */
+
+/* Tablet */
+@media (max-width: 1023px) {
+  .hero__title {
+    font-size: var(--fs-3xl);
+  }
+
+  .featured__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .brand-strip__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .hero {
+    min-height: 70vh;
+  }
+
+  .hero__title {
+    font-size: var(--fs-2xl);
+    letter-spacing: 1px;
+  }
+
+  .hero__subtitle {
+    font-size: var(--fs-base);
+  }
+
+  .hero__actions {
+    flex-direction: column;
+  }
+
+  .featured__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-strip__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .brand-strip__item {
+    padding: var(--space-lg) var(--space-sm);
+  }
+}
