@@ -15,6 +15,23 @@
   will-change: opacity, transform;
 }
 
+/* GSAP owns transform/opacity on home — CSS must not fight inline tweens */
+html.gsap-reveal .anim-ready [data-reveal] {
+  transition: none !important;
+  transition-delay: 0s !important;
+  will-change: auto;
+}
+
+html.gsap-reveal .anim-ready [data-reveal]:not([data-gsap-revealed]) {
+  opacity: 0;
+  transform: none;
+}
+
+html.gsap-reveal .anim-ready [data-reveal][data-gsap-revealed] {
+  opacity: 1;
+  transform: none;
+}
+
 /* === Hero Section === */
 .hero {
   position: relative;

@@ -99,7 +99,6 @@
     var specs = buildSpecs(car);
     var related = getRelatedCars(car, 4);
     var listingSummary = getMarketplaceListingSummary(car.make, car.model);
-    var hasMinimalData = isMinimalDataMode(car);
 
     var html = '';
     var catalogFallbackUrl = './catalog.html?make=' + encodeURIComponent(car.make || '');
@@ -127,13 +126,6 @@
 
     /* Divider */
     html += '<div class="divider"></div>';
-
-    if (hasMinimalData) {
-      html += '<div class="detail-updating">';
-      html += '  <p class="detail-updating__title">' + _t('detail.data_pending') + '</p>';
-      html += '  <p class="detail-updating__desc">' + _t('detail.fallback_info') + '</p>';
-      html += '</div>';
-    }
 
     /* Hero Image */
     html += '<div class="detail-hero">';
@@ -352,17 +344,7 @@
   }
 
   function resolveRelatedCarImage(make, model) {
-    var placeholder = getPlaceholderImage();
-    var resolved = resolveCarImage(make, model);
-
-    if (!resolved.primary || resolved.primary === placeholder) {
-      return { primary: placeholder, fallbacks: [] };
-    }
-
-    return {
-      primary: resolved.primary,
-      fallbacks: [placeholder]
-    };
+    return resolveCarImage(make, model);
   }
 
   /* === Build specs array === */
@@ -462,14 +444,6 @@
   function normalizeToken(value) {
     if (value === undefined || value === null) return '';
     return String(value).replace(/\s+/g, ' ').trim().toLowerCase();
-  }
-
-  function isMinimalDataMode(car) {
-    if (!car || typeof car !== 'object') return true;
-
-    var missingSpecs = !car.horsepower || !car.engine || !car.topSpeed || !car.zeroToHundred || !car.drivetrain || !car.year;
-    var missingDescription = !car.shortDescription && !car.longDescription;
-    return missingSpecs || missingDescription;
   }
 
   function buildDetailSourceUrl(car, query) {

@@ -309,31 +309,131 @@
     tl.fromTo('.hero__scroll-cue', { opacity: 0, y: -8 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.2');
   }
 
+  var hero3dCinematicBuilt = false;
+  var homeRevealsBooted = false;
+  var heroPinReady = false;
+  var homeRevealsPending = null;
+  var stRefreshQueued = false;
+
+  function dispatchHeroPinReady() {
+    if (heroPinReady) return;
+    heroPinReady = true;
+    if (homeRevealsPending) {
+      var run = homeRevealsPending;
+      homeRevealsPending = null;
+      requestAnimationFrame(function () {
+        requestAnimationFrame(run);
+      });
+    }
+    try {
+      doc.dispatchEvent(new CustomEvent('autoluxe:hero-pin-ready'));
+    } catch (e) { /* ignore */ }
+  }
+
+  function needsHeroPin() {
+    return !!doc.querySelector('.hero__stage')
+      && isHeroScrollPrefEnabled()
+      && (!window.matchMedia || window.matchMedia('(min-width: 768px)').matches);
+  }
+
+  function whenHeroPinReady(cb) {
+    if (heroPinReady || !needsHeroPin()) {
+      requestAnimationFrame(function () {
+        requestAnimationFrame(cb);
+      });
+      return;
+    }
+    homeRevealsPending = cb;
+    setTimeout(dispatchHeroPinReady, 4000);
+  }
+
+  function bootHomeReveals(gsap) {
+    if (homeRevealsBooted || !gsap) return;
+    homeRevealsBooted = true;
+    initReveals(gsap);
+    scheduleSTRefresh();
+  }
+
+  function scheduleSTRefresh() {
+    if (!window.ScrollTrigger || stRefreshQueued) return;
+    stRefreshQueued = true;
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        stRefreshQueued = false;
+        window.ScrollTrigger.refresh();
+      });
+    });
+  }
+
   function initReveals(gsap) {
     var hasST = !!window.ScrollTrigger;
-    var items = gsap.utils.toArray('[data-reveal]');
+    var allItems = gsap.utils.toArray('[data-reveal]');
+    var headerHandled = new Set();
+    var sectionSelectors = ['.featured', '.why', '.brand-strip', '.testimonials'];
+
+    function markRevealed(els) {
+      for (var i = 0; i < els.length; i++) {
+        els[i].setAttribute('data-gsap-revealed', '1');
+      }
+    }
+
+    gsap.set(allItems, { autoAlpha: 0, y: 42, force3D: true });
 
     if (!hasST) {
-      gsap.set(items, { opacity: 1, y: 0, clearProps: 'transform' });
-      items.forEach(function (el) { el.classList.add('is-revealed'); });
+      gsap.set(allItems, { autoAlpha: 1, y: 0, clearProps: 'opacity,transform,visibility' });
+      markRevealed(allItems);
       return;
     }
 
-    items.forEach(function (el) {
-      gsap.fromTo(el,
-        { opacity: 0, y: 42 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          clearProps: 'transform',
-          onComplete: function () {
-            el.classList.add('is-revealed');
-          },
-          scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
-        }
+    sectionSelectors.forEach(function (selector) {
+      var section = doc.querySelector(selector);
+      if (!section) return;
+
+      var headerEls = gsap.utils.toArray(
+        section.querySelectorAll('.section-title[data-reveal], .divider[data-reveal], .section-subtitle[data-reveal]')
       );
+      if (!headerEls.length) return;
+
+      headerEls.forEach(function (el) { headerHandled.add(el); });
+
+      gsap.to(headerEls, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.75,
+        stagger: 0.07,
+        ease: 'power2.out',
+        force3D: true,
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 82%',
+          toggleActions: 'play none none none',
+          invalidateOnRefresh: false
+        },
+        onComplete: function () {
+          markRevealed(headerEls);
+        }
+      });
+    });
+
+    allItems.forEach(function (el) {
+      if (headerHandled.has(el)) return;
+
+      gsap.to(el, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+        force3D: true,
+        scrollTrigger: {
+          trigger: el,
+          start: 'top 85%',
+          toggleActions: 'play none none none',
+          invalidateOnRefresh: false
+        },
+        onComplete: function () {
+          el.setAttribute('data-gsap-revealed', '1');
+        }
+      });
     });
   }
 
@@ -376,16 +476,33 @@
      per-card listeners that used to live here were removed to avoid a double
      bind that fought over the inline transform. */
 
-  var hero3dCinematicBuilt = false;
-
   function initHero3DCinematic(gsap) {
-    if (!isHeroScrollPrefEnabled()) return;
-    if (!window.ScrollTrigger || hero3dCinematicBuilt) return;
-    if (window.matchMedia && !window.matchMedia('(min-width: 768px)').matches) return;
+    if (!isHeroScrollPrefEnabled()) {
+      dispatchHeroPinReady();
+      return;
+    }
+    if (!window.ScrollTrigger) {
+      dispatchHeroPinReady();
+      return;
+    }
+    if (hero3dCinematicBuilt) {
+      dispatchHeroPinReady();
+      return;
+    }
+    if (window.matchMedia && !window.matchMedia('(min-width: 768px)').matches) {
+      dispatchHeroPinReady();
+      return;
+    }
 
     function build() {
-      if (hero3dCinematicBuilt) return;
-      if (!window.AutoLuxeHero3D || !window.AutoLuxeHero3D.active) return;
+      if (hero3dCinematicBuilt) {
+        dispatchHeroPinReady();
+        return;
+      }
+      if (!window.AutoLuxeHero3D || !window.AutoLuxeHero3D.active) {
+        dispatchHeroPinReady();
+        return;
+      }
       hero3dCinematicBuilt = true;
 
       window.AutoLuxeHeroScrollEnd = function () { return window.innerHeight * 1.1; };
@@ -400,7 +517,19 @@
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: function (self) {
+            if (!self.isActive) return;
             window.AutoLuxeHero3D.setExitProgress(self.progress);
+          },
+          onLeave: function (self) {
+            window.AutoLuxeHero3D.setExitProgress(self.progress);
+          },
+          onEnterBack: function (self) {
+            window.AutoLuxeHero3D.setExitProgress(self.progress);
+          },
+          onToggle: function (self) {
+            if (window.AutoLuxeHero3D && typeof window.AutoLuxeHero3D.setScrollPinned === 'function') {
+              window.AutoLuxeHero3D.setScrollPinned(self.isActive);
+            }
           }
         }
       })
@@ -408,7 +537,8 @@
         .to('.hero__speedo', { opacity: 0, ease: 'power1.in', duration: 1 }, 0)
         .to('.hero__scroll-cue', { opacity: 0, ease: 'none', duration: 1 }, 0);
 
-      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+      scheduleSTRefresh();
+      dispatchHeroPinReady();
     }
 
     if (window.AutoLuxeHero3D && window.AutoLuxeHero3D.active) {
@@ -422,14 +552,13 @@
     var gsap = window.gsap;
     if (window.ScrollTrigger) gsap.registerPlugin(window.ScrollTrigger);
 
+    root.classList.add('gsap-reveal');
+
     splitHeroTitle();
-    initReveals(gsap);
     initParallax(gsap);
     initHero3DCinematic(gsap);
 
-    window.addEventListener('load', function () {
-      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
-    });
+    window.addEventListener('load', scheduleSTRefresh);
   }
 
   var heroRevealed = false;
@@ -450,12 +579,19 @@
     } catch (e) { /* ignore */ }
 
     window.scrollTo(0, 0);
-    root.classList.remove('is-loading');
-    dismissHomeTransition();
-    if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+    if (window.AutoLuxePageEnter && typeof AutoLuxePageEnter.finish === 'function') {
+      AutoLuxePageEnter.finish({ skipReveal: true });
+    } else {
+      root.classList.remove('is-loading', 'is-page-entering');
+      dismissHomeTransition();
+    }
+    if (window.ScrollTrigger) scheduleSTRefresh();
 
     if (!prefersReduced && hasGSAP && window.gsap) {
       playHeroIntro(window.gsap);
+      whenHeroPinReady(function () {
+        bootHomeReveals(window.gsap);
+      });
     } else {
       root.classList.remove('anim-ready');
     }

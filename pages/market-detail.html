@@ -4,10 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chi tiết tin rao - AutoLuxe</title>
-  <script>
-    (function(){var t=localStorage.getItem('autoluxe_theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t)}else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark')}else{document.documentElement.setAttribute('data-theme','light')}})();
-    (function(){var l=localStorage.getItem('autoluxe_locale');if(l==='vi'||l==='en'){document.documentElement.lang=l}})();
-  </script>
+  <script src="../assets/js/page-boot.js"></script>
   <link rel="stylesheet" href="../assets/css/reset.css">
   <link rel="stylesheet" href="../assets/css/variables.css">
   <link rel="stylesheet" href="../assets/css/layout.css">
@@ -19,6 +16,27 @@
   <link rel="stylesheet" href="../assets/css/notification.css">
 </head>
 <body>
+
+  <div class="al-page-transition" id="alPageTransition" aria-hidden="true">
+    <div class="al-page-transition__inner">
+      <span class="al-page-transition__brand">Auto<span>Luxe</span></span>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var o = document.getElementById('alPageTransition');
+      if (!o) return;
+      try {
+        if (sessionStorage.getItem('autoluxe_page_nav')) {
+          o.classList.add('is-active');
+          sessionStorage.removeItem('autoluxe_page_nav');
+        }
+        if (sessionStorage.getItem('autoluxe_home_preload')) {
+          o.classList.add('is-active', 'is-home-preload');
+        }
+      } catch (e) { /* ignore */ }
+    })();
+  </script>
 
   <!-- HEADER -->
   <header class="site-header">

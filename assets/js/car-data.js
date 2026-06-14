@@ -162,6 +162,18 @@ var CarImagePaths = (function () {
     return list;
   }
 
+  function getManifestPathSet() {
+    if (typeof CAR_IMAGE_MANIFEST === 'undefined' || !CAR_IMAGE_MANIFEST) return null;
+    var paths = CAR_IMAGE_MANIFEST.paths || [];
+    if (!paths.length) return null;
+
+    var set = {};
+    for (var i = 0; i < paths.length; i++) {
+      set[paths[i]] = true;
+    }
+    return set;
+  }
+
   function resolveImage(make, model, options) {
     options = options || {};
     var placeholder = options.placeholder || PLACEHOLDER_IMAGE;
@@ -186,9 +198,26 @@ var CarImagePaths = (function () {
     pushUnique(placeholder);
 
     var primary = list[0] || placeholder;
+    var pathSet = getManifestPathSet();
+
+    if (pathSet) {
+      for (var j = 0; j < list.length; j++) {
+        var candidate = list[j];
+        if (candidate !== placeholder && pathSet[candidate]) {
+          primary = candidate;
+          break;
+        }
+      }
+    }
+
+    var fallbacks = [];
+    for (var k = 0; k < list.length; k++) {
+      if (list[k] !== primary) fallbacks.push(list[k]);
+    }
+
     return {
       primary: primary,
-      fallbacks: list.slice(1),
+      fallbacks: fallbacks,
       candidates: list
     };
   }

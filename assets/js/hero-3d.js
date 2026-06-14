@@ -76,6 +76,16 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
       exitProgress = Math.max(0, Math.min(1, p));
       exitOffsetX = exitProgress * EXIT_DISTANCE;
       applyCarPosition();
+    },
+    setScrollPinned: function (active) {
+      scrollPinned = !!active;
+      if (scrollPinned) {
+        if (hideGraceTimer) {
+          clearTimeout(hideGraceTimer);
+          hideGraceTimer = 0;
+        }
+        if (isLoaded) startLoop();
+      }
     }
   };
 
@@ -194,6 +204,10 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
   var lastFrame = 0;
   var isVisible = true;
   var isLoaded = false;
+  var scrollPinned = false;
+  var hideGraceTimer = 0;
+  var resizeRaf = 0;
+  var HIDE_GRACE_MS = 300;
   var animId = 0;
   var modelBaseY = 0;
   var modelFitScale = 1;
@@ -238,6 +252,17 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
     return !!el.closest('a, button, .btn, .hero__scroll-cue, .hero__content');
   }
 
+  function makeDistortionCurve(amount) {
+    var samples = 256;
+    var curve = new Float32Array(samples);
+    var k = amount;
+    for (var i = 0; i < samples; i++) {
+      var x = (i * 2) / samples - 1;
+      curve[i] = ((3 + k) * x * 20 * (Math.PI / 180)) / (Math.PI + k * Math.abs(x));
+    }
+    return curve;
+  }
+
   function initEngineAudio() {
     if (audioCtx) return;
     var Ctx = window.AudioContext || window.webkitAudioContext;
@@ -249,52 +274,111 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
     master.gain.value = 0;
     master.connect(audioCtx.destination);
 
+    var compressor = audioCtx.createDynamicsCompressor();
+    compressor.threshold.value = -22;
+    compressor.knee.value = 6;
+    compressor.ratio.value = 10;
+    compressor.attack.value = 0.002;
+    compressor.release.value = 0.09;
+    compressor.connect(master);
+
     var filter = audioCtx.createBiquadFilter();
     filter.type = 'lowpass';
-    filter.frequency.value = 420;
-    filter.Q.value = 0.7;
-    filter.connect(master);
+    filter.frequency.value = 520;
+    filter.Q.value = 1.1;
+    filter.connect(compressor);
+
+    var growl = audioCtx.createBiquadFilter();
+    growl.type = 'peaking';
+    growl.frequency.value = 180;
+    growl.Q.value = 2.4;
+    growl.gain.value = 5;
+    growl.connect(filter);
+
+    var shaper = audioCtx.createWaveShaper();
+    shaper.curve = makeDistortionCurve(18);
+    shaper.oversample = '2x';
+    shaper.connect(growl);
+
+    var bodyGain = audioCtx.createGain();
+    bodyGain.gain.value = 0.48;
+    bodyGain.connect(shaper);
+
+    var pulseOsc = audioCtx.createOscillator();
+    pulseOsc.type = 'square';
+    pulseOsc.frequency.value = 180;
+    var pulseAmt = audioCtx.createGain();
+    pulseAmt.gain.value = 0.38;
+    pulseOsc.connect(pulseAmt);
+    pulseAmt.connect(bodyGain.gain);
+    pulseOsc.start();
 
     var osc1 = audioCtx.createOscillator();
     osc1.type = 'sawtooth';
     osc1.frequency.value = 62;
     var gain1 = audioCtx.createGain();
-    gain1.gain.value = 0.14;
+    gain1.gain.value = 0.18;
     osc1.connect(gain1);
-    gain1.connect(filter);
+    gain1.connect(bodyGain);
     osc1.start();
+
+    var osc1b = audioCtx.createOscillator();
+    osc1b.type = 'sawtooth';
+    osc1b.frequency.value = 63.5;
+    var gain1b = audioCtx.createGain();
+    gain1b.gain.value = 0.11;
+    osc1b.connect(gain1b);
+    gain1b.connect(bodyGain);
+    osc1b.start();
 
     var osc2 = audioCtx.createOscillator();
     osc2.type = 'square';
     osc2.frequency.value = 124;
     var gain2 = audioCtx.createGain();
-    gain2.gain.value = 0.05;
+    gain2.gain.value = 0.08;
     osc2.connect(gain2);
-    gain2.connect(filter);
+    gain2.connect(bodyGain);
     osc2.start();
+
+    var subOsc = audioCtx.createOscillator();
+    subOsc.type = 'sawtooth';
+    subOsc.frequency.value = 31;
+    var subGain = audioCtx.createGain();
+    subGain.gain.value = 0.16;
+    subOsc.connect(subGain);
+    subGain.connect(bodyGain);
+    subOsc.start();
 
     var bufferSize = audioCtx.sampleRate * 2;
     var noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
     var data = noiseBuffer.getChannelData(0);
     for (var i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * 0.35;
+      data[i] = (Math.random() * 2 - 1) * 0.5;
     }
     var noise = audioCtx.createBufferSource();
     noise.buffer = noiseBuffer;
     noise.loop = true;
     var noiseGain = audioCtx.createGain();
-    noiseGain.gain.value = 0.04;
+    noiseGain.gain.value = 0.05;
     noise.connect(noiseGain);
-    noiseGain.connect(filter);
+    noiseGain.connect(bodyGain);
     noise.start();
 
     engine = {
       master: master,
       filter: filter,
+      growl: growl,
+      bodyGain: bodyGain,
+      pulseOsc: pulseOsc,
+      pulseAmt: pulseAmt,
       osc1: osc1,
+      osc1b: osc1b,
       osc2: osc2,
+      subOsc: subOsc,
       gain1: gain1,
+      gain1b: gain1b,
       gain2: gain2,
+      subGain: subGain,
       noiseGain: noiseGain
     };
   }
@@ -316,18 +400,35 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
     var s = Math.max(0, Math.min(1, speedNorm));
     var t = audioCtx.currentTime;
-    var vol = s < 0.02 ? 0 : 0.14 + s * 0.5;
-    var freq1 = 58 + s * 195;
-    var freq2 = freq1 * 2.02;
-    var cutoff = 280 + s * 2200;
+    var accelerating = leftDown && !rightDown;
+    var accelBoost = accelerating ? 0.07 : 0;
+    var vol = s < 0.02 ? 0 : 0.1 + s * 0.38 + accelBoost;
+    var freq1 = 52 + s * 248;
+    var freq2 = freq1 * 2.04;
+    var subFreq = freq1 * 0.5;
+    var fireRate = freq1 * 3.6;
+    var cutoff = 340 + s * 3200;
+    var growlFreq = 120 + s * 420;
+    var growlBoost = 4 + s * 11 + (accelerating ? 3 : 0);
+    var pulseDepth = 0.22 + s * 0.42 + (accelerating ? 0.1 : 0);
+    var attack = accelerating ? 0.025 : 0.05;
 
-    engine.master.gain.setTargetAtTime(vol, t, 0.06);
-    engine.osc1.frequency.setTargetAtTime(freq1, t, 0.05);
-    engine.osc2.frequency.setTargetAtTime(freq2, t, 0.05);
-    engine.filter.frequency.setTargetAtTime(cutoff, t, 0.08);
-    engine.noiseGain.gain.setTargetAtTime(0.05 + s * 0.18, t, 0.06);
-    engine.gain1.gain.setTargetAtTime(0.22 + s * 0.28, t, 0.06);
-    engine.gain2.gain.setTargetAtTime(0.08 + s * 0.14, t, 0.06);
+    engine.master.gain.setTargetAtTime(vol, t, attack);
+    engine.osc1.frequency.setTargetAtTime(freq1, t, 0.035);
+    engine.osc1b.frequency.setTargetAtTime(freq1 * 1.018, t, 0.035);
+    engine.osc2.frequency.setTargetAtTime(freq2, t, 0.035);
+    engine.subOsc.frequency.setTargetAtTime(subFreq, t, 0.04);
+    engine.pulseOsc.frequency.setTargetAtTime(fireRate, t, 0.03);
+    engine.pulseAmt.gain.setTargetAtTime(pulseDepth, t, 0.04);
+    engine.filter.frequency.setTargetAtTime(cutoff, t, 0.05);
+    engine.filter.Q.setTargetAtTime(0.9 + s * 1.8, t, 0.06);
+    engine.growl.frequency.setTargetAtTime(growlFreq, t, 0.05);
+    engine.growl.gain.setTargetAtTime(growlBoost, t, 0.05);
+    engine.noiseGain.gain.setTargetAtTime(0.05 + s * 0.18, t, attack);
+    engine.gain1.gain.setTargetAtTime(0.18 + s * 0.24, t, attack);
+    engine.gain1b.gain.setTargetAtTime(0.11 + s * 0.15, t, attack);
+    engine.gain2.gain.setTargetAtTime(0.09 + s * 0.14, t, attack);
+    engine.subGain.gain.setTargetAtTime(0.16 + s * 0.26, t, attack);
   }
 
   function updateSpeedoUI() {
@@ -814,11 +915,14 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
     renderer.setSize(w, h, true);
     composer.setSize(w, h);
     bloomPass.resolution.set(w, h);
+    if (isLoaded) composer.render();
   }
 
   function scheduleResize() {
-    requestAnimationFrame(function () {
-      requestAnimationFrame(resize);
+    if (resizeRaf) return;
+    resizeRaf = requestAnimationFrame(function () {
+      resizeRaf = 0;
+      resize();
     });
   }
 
@@ -840,11 +944,21 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
     var io = new IntersectionObserver(function (entries) {
       isVisible = entries.some(function (entry) { return entry.isIntersecting; });
       if (isVisible && isLoaded) {
+        if (hideGraceTimer) {
+          clearTimeout(hideGraceTimer);
+          hideGraceTimer = 0;
+        }
         startLoop();
         resumeEngineAudio();
-      } else {
-        stopLoop();
-        suspendEngineAudio();
+      } else if (!scrollPinned) {
+        if (hideGraceTimer) clearTimeout(hideGraceTimer);
+        hideGraceTimer = setTimeout(function () {
+          hideGraceTimer = 0;
+          if (!isVisible && !scrollPinned && isLoaded) {
+            stopLoop();
+            suspendEngineAudio();
+          }
+        }, HIDE_GRACE_MS);
       }
     }, { threshold: 0.05 });
     io.observe(hero);

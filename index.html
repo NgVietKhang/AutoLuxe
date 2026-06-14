@@ -4,15 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AutoLuxe - Siêu Xe Đẳng Cấp</title>
-  <script>
-    document.documentElement.classList.add('is-loading');
-    if('scrollRestoration' in history){history.scrollRestoration='manual'}
-    window.scrollTo(0,0);
-    (function(){var t=localStorage.getItem('autoluxe_theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t)}else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark')}else{document.documentElement.setAttribute('data-theme','light')}})();
-    (function(){var l=localStorage.getItem('autoluxe_locale');if(l==='vi'||l==='en'){document.documentElement.lang=l}})();
-    (function(){try{if(!window.matchMedia||!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('anim-ready')}}catch(e){}})();
-    (function(){try{var h=localStorage.getItem('autoluxe_hero_scroll');var l=localStorage.getItem('autoluxe_lite_fx');document.documentElement.setAttribute('data-hero-scroll',h==='0'?'off':'on');document.documentElement.setAttribute('data-fx-lite',l==='1'?'on':'off')}catch(e){}})();
-  </script>
+  <script src="assets/js/page-boot.js"></script>
   <link rel="stylesheet" href="assets/css/reset.css">
   <link rel="stylesheet" href="assets/css/variables.css">
   <link rel="stylesheet" href="assets/css/layout.css">
@@ -38,7 +30,7 @@
   <div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div>
 
   <!-- HEADER -->
-  <header class="site-header">
+  <header class="site-header is-hero-top">
     <div class="container">
       <a href="index.html" class="site-header__brand">Auto<span>Luxe</span></a>
 
@@ -430,8 +422,5 @@
   }
   </script>
   <script type="module" src="assets/js/hero-3d.js"></script>
-  <script>
-    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="5LOi2m9SeAC0XdgMumJPW";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
-  </script>
 </body>
 </html>
