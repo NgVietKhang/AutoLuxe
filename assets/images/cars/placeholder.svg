@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="AutoLuxe car image placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1118"/>
+      <stop offset="0.52" stop-color="#171d28"/>
+      <stop offset="1" stop-color="#2a2030"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8f6a2a"/>
+      <stop offset="0.5" stop-color="#f0d27a"/>
+      <stop offset="1" stop-color="#a77a2f"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0.85 0 1 0 0 0.62 0 0 1 0 0.22 0 0 0 0.55 0"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <path d="M0 640 C220 590 332 716 550 656 C766 596 908 536 1200 604 L1200 800 L0 800 Z" fill="#111722" opacity="0.72"/>
+  <g filter="url(#glow)">
+    <path d="M232 494 h112 l72 -108 c22 -33 59 -53 99 -53 h188 c41 0 79 21 101 56 l68 105 h96 c21 0 38 17 38 38 v31 h-91 c-13 -66 -71 -116 -141 -116 c-69 0 -128 50 -141 116 H470 c-13 -66 -71 -116 -141 -116 c-70 0 -128 50 -141 116 h-70 v-33 c0 -18 12 -33 29 -37 l85 -18 Z" fill="#2f3848"/>
+    <path d="M437 389 c18 -27 48 -43 81 -43 h182 c32 0 62 16 80 42 l54 83 H382 l55 -82 Z" fill="#151b25"/>
+    <path d="M500 361 h82 v110 h-154 l72 -110 Z" fill="#222b39"/>
+    <path d="M605 361 h97 c24 0 47 12 60 33 l48 77 H605 V361 Z" fill="#202938"/>
+    <circle cx="329" cy="568" r="78" fill="#090d13"/>
+    <circle cx="329" cy="568" r="35" fill="url(#gold)"/>
+    <circle cx="774" cy="568" r="78" fill="#090d13"/>
+    <circle cx="774" cy="568" r="35" fill="url(#gold)"/>
+    <path d="M236 494 h724" stroke="url(#gold)" stroke-width="5" stroke-linecap="round" opacity="0.85"/>
+  </g>
+  <text x="600" y="666" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="700" fill="#f0d27a">AutoLuxe</text>
+  <text x="600" y="712" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" fill="#aeb6c6">Image updating</text>
+</svg>

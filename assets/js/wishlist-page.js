@@ -31,10 +31,10 @@
     contentEl.innerHTML =
       '<div class="wishlist-empty">' +
         '<div class="wishlist-empty__icon">🔒</div>' +
-        '<h2 class="wishlist-empty__title">Chưa đăng nhập</h2>' +
-        '<p class="wishlist-empty__desc">Vui lòng đăng nhập để xem Wishlist cá nhân của bạn.</p>' +
+        '<h2 class="wishlist-empty__title">' + _t('wishlist.login_title') + '</h2>' +
+        '<p class="wishlist-empty__desc">' + _t('wishlist.login_desc') + '</p>' +
         '<div class="wishlist-empty__actions">' +
-          '<a href="./auth.html" class="btn btn--primary">Đăng nhập</a>' +
+          '<a href="./auth.html" class="btn btn--primary">' + _t('common.login') + '</a>' +
         '</div>' +
       '</div>';
   }
@@ -51,30 +51,30 @@
 
     html += '<div class="wishlist-header">';
     html += '<div>';
-    html += '<h1 class="section-title">Wishlist Của Bạn</h1>';
+    html += '<h1 class="section-title">' + _t('wishlist.title') + '</h1>';
     html += '<div class="divider"></div>';
-    html += '<p class="section-subtitle" style="margin-bottom:0;">Những mẫu xe và tin rao bạn đã lưu yêu thích.</p>';
+    html += '<p class="section-subtitle" style="margin-bottom:0;">' + _t('wishlist.subtitle') + '</p>';
     html += '</div>';
     if (items.length > 0) {
       html += '<div class="wishlist-header__actions">';
-      html += '<button class="btn btn--danger btn--sm" id="btnClearAll">Xóa toàn bộ</button>';
+      html += '<button class="btn btn--danger btn--sm" id="btnClearAll">' + _t('wishlist.clear_all') + '</button>';
       html += '</div>';
     }
     html += '</div>';
 
     html += '<div class="wishlist-filters">';
     html += '<div class="input-group">';
-    html += '<label class="label" for="wlFilterType">Loại item</label>';
+    html += '<label class="label" for="wlFilterType">' + _t('wishlist.filter_type') + '</label>';
     html += '<select class="input" id="wlFilterType">';
-    html += '<option value="">Tất cả</option>';
-    html += '<option value="catalog"' + (currentTypeFilter === 'catalog' ? ' selected' : '') + '>Catalog</option>';
-    html += '<option value="market"' + (currentTypeFilter === 'market' ? ' selected' : '') + '>Marketplace</option>';
+    html += '<option value="">' + _t('common.all') + '</option>';
+    html += '<option value="catalog"' + (currentTypeFilter === 'catalog' ? ' selected' : '') + '>' + _t('nav.catalog') + '</option>';
+    html += '<option value="market"' + (currentTypeFilter === 'market' ? ' selected' : '') + '>' + _t('nav.marketplace') + '</option>';
     html += '</select>';
     html += '</div>';
     html += '<div class="input-group">';
-    html += '<label class="label" for="wlFilterBrand">Hãng xe</label>';
+    html += '<label class="label" for="wlFilterBrand">' + _t('wishlist.filter_brand') + '</label>';
     html += '<select class="input" id="wlFilterBrand">';
-    html += '<option value="">Tất cả</option>';
+    html += '<option value="">' + _t('common.all') + '</option>';
     for (var i = 0; i < brands.length; i++) {
       var sel = currentBrandFilter === brands[i] ? ' selected' : '';
       html += '<option value="' + esc(brands[i]) + '"' + sel + '>' + esc(brands[i]) + '</option>';
@@ -113,7 +113,7 @@
     if (filtered.length === 0) {
       infoEl.innerHTML =
         '<div class="wishlist-info">' +
-          '<p class="wishlist-info__count">Không tìm thấy item phù hợp bộ lọc.</p>' +
+          '<p class="wishlist-info__count">' + _t('wishlist.no_match') + '</p>' +
         '</div>';
       gridEl.innerHTML = '';
       return;
@@ -121,7 +121,7 @@
 
     infoEl.innerHTML =
       '<div class="wishlist-info">' +
-        '<p class="wishlist-info__count">Hiển thị <strong>' + filtered.length + '</strong> / ' + items.length + ' item</p>' +
+        '<p class="wishlist-info__count">' + _t('wishlist.showing', { filtered: filtered.length, total: items.length }) + '</p>' +
       '</div>';
 
     var html = '<div class="wishlist-grid">';
@@ -140,7 +140,7 @@
   function renderCard(item) {
     var available = checkAvailability(item);
     var cardClass = 'wishlist-card' + (available ? '' : ' wishlist-card--unavailable');
-    var typeLabel = item.itemType === 'catalog' ? 'Catalog' : 'Marketplace';
+    var typeLabel = item.itemType === 'catalog' ? _t('nav.catalog') : _t('nav.marketplace');
 
     var imageHtml;
     if (item.image) {
@@ -154,36 +154,40 @@
       imageHtml += '<span class="badge wishlist-card__badge">' + esc(item.brand) + '</span>';
     }
     if (!available) {
-      imageHtml += '<span class="wishlist-card__unavailable">Không còn khả dụng</span>';
+      imageHtml += '<span class="wishlist-card__unavailable">' + _t('wishlist.unavailable') + '</span>';
     }
     imageHtml += '</div>';
 
     var priceHtml = '';
     if (item.price && item.itemType === 'market') {
-      priceHtml = '<p class="wishlist-card__price">$' + Number(item.price).toLocaleString('en-US') + '</p>';
+      if (typeof I18n !== 'undefined' && typeof I18n.formatCurrency === 'function') {
+        priceHtml = '<p class="wishlist-card__price">' + I18n.formatCurrency(item.price) + '</p>';
+      } else {
+        priceHtml = '<p class="wishlist-card__price">$' + Number(item.price).toLocaleString('en-US') + '</p>';
+      }
     }
 
     var dateHtml = '';
     if (item.createdAt) {
-      dateHtml = '<p class="wishlist-card__date">Đã lưu: ' + formatDate(item.createdAt) + '</p>';
+      dateHtml = '<p class="wishlist-card__date">' + _t('wishlist.saved') + formatDate(item.createdAt) + '</p>';
     }
 
     var footerHtml = '<div class="wishlist-card__footer">';
     if (available && item.sourceUrl) {
-      footerHtml += '<a href="' + esc(item.sourceUrl) + '" class="btn btn--secondary btn--sm">Xem chi tiết</a>';
+      footerHtml += '<a href="' + esc(item.sourceUrl) + '" class="btn btn--secondary btn--sm">' + _t('common.view_detail') + '</a>';
     } else if (!available) {
-      footerHtml += '<span style="font-size:var(--fs-xs);color:var(--color-text-muted);">Item đã bị xóa</span>';
+      footerHtml += '<span style="font-size:var(--fs-xs);color:var(--color-text-muted);">' + _t('wishlist.item_deleted') + '</span>';
     } else {
       footerHtml += '<span></span>';
     }
-    footerHtml += '<button class="btn btn--danger btn--sm" data-remove-id="' + esc(item.id) + '">Xóa</button>';
+    footerHtml += '<button class="btn btn--danger btn--sm" data-remove-id="' + esc(item.id) + '">' + _t('common.delete') + '</button>';
     footerHtml += '</div>';
 
     return '<article class="' + cardClass + '">' +
       imageHtml +
       '<div class="wishlist-card__body">' +
         '<span class="wishlist-card__type">' + esc(typeLabel) + '</span>' +
-        '<h3 class="wishlist-card__title">' + esc(item.title || 'Không có tiêu đề') + '</h3>' +
+        '<h3 class="wishlist-card__title">' + esc(item.title || _t('wishlist.no_title')) + '</h3>' +
         (item.brand ? '<p class="wishlist-card__brand">' + esc(item.brand) + '</p>' : '') +
         priceHtml +
         dateHtml +
@@ -228,13 +232,22 @@
      AVAILABILITY CHECK
      =========================== */
 
+  function resolveCatalogCar(item) {
+    if (typeof getCarById === 'function') {
+      var byId = getCarById(item.itemId);
+      if (byId) return byId;
+    }
+    if (typeof getCarByMakeModel === 'function' && item.brand && item.title) {
+      var modelName = item.title.replace(item.brand, '').trim();
+      return getCarByMakeModel(item.brand, modelName);
+    }
+    return null;
+  }
+
   function checkAvailability(item) {
     try {
       if (item.itemType === 'catalog') {
-        if (typeof getCarById === 'function') {
-          return getCarById(item.itemId) !== null;
-        }
-        return true;
+        return resolveCatalogCar(item) !== null;
       }
       if (item.itemType === 'market') {
         if (typeof Marketplace !== 'undefined' && Marketplace.getPostById) {
@@ -256,11 +269,11 @@
     container.innerHTML =
       '<div class="wishlist-empty">' +
         '<div class="wishlist-empty__icon">💝</div>' +
-        '<h2 class="wishlist-empty__title">Wishlist trống</h2>' +
-        '<p class="wishlist-empty__desc">Bạn chưa lưu xe hay tin rao nào. Hãy khám phá và thêm vào Wishlist!</p>' +
+        '<h2 class="wishlist-empty__title">' + _t('wishlist.empty_title') + '</h2>' +
+        '<p class="wishlist-empty__desc">' + _t('wishlist.empty_desc') + '</p>' +
         '<div class="wishlist-empty__actions">' +
-          '<a href="./catalog.html" class="btn btn--primary">Khám phá Catalog</a>' +
-          '<a href="./marketplace.html" class="btn btn--secondary">Xem Marketplace</a>' +
+          '<a href="./catalog.html" class="btn btn--primary">' + _t('wishlist.explore_catalog') + '</a>' +
+          '<a href="./marketplace.html" class="btn btn--secondary">' + _t('wishlist.view_marketplace') + '</a>' +
         '</div>' +
       '</div>';
   }
@@ -290,10 +303,10 @@
 
     if (clearBtn) {
       clearBtn.addEventListener('click', function () {
-        var confirmed = confirm('Bạn có chắc muốn xóa toàn bộ Wishlist?');
+        var confirmed = confirm(_t('wishlist.clear_confirm'));
         if (!confirmed) return;
         Wishlist.clearMyWishlist();
-        Wishlist.showToast('Đã xóa toàn bộ Wishlist.', 'success');
+        Wishlist.showToast(_t('wishlist.cleared'), 'success');
         renderPage();
       });
     }
@@ -307,7 +320,7 @@
 
       var result = Wishlist.removeById(id);
       if (result.success) {
-        Wishlist.showToast('Đã xóa item khỏi Wishlist.', 'success');
+        Wishlist.showToast(_t('wishlist.removed'), 'success');
         renderPage();
       }
     });
@@ -325,6 +338,9 @@
   }
 
   function formatDate(isoStr) {
+    if (typeof I18n !== 'undefined' && typeof I18n.formatDate === 'function') {
+      return I18n.formatDate(isoStr);
+    }
     if (!isoStr) return '';
     try {
       var d = new Date(isoStr);

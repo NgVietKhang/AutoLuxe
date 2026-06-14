@@ -4,15 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AutoLuxe - Siêu Xe Đẳng Cấp</title>
+  <script>
+    document.documentElement.classList.add('is-loading');
+    if('scrollRestoration' in history){history.scrollRestoration='manual'}
+    window.scrollTo(0,0);
+    (function(){var t=localStorage.getItem('autoluxe_theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t)}else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark')}else{document.documentElement.setAttribute('data-theme','light')}})();
+    (function(){var l=localStorage.getItem('autoluxe_locale');if(l==='vi'||l==='en'){document.documentElement.lang=l}})();
+    (function(){try{if(!window.matchMedia||!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('anim-ready')}}catch(e){}})();
+    (function(){try{var h=localStorage.getItem('autoluxe_hero_scroll');var l=localStorage.getItem('autoluxe_lite_fx');document.documentElement.setAttribute('data-hero-scroll',h==='0'?'off':'on');document.documentElement.setAttribute('data-fx-lite',l==='1'?'on':'off')}catch(e){}})();
+  </script>
   <link rel="stylesheet" href="assets/css/reset.css">
   <link rel="stylesheet" href="assets/css/variables.css">
   <link rel="stylesheet" href="assets/css/layout.css">
   <link rel="stylesheet" href="assets/css/components.css">
   <link rel="stylesheet" href="assets/css/auth.css">
   <link rel="stylesheet" href="assets/css/home.css">
+  <link rel="stylesheet" href="assets/css/marketplace.css">
   <link rel="stylesheet" href="assets/css/notification.css">
 </head>
 <body>
+
+  <div class="al-page-transition is-active is-home-preload" id="alPageTransition" aria-hidden="true">
+    <div class="al-page-transition__inner">
+      <span class="al-page-transition__brand">Auto<span>Luxe</span></span>
+      <p class="al-page-transition__progress" id="alPageTransitionProgress" aria-live="polite">0%</p>
+      <div class="al-page-transition__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="alPageTransitionProgress">
+        <span class="al-page-transition__bar-fill" id="alPageTransitionBar"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCROLL PROGRESS -->
+  <div class="scroll-progress" aria-hidden="true"><span class="scroll-progress__bar"></span></div>
 
   <!-- HEADER -->
   <header class="site-header">
@@ -21,16 +44,16 @@
 
       <nav class="site-nav" id="siteNav">
         <ul class="site-nav__list">
-          <li><a href="index.html" class="site-nav__link is-active">Trang chủ</a></li>
-          <li><a href="./pages/catalog.html" class="site-nav__link">Catalog</a></li>
-          <li><a href="./pages/brands.html" class="site-nav__link">Thương hiệu</a></li>
-          <li><a href="./pages/marketplace.html" class="site-nav__link">Marketplace</a></li>
-          <li><a href="./pages/wishlist.html" class="site-nav__link">Wishlist</a></li>
+                    <li><a href="index.html" class="site-nav__link is-active" data-i18n="nav.home">Trang chủ</a></li>
+          <li><a href="./pages/catalog.html" class="site-nav__link" data-i18n="nav.catalog">Catalog</a></li>
+          <li><a href="./pages/marketplace.html" class="site-nav__link" data-i18n="nav.marketplace">Marketplace</a></li>
+          <li><a href="./pages/wishlist.html" class="site-nav__link" data-i18n="nav.wishlist">Yêu thích</a></li>
+          <li><a href="./pages/compare.html" class="site-nav__link" data-i18n="nav.compare">So sánh</a></li>
         </ul>
       </nav>
 
       <div class="site-header__cta">
-        <a href="./pages/auth.html" class="btn btn--primary btn--sm">Đăng nhập</a>
+        <a href="./pages/auth.html" class="btn btn--primary btn--sm" data-i18n="common.login">Đăng nhập</a>
       </div>
 
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -45,143 +68,301 @@
   <main class="site-main">
     <!-- Hero Section -->
     <section class="hero">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__stage" id="heroStage" aria-hidden="true"></div>
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="hero__speedo" id="heroSpeedo" aria-hidden="true">
+        <span class="hero__speedo-value" id="heroSpeedoValue">0</span>
+        <span class="hero__speedo-unit">km/h</span>
+        <div class="hero__speedo-bar" aria-hidden="true"><span id="heroSpeedoBar"></span></div>
+        <p class="hero__speedo-hint" data-i18n="home.speedo_hint">Giữ chuột trái để tăng tốc · chuột phải để giảm</p>
+      </div>
       <div class="hero__content">
-        <h1 class="hero__title">Đỉnh Cao <span>Tốc Độ</span> &amp; Nghệ Thuật</h1>
-        <p class="hero__subtitle">Khám phá bộ sưu tập siêu xe đẳng cấp nhất thế giới. Từ Ferrari đến Bugatti — trải nghiệm sức mạnh và vẻ đẹp cơ khí hoàn hảo.</p>
+        <span class="hero__eyebrow" data-i18n="home.hero_eyebrow">Bộ sưu tập siêu xe đẳng cấp thế giới</span>
+        <h1 class="hero__title" data-i18n-html="home.hero_title">Đỉnh Cao <span>Tốc Độ</span> &amp; Nghệ Thuật</h1>
+        <p class="hero__subtitle" data-i18n="home.hero_subtitle">Khám phá bộ sưu tập siêu xe đẳng cấp nhất thế giới. Từ Ferrari đến Bugatti — trải nghiệm sức mạnh và vẻ đẹp cơ khí hoàn hảo.</p>
         <div class="hero__actions">
-          <a href="./pages/catalog.html" class="btn btn--primary btn--lg">Khám phá Catalog</a>
-          <a href="./pages/brands.html" class="btn btn--secondary btn--lg">Xem hãng xe</a>
+          <a href="./pages/catalog.html" class="btn btn--primary btn--lg btn--shine" data-i18n="home.explore_catalog">Khám phá Catalog</a>
+          <a href="./pages/catalog.html" class="btn btn--secondary btn--lg" data-i18n="home.view_brands">Xem hãng xe</a>
+        </div>
+      </div>
+      <a href="#stats" class="hero__scroll-cue" data-i18n-aria-label="home.scroll_cue" aria-label="Cuộn xuống">
+        <span class="hero__scroll-mouse"><span class="hero__scroll-wheel"></span></span>
+      </a>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats" id="stats">
+      <div class="container">
+        <div class="stats__grid">
+          <div class="stats__item" data-reveal>
+            <span class="stats__num" data-count-to="250" data-count-suffix="+">0</span>
+            <span class="stats__label" data-i18n="home.stats_cars">Siêu xe tuyển chọn</span>
+          </div>
+          <div class="stats__item" data-reveal>
+            <span class="stats__num" data-count-to="7" data-count-suffix="">0</span>
+            <span class="stats__label" data-i18n="home.stats_brands">Thương hiệu huyền thoại</span>
+          </div>
+          <div class="stats__item" data-reveal>
+            <span class="stats__num" data-count-to="12000" data-count-suffix="+">0</span>
+            <span class="stats__label" data-i18n="home.stats_members">Thành viên đam mê</span>
+          </div>
+          <div class="stats__item" data-reveal>
+            <span class="stats__num" data-count-to="99" data-count-suffix="%">0</span>
+            <span class="stats__label" data-i18n="home.stats_satisfaction">Khách hàng hài lòng</span>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Featured Cars Section -->
-    <section class="featured section">
+    <section class="featured">
       <div class="container">
-        <h2 class="section-title section-title--center">Siêu Xe Nổi Bật</h2>
-        <div class="divider divider--center"></div>
-        <p class="section-subtitle section-subtitle--center">Những mẫu xe được yêu thích nhất tại AutoLuxe.</p>
+        <h2 class="section-title section-title--center" data-reveal data-i18n="home.featured_title">Siêu Xe Nổi Bật</h2>
+        <div class="divider divider--center" data-reveal></div>
+        <p class="section-subtitle section-subtitle--center" data-reveal data-i18n="home.featured_subtitle">Những mẫu xe được yêu thích nhất tại AutoLuxe.</p>
 
-        <div class="featured__grid">
-          <article class="card">
-            <div class="card__image" style="background-image:url('https://images.unsplash.com/photo-1592198084033-aade902d1aae?w=600&q=80');background-size:cover;background-position:center;"></div>
-            <div class="card__body">
-              <h3 class="card__title">Ferrari SF90 Stradale</h3>
-              <p class="card__meta">Ferrari &bull; 2024</p>
-              <p class="card__desc">Hybrid supercar với 986 mã lực, tăng tốc 0-100km/h trong 2.5 giây.</p>
+        <div class="market-grid">
+          <article class="market-card" data-reveal>
+            <div class="market-card__image" style="background-image:url('assets/images/cars/bugatti_bolide.jpg');">
+              <span class="market-card__badge">Bugatti</span>
             </div>
-            <div class="card__footer">
-              <span class="badge">Hot</span>
-              <a href="./pages/car-detail.html?id=ferrari-sf90-stradale" class="btn btn--secondary btn--sm">Chi tiết</a>
+            <div class="market-card__body">
+              <h3 class="market-card__title">Bugatti Bolide</h3>
+              <p class="market-card__meta" data-i18n="home.card_bolide_desc">Track-only hypercar W16 1.850 mã lực, thiết kế đường đua cực hạn.</p>
+            </div>
+            <div class="market-card__footer">
+              <a href="./pages/car-detail.html?make=Bugatti&model=Bolide" class="btn btn--primary btn--sm" data-i18n="home.card_detail">Chi tiết</a>
             </div>
           </article>
 
-          <article class="card">
-            <div class="card__image" style="background-image:url('https://images.unsplash.com/photo-1621135802920-133df287f89c?w=600&q=80');background-size:cover;background-position:center;"></div>
-            <div class="card__body">
-              <h3 class="card__title">Lamborghini Revuelto</h3>
-              <p class="card__meta">Lamborghini &bull; 2024</p>
-              <p class="card__desc">V12 hybrid mạnh mẽ nhất lịch sử Lamborghini với 1015 mã lực.</p>
+          <article class="market-card" data-reveal>
+            <div class="market-card__image" style="background-image:url('assets/images/cars/bugatti_tourbillon.jpg');">
+              <span class="market-card__badge">Bugatti</span>
             </div>
-            <div class="card__footer">
-              <span class="badge badge--outline">New</span>
-              <a href="./pages/car-detail.html?id=lamborghini-revuelto" class="btn btn--secondary btn--sm">Chi tiết</a>
+            <div class="market-card__body">
+              <h3 class="market-card__title">Bugatti Tourbillon</h3>
+              <p class="market-card__meta" data-i18n="home.card_tourbillon_desc">Kỷ nguyên V16 hybrid 1.800 mã lực — di sản Bugatti thế hệ mới.</p>
             </div>
-          </article>
-
-          <article class="card">
-            <div class="card__image" style="background-image:url('https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=600&q=80');background-size:cover;background-position:center;"></div>
-            <div class="card__body">
-              <h3 class="card__title">McLaren 750S</h3>
-              <p class="card__meta">McLaren &bull; 2024</p>
-              <p class="card__desc">Siêu phẩm từ Woking với 750PS và trọng lượng siêu nhẹ.</p>
-            </div>
-            <div class="card__footer">
-              <span class="badge badge--outline">Premium</span>
-              <a href="./pages/car-detail.html?id=mclaren-750s" class="btn btn--secondary btn--sm">Chi tiết</a>
+            <div class="market-card__footer">
+              <a href="./pages/car-detail.html?make=Bugatti&model=Tourbillon" class="btn btn--primary btn--sm" data-i18n="home.card_detail">Chi tiết</a>
             </div>
           </article>
 
-          <article class="card">
-            <div class="card__image" style="background-image:url('https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=600&q=80');background-size:cover;background-position:center;"></div>
-            <div class="card__body">
-              <h3 class="card__title">Porsche 911 GT3 RS</h3>
-              <p class="card__meta">Porsche &bull; 2024</p>
-              <p class="card__desc">Chiếc 911 thuần chất đường đua nhất với khí động học chủ động.</p>
+          <article class="market-card" data-reveal>
+            <div class="market-card__image" style="background-image:url('assets/images/cars/lamborghini_venevo.jpg');">
+              <span class="market-card__badge">Lamborghini</span>
             </div>
-            <div class="card__footer">
-              <span class="badge badge--outline">Track</span>
-              <a href="./pages/car-detail.html?id=porsche-911-gt3-rs" class="btn btn--secondary btn--sm">Chi tiết</a>
+            <div class="market-card__body">
+              <h3 class="market-card__title">Lamborghini Venevo</h3>
+              <p class="market-card__meta" data-i18n="home.card_venevo_desc">V12 hybrid 1.015 mã lực — sức mạnh và thiết kế tương lai.</p>
             </div>
-          </article>
-
-          <article class="card">
-            <div class="card__image" style="background-image:url('https://images.unsplash.com/photo-1563720223185-11003d516935?w=600&q=80');background-size:cover;background-position:center;"></div>
-            <div class="card__body">
-              <h3 class="card__title">Bugatti Chiron</h3>
-              <p class="card__meta">Bugatti &bull; 2024</p>
-              <p class="card__desc">1500 mã lực, tốc độ tối đa 420km/h — đỉnh cao kỹ thuật ô tô.</p>
-            </div>
-            <div class="card__footer">
-              <span class="badge">Ultimate</span>
-              <a href="./pages/car-detail.html?id=bugatti-chiron" class="btn btn--secondary btn--sm">Chi tiết</a>
+            <div class="market-card__footer">
+              <a href="./pages/car-detail.html?make=Lamborghini&model=Venevo" class="btn btn--primary btn--sm" data-i18n="home.card_detail">Chi tiết</a>
             </div>
           </article>
 
-          <article class="card">
-            <div class="card__image" style="background-image:url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80');background-size:cover;background-position:center;"></div>
-            <div class="card__body">
-              <h3 class="card__title">Aston Martin Valkyrie</h3>
-              <p class="card__meta">Aston Martin &bull; 2024</p>
-              <p class="card__desc">Hypercar với động cơ V12 Cosworth và khí động học F1 thuần túy.</p>
+          <article class="market-card" data-reveal>
+            <div class="market-card__image" style="background-image:url('assets/images/cars/lamborghini_ferzor.jpg');">
+              <span class="market-card__badge">Lamborghini</span>
             </div>
-            <div class="card__footer">
-              <span class="badge badge--outline">Hypercar</span>
-              <a href="./pages/car-detail.html?id=aston-martin-valkyrie" class="btn btn--secondary btn--sm">Chi tiết</a>
+            <div class="market-card__body">
+              <h3 class="market-card__title">Lamborghini Ferzor</h3>
+              <p class="market-card__meta" data-i18n="home.card_ferzor_desc">Twin-turbo V8 hybrid 920 mã lực, tăng tốc và khí động học đỉnh cao.</p>
+            </div>
+            <div class="market-card__footer">
+              <a href="./pages/car-detail.html?make=Lamborghini&model=Ferzor" class="btn btn--primary btn--sm" data-i18n="home.card_detail">Chi tiết</a>
+            </div>
+          </article>
+
+          <article class="market-card" data-reveal>
+            <div class="market-card__image" style="background-image:url('assets/images/cars/porsche_911_gt3.jpg');">
+              <span class="market-card__badge">Porsche</span>
+            </div>
+            <div class="market-card__body">
+              <h3 class="market-card__title">Porsche 911 GT3</h3>
+              <p class="market-card__meta" data-i18n="home.card_gt3_desc">Flat-6 NA 510 mã lực — cảm giác lái thuần khiết của Porsche.</p>
+            </div>
+            <div class="market-card__footer">
+              <a href="./pages/car-detail.html?make=Porsche&model=911%20GT3" class="btn btn--primary btn--sm" data-i18n="home.card_detail">Chi tiết</a>
+            </div>
+          </article>
+
+          <article class="market-card" data-reveal>
+            <div class="market-card__image" style="background-image:url('assets/images/cars/porsche_gt3_rs.jpg');">
+              <span class="market-card__badge">Porsche</span>
+            </div>
+            <div class="market-card__body">
+              <h3 class="market-card__title">Porsche GT3 RS</h3>
+              <p class="market-card__meta" data-i18n="home.card_gt3rs_desc">Flat-6 NA 525 mã lực, khí động học track-focused đỉnh cao.</p>
+            </div>
+            <div class="market-card__footer">
+              <a href="./pages/car-detail.html?make=Porsche&model=911%20GT3%20RS" class="btn btn--primary btn--sm" data-i18n="home.card_detail">Chi tiết</a>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- Brand Strip Section -->
-    <section class="brand-strip">
+    <!-- Why AutoLuxe Section -->
+    <section class="why section">
       <div class="container">
-        <h2 class="section-title section-title--center">Thương Hiệu Huyền Thoại</h2>
-        <div class="divider divider--center"></div>
-        <p class="section-subtitle section-subtitle--center">Khám phá những nhà sản xuất siêu xe hàng đầu thế giới.</p>
+        <h2 class="section-title section-title--center" data-reveal data-i18n="home.why_title">Vì Sao Chọn AutoLuxe</h2>
+        <div class="divider divider--center" data-reveal></div>
+        <p class="section-subtitle section-subtitle--center" data-reveal data-i18n="home.why_subtitle">Trải nghiệm mua bán siêu xe minh bạch, an toàn và đẳng cấp.</p>
+
+        <div class="why__grid">
+          <article class="why__card" data-reveal>
+            <div class="why__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7l9 5 9-5-9-5Z"/><path d="m3 7 0 10 9 5 9-5V7"/><path d="m3 7 9 5 9-5"/></svg>
+            </div>
+            <h3 class="why__card-title" data-i18n="home.why_card1_title">Tuyển chọn khắt khe</h3>
+            <p class="why__card-desc" data-i18n="home.why_card1_desc">Mỗi mẫu xe đều được sàng lọc kỹ về tình trạng, lịch sử và giấy tờ.</p>
+          </article>
+
+          <article class="why__card" data-reveal>
+            <div class="why__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+            </div>
+            <h3 class="why__card-title" data-i18n="home.why_card2_title">Bảo chứng chính hãng</h3>
+            <p class="why__card-desc" data-i18n="home.why_card2_desc">Tin đăng được kiểm duyệt, đảm bảo nguồn gốc và thông tin minh bạch.</p>
+          </article>
+
+          <article class="why__card" data-reveal>
+            <div class="why__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3 class="why__card-title" data-i18n="home.why_card3_title">Cộng đồng đam mê</h3>
+            <p class="why__card-desc" data-i18n="home.why_card3_desc">Kết nối hàng nghìn tín đồ tốc độ, chia sẻ kinh nghiệm và đánh giá thật.</p>
+          </article>
+
+          <article class="why__card" data-reveal>
+            <div class="why__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3Z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z"/></svg>
+            </div>
+            <h3 class="why__card-title" data-i18n="home.why_card4_title">Hỗ trợ tận tâm 24/7</h3>
+            <p class="why__card-desc" data-i18n="home.why_card4_desc">Đội ngũ luôn sẵn sàng đồng hành từ lúc tìm xe đến khi bàn giao.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Brand Marquee -->
+    <section class="brand-marquee" aria-label="Thương hiệu">
+      <div class="brand-marquee__track" data-marquee>
+        <span class="brand-marquee__item">Ferrari</span>
+        <span class="brand-marquee__item">Lamborghini</span>
+        <span class="brand-marquee__item">McLaren</span>
+        <span class="brand-marquee__item">Porsche</span>
+        <span class="brand-marquee__item">Bugatti</span>
+        <span class="brand-marquee__item">Aston Martin</span>
+        <span class="brand-marquee__item">Koenigsegg</span>
+      </div>
+    </section>
+
+    <!-- Brand Strip Section -->
+    <section class="brand-strip section">
+      <div class="container">
+        <h2 class="section-title section-title--center" data-reveal data-i18n="home.brand_strip_title">Thương Hiệu Huyền Thoại</h2>
+        <div class="divider divider--center" data-reveal></div>
+        <p class="section-subtitle section-subtitle--center" data-reveal data-i18n="home.brand_strip_subtitle">Khám phá những nhà sản xuất siêu xe hàng đầu thế giới.</p>
 
         <div class="brand-strip__grid">
-          <a href="./pages/brands.html" class="brand-strip__item">
+          <a href="./pages/catalog.html?make=Ferrari" class="brand-strip__item" data-reveal>
             <div class="brand-strip__icon">F</div>
             <span class="brand-strip__name">Ferrari</span>
             <span class="brand-strip__origin">Italy</span>
           </a>
-          <a href="./pages/brands.html" class="brand-strip__item">
+          <a href="./pages/catalog.html?make=Lamborghini" class="brand-strip__item" data-reveal>
             <div class="brand-strip__icon">L</div>
             <span class="brand-strip__name">Lamborghini</span>
             <span class="brand-strip__origin">Italy</span>
           </a>
-          <a href="./pages/brands.html" class="brand-strip__item">
+          <a href="./pages/catalog.html?make=McLaren" class="brand-strip__item" data-reveal>
             <div class="brand-strip__icon">M</div>
             <span class="brand-strip__name">McLaren</span>
             <span class="brand-strip__origin">UK</span>
           </a>
-          <a href="./pages/brands.html" class="brand-strip__item">
+          <a href="./pages/catalog.html?make=Porsche" class="brand-strip__item" data-reveal>
             <div class="brand-strip__icon">P</div>
             <span class="brand-strip__name">Porsche</span>
             <span class="brand-strip__origin">Germany</span>
           </a>
-          <a href="./pages/brands.html" class="brand-strip__item">
+          <a href="./pages/catalog.html?make=Bugatti" class="brand-strip__item" data-reveal>
             <div class="brand-strip__icon">B</div>
             <span class="brand-strip__name">Bugatti</span>
             <span class="brand-strip__origin">France</span>
           </a>
-          <a href="./pages/brands.html" class="brand-strip__item">
+          <a href="./pages/catalog.html?make=Aston%20Martin" class="brand-strip__item" data-reveal>
             <div class="brand-strip__icon">A</div>
             <span class="brand-strip__name">Aston Martin</span>
             <span class="brand-strip__origin">UK</span>
           </a>
+          <a href="./pages/catalog.html?make=Koenigsegg" class="brand-strip__item" data-reveal>
+            <div class="brand-strip__icon">K</div>
+            <span class="brand-strip__name">Koenigsegg</span>
+            <span class="brand-strip__origin">Sweden</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials section">
+      <div class="container">
+        <h2 class="section-title section-title--center" data-reveal data-i18n="home.testimonials_title">Khách Hàng Nói Gì</h2>
+        <div class="divider divider--center" data-reveal></div>
+        <p class="section-subtitle section-subtitle--center" data-reveal data-i18n="home.testimonials_subtitle">Niềm tin từ cộng đồng yêu siêu xe trên khắp cả nước.</p>
+
+        <div class="testimonials__grid">
+          <figure class="testimonial" data-reveal>
+            <div class="testimonial__stars" aria-hidden="true">★★★★★</div>
+            <blockquote class="testimonial__quote" data-i18n="home.tm1_quote">"Quy trình minh bạch, đội ngũ tư vấn cực kỳ am hiểu. Tôi tậu được chiếc 911 trong mơ chỉ sau một tuần."</blockquote>
+            <figcaption class="testimonial__author">
+              <span class="testimonial__avatar">MH</span>
+              <span class="testimonial__meta">
+                <span class="testimonial__name" data-i18n="home.tm1_name">Minh Hoàng</span>
+                <span class="testimonial__role" data-i18n="home.tm1_role">Doanh nhân, TP.HCM</span>
+              </span>
+            </figcaption>
+          </figure>
+
+          <figure class="testimonial" data-reveal>
+            <div class="testimonial__stars" aria-hidden="true">★★★★★</div>
+            <blockquote class="testimonial__quote" data-i18n="home.tm2_quote">"Hình ảnh và thông số chính xác đến từng chi tiết. Trải nghiệm mua xe trực tuyến tốt nhất tôi từng có."</blockquote>
+            <figcaption class="testimonial__author">
+              <span class="testimonial__avatar">TA</span>
+              <span class="testimonial__meta">
+                <span class="testimonial__name" data-i18n="home.tm2_name">Tuấn Anh</span>
+                <span class="testimonial__role" data-i18n="home.tm2_role">Nhà sưu tầm, Hà Nội</span>
+              </span>
+            </figcaption>
+          </figure>
+
+          <figure class="testimonial" data-reveal>
+            <div class="testimonial__stars" aria-hidden="true">★★★★★</div>
+            <blockquote class="testimonial__quote" data-i18n="home.tm3_quote">"Đăng tin bán xe được duyệt nhanh, tiếp cận đúng người mua. Bán chiếc Lamborghini chỉ trong vài ngày."</blockquote>
+            <figcaption class="testimonial__author">
+              <span class="testimonial__avatar">PL</span>
+              <span class="testimonial__meta">
+                <span class="testimonial__name" data-i18n="home.tm3_name">Phương Linh</span>
+                <span class="testimonial__role" data-i18n="home.tm3_role">Người bán, Đà Nẵng</span>
+              </span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+      <div class="cta-banner__bg" aria-hidden="true"></div>
+      <div class="container cta-banner__content" data-reveal>
+        <h2 class="cta-banner__title" data-i18n="home.cta_title">Sẵn Sàng Cầm Lái Giấc Mơ?</h2>
+        <p class="cta-banner__subtitle" data-i18n="home.cta_subtitle">Khám phá ngay bộ sưu tập siêu xe và tìm chiếc xe định mệnh của bạn.</p>
+        <div class="cta-banner__actions">
+          <a href="./pages/catalog.html" class="btn btn--primary btn--lg btn--shine" data-i18n="home.cta_button">Khám phá ngay</a>
+          <a href="./pages/post-editor.html" class="btn btn--secondary btn--lg" data-i18n="home.cta_sell">Đăng bán xe</a>
         </div>
       </div>
     </section>
@@ -193,35 +374,64 @@
       <div class="site-footer__grid">
         <div class="site-footer__info">
           <p class="site-footer__brand">Auto<span>Luxe</span></p>
-          <p class="site-footer__desc">Nền tảng khám phá và chia sẻ đam mê siêu xe hàng đầu. Kết nối cộng đồng yêu tốc độ và nghệ thuật ô tô.</p>
+          <p class="site-footer__desc" data-i18n="footer.desc">Nền tảng khám phá và chia sẻ đam mê siêu xe hàng đầu. Kết nối cộng đồng yêu tốc độ và nghệ thuật ô tô.</p>
         </div>
         <div class="site-footer__col">
-          <h4 class="site-footer__heading">Khám phá</h4>
+          <h4 class="site-footer__heading" data-i18n="footer.explore">Khám phá</h4>
           <ul class="site-footer__links">
-            <li><a href="./pages/catalog.html" class="site-footer__link">Catalog</a></li>
-            <li><a href="./pages/brands.html" class="site-footer__link">Thương hiệu</a></li>
-            <li><a href="./pages/marketplace.html" class="site-footer__link">Marketplace</a></li>
+            <li><a href="./pages/catalog.html" class="site-footer__link" data-i18n="nav.catalog">Catalog</a></li>
+            <li><a href="./pages/brands.html" class="site-footer__link" data-i18n="nav.brands">Thương hiệu</a></li>
+            <li><a href="./pages/marketplace.html" class="site-footer__link" data-i18n="nav.marketplace">Marketplace</a></li>
           </ul>
         </div>
         <div class="site-footer__col">
-          <h4 class="site-footer__heading">Tài khoản</h4>
+          <h4 class="site-footer__heading" data-i18n="footer.account">Tài khoản</h4>
           <ul class="site-footer__links">
-            <li><a href="./pages/auth.html" class="site-footer__link">Đăng nhập</a></li>
-            <li><a href="./pages/post-editor.html" class="site-footer__link">Đăng tin</a></li>
+            <li><a href="./pages/auth.html" class="site-footer__link" data-auth-footer data-i18n="common.login">Đăng nhập</a></li>
+            <li><a href="./pages/post-editor.html" class="site-footer__link" data-i18n="footer.post_ad">Đăng tin</a></li>
           </ul>
         </div>
       </div>
       <div class="site-footer__bottom">
-        <p>&copy; 2024 AutoLuxe. All rights reserved.</p>
+        <p data-i18n="footer.copyright">&copy; 2024 AutoLuxe. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
+  <!-- BACK TO TOP -->
+  <button class="back-to-top" id="backToTop" type="button" data-i18n-aria-label="home.back_to_top" aria-label="Lên đầu trang">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 15-6-6-6 6"/></svg>
+  </button>
+
+  <script src="assets/js/config.example.js"></script>
+  <script src="assets/js/config.local.js"></script>
   <script src="assets/js/storage.js"></script>
+  <script src="assets/js/data-provider.js"></script>
+  <script src="assets/js/compare-service.js"></script>
+  <script src="assets/js/i18n.js"></script>
+  <script>I18n.initI18n();</script>
+  <script src="assets/js/account.js"></script>
   <script src="assets/js/auth.js"></script>
   <script src="assets/js/toast.js"></script>
   <script src="assets/js/notifications.js"></script>
+  <script src="assets/js/theme.js"></script>
+  <script src="assets/js/motion-prefs.js"></script>
   <script src="assets/js/app.js"></script>
   <script src="assets/js/wishlist.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="assets/js/home.js"></script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="assets/js/hero-3d.js"></script>
+  <script>
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="5LOi2m9SeAC0XdgMumJPW";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+  </script>
 </body>
 </html>

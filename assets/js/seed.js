@@ -11,7 +11,11 @@ var Seed = (function () {
     version: 'autoluxe_seed_version'
   };
 
-  var CURRENT_SEED_VERSION = 1;
+  var CURRENT_SEED_VERSION = 3;
+
+  var REMOVED_SEED_IDS = ['seed_005', 'seed_006'];
+
+  var IMG = '../assets/images/cars/';
 
   var SAMPLE_POSTS = [
     {
@@ -29,6 +33,9 @@ var Seed = (function () {
       location: 'TP. Hồ Chí Minh',
       image: 'https://images.unsplash.com/photo-1592198084033-aade902d1aae?w=600&q=80',
       description: 'Xe đẹp, đi ít, full option. Bảo dưỡng chính hãng đầy đủ. Nội thất da bò đỏ nguyên bản. Giao xe toàn quốc.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
       createdAt: '2025-04-10T08:00:00.000Z'
     },
     {
@@ -44,8 +51,11 @@ var Seed = (function () {
       fuel: 'Xăng',
       transmission: 'Tự động',
       location: 'Hà Nội',
-      image: 'https://images.unsplash.com/photo-1621135802920-133df287f89c?w=600&q=80',
+      image: IMG + 'lamborghini/huracán-evo.jpg',
       description: 'Phiên bản EVO RWD, màu xanh Blu Aegeus cực hiếm. ODO 5000km. Xe nhập chính ngạch, đầy đủ giấy tờ.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
       createdAt: '2025-04-15T10:30:00.000Z'
     },
     {
@@ -61,8 +71,11 @@ var Seed = (function () {
       fuel: 'Xăng',
       transmission: 'Tự động',
       location: 'Đà Nẵng',
-      image: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?w=600&q=80',
+      image: IMG + 'mclaren/720s.jpg',
       description: 'Performance spec, carbon fiber package. Xe nhập chính ngạch, đầy đủ giấy tờ. Bảo dưỡng định kỳ tại hãng.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
       createdAt: '2025-05-01T14:00:00.000Z'
     },
     {
@@ -78,43 +91,12 @@ var Seed = (function () {
       fuel: 'Xăng',
       transmission: 'PDK',
       location: 'TP. Hồ Chí Minh',
-      image: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=600&q=80',
+      image: IMG + 'porsche_gt3_rs.jpg',
       description: 'Chiếc 911 thuần chất đường đua. Gói Weissach, cánh gió sau cỡ lớn, phanh carbon ceramic. Chỉ 2000km.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
       createdAt: '2025-05-05T09:00:00.000Z'
-    },
-    {
-      id: 'seed_005',
-      ownerEmail: 'demo_bugatti@autoluxe.vn',
-      ownerName: 'LuxuryCollector',
-      title: 'Bugatti Chiron Sport 2022',
-      brand: 'Bugatti',
-      model: 'Chiron Sport',
-      year: 2022,
-      price: 3200000,
-      mileage: 1500,
-      fuel: 'Xăng',
-      transmission: 'Tự động',
-      location: 'Hà Nội',
-      image: 'https://images.unsplash.com/photo-1563720223185-11003d516935?w=600&q=80',
-      description: '1500 mã lực, W16 quad-turbo. Xe collection, giữ gìn cẩn thận. Nội thất bespoke 2 tông màu. Hiếm có.',
-      createdAt: '2025-05-08T11:00:00.000Z'
-    },
-    {
-      id: 'seed_006',
-      ownerEmail: 'demo_aston@autoluxe.vn',
-      ownerName: 'BondFan',
-      title: 'Aston Martin DB11 V12 2021',
-      brand: 'Aston Martin',
-      model: 'DB11',
-      year: 2021,
-      price: 260000,
-      mileage: 9500,
-      fuel: 'Xăng',
-      transmission: 'Tự động',
-      location: 'Đà Nẵng',
-      image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=600&q=80',
-      description: 'Grand Tourer đẳng cấp Anh Quốc. V12 twin-turbo 630 mã lực. Nội thất da Bridge of Weir thượng hạng.',
-      createdAt: '2025-05-10T16:00:00.000Z'
     },
     {
       id: 'seed_007',
@@ -131,6 +113,9 @@ var Seed = (function () {
       location: 'TP. Hồ Chí Minh',
       image: 'https://images.unsplash.com/photo-1592198084033-aade902d1aae?w=600&q=80',
       description: 'Hybrid supercar 986 mã lực. Assetto Fiorano package. Màu Rosso Corsa huyền thoại. ODO chỉ 3000km.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
       createdAt: '2025-05-12T08:30:00.000Z'
     },
     {
@@ -148,20 +133,532 @@ var Seed = (function () {
       location: 'Hà Nội',
       image: 'https://images.unsplash.com/photo-1621135802920-133df287f89c?w=600&q=80',
       description: 'Super SUV mạnh nhất phân khúc. 666 mã lực, 0-100km/h trong 3.3 giây. Full carbon package.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
       createdAt: '2025-05-14T13:00:00.000Z'
+    },
+    {
+      id: 'seed_009',
+      ownerEmail: 'demo_ferrari@autoluxe.vn',
+      ownerName: 'SupercarLover',
+      title: 'Ferrari 296 GTB 2022 - Assetto Fiorano',
+      brand: 'Ferrari',
+      model: '296 GTB',
+      year: 2022,
+      price: 395000,
+      mileage: 4200,
+      fuel: 'Hybrid',
+      transmission: 'Tự động',
+      location: 'Hà Nội',
+      image: IMG + 'ferrari/296-gtb.jpg',
+      description: 'V6 hybrid 830 mã lực, gói Assetto Fiorano. Màu Giallo Modena, nội thất Alcantara đen. Lịch sử bảo dưỡng Ferrari đầy đủ.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-05-18T09:15:00.000Z'
+    },
+    {
+      id: 'seed_010',
+      ownerEmail: 'demo_lambo@autoluxe.vn',
+      ownerName: 'VietRacer',
+      title: 'Lamborghini Revuelto 2024 - First Owner',
+      brand: 'Lamborghini',
+      model: 'Revuelto',
+      year: 2024,
+      price: 890000,
+      mileage: 800,
+      fuel: 'Hybrid',
+      transmission: 'Tự động',
+      location: 'TP. Hồ Chí Minh',
+      image: IMG + 'lamborghini_venevo.jpg',
+      description: 'V12 hybrid 1015 mã lực, chủ đầu tiên. ODO dưới 1000km. Full ADAS, lift system, nội thất Unica bespoke.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-05-20T11:00:00.000Z'
+    },
+    {
+      id: 'seed_011',
+      ownerEmail: 'demo_mclaren@autoluxe.vn',
+      ownerName: 'SpeedKing',
+      title: 'McLaren 750S Coupe 2024',
+      brand: 'McLaren',
+      model: '750S',
+      year: 2024,
+      price: 385000,
+      mileage: 1500,
+      fuel: 'Xăng',
+      transmission: 'Tự động',
+      location: 'TP. Hồ Chí Minh',
+      image: IMG + 'mclaren/720s.jpg',
+      description: '750 mã lực, gói Performance. Màu Papaya Spark, phanh carbon ceramic, hệ thống treo PCC III. Xe mới 99%.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-05-22T14:30:00.000Z'
+    },
+    {
+      id: 'seed_012',
+      ownerEmail: 'demo_porsche@autoluxe.vn',
+      ownerName: 'TrackDay',
+      title: 'Porsche 911 Turbo S 2022',
+      brand: 'Porsche',
+      model: '911 Turbo S',
+      year: 2022,
+      price: 295000,
+      mileage: 7800,
+      fuel: 'Xăng',
+      transmission: 'PDK',
+      location: 'Hà Nội',
+      image: IMG + 'porsche/911-turbo-s.jpg',
+      description: '640 mã lực, Sport Chrono, gói Lightweight. Lốp Michelin PS4S mới, bảo dưỡng Porsche Center.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-05-24T08:00:00.000Z'
+    },
+    {
+      id: 'seed_013',
+      ownerEmail: 'demo_bugatti@autoluxe.vn',
+      ownerName: 'LuxuryCollector',
+      title: 'Bugatti Divo 2021 - Limited Edition',
+      brand: 'Bugatti',
+      model: 'Divo',
+      year: 2021,
+      price: 5800000,
+      mileage: 900,
+      fuel: 'Xăng',
+      transmission: 'Tự động',
+      location: 'TP. Hồ Chí Minh',
+      image: IMG + 'bugatti/divo.jpg',
+      description: 'Chỉ 40 chiếc toàn cầu. W16 1500 mã lực, cấu hình track-focused. Xe collection trong phòng kín, ODO 900km.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-05-26T10:00:00.000Z'
+    },
+    {
+      id: 'seed_014',
+      ownerEmail: 'demo_koenigsegg@autoluxe.vn',
+      ownerName: 'NordicSpeed',
+      title: 'Koenigsegg Jesko Absolut 2023',
+      brand: 'Koenigsegg',
+      model: 'Jesko',
+      year: 2023,
+      price: 4200000,
+      mileage: 600,
+      fuel: 'Xăng',
+      transmission: 'Tự động',
+      location: 'Hà Nội',
+      image: IMG + 'koenigsegg/jesko.jpg',
+      description: '1600 mã lực trên xăng E85. Phiên bản Absolut, carbon visible body. Hiếm, đầy đủ hồ sơ nhập khẩu.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-05-28T15:00:00.000Z'
+    },
+    {
+      id: 'seed_015',
+      ownerEmail: 'demo_aston@autoluxe.vn',
+      ownerName: 'BondFan',
+      title: 'Aston Martin DBS Superleggera 2020',
+      brand: 'Aston Martin',
+      model: 'DBS Superleggera',
+      year: 2020,
+      price: 310000,
+      mileage: 11000,
+      fuel: 'Xăng',
+      transmission: 'Tự động',
+      location: 'Đà Nẵng',
+      image: IMG + 'aston-martin/dbs-superleggera.jpg',
+      description: 'V12 725 mã lực, màu Onyx Black. Bang & Olufsen, ghế quilted, carbon exterior pack.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-01T09:00:00.000Z'
+    },
+    {
+      id: 'seed_016',
+      ownerEmail: 'demo_ferrari@autoluxe.vn',
+      ownerName: 'SupercarLover',
+      title: 'Ferrari 12Cilindri 2024 - V12 Thuần',
+      brand: 'Ferrari',
+      model: '12Cilindri',
+      year: 2024,
+      price: 520000,
+      mileage: 1200,
+      fuel: 'Xăng',
+      transmission: 'Tự động',
+      location: 'TP. Hồ Chí Minh',
+      image: IMG + 'ferrari/12cilindri.jpg',
+      description: 'V12 6.5L 830 mã lực, thế hệ mới sau 812. Màu Rosso Imola, nội thất carbon race seats.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-03T11:30:00.000Z'
+    },
+    {
+      id: 'seed_017',
+      ownerEmail: 'demo_lambo@autoluxe.vn',
+      ownerName: 'VietRacer',
+      title: 'Lamborghini Aventador SVJ 2019',
+      brand: 'Lamborghini',
+      model: 'Aventador SVJ',
+      year: 2019,
+      price: 620000,
+      mileage: 6500,
+      fuel: 'Xăng',
+      transmission: 'Tự động',
+      location: 'Hà Nội',
+      image: IMG + 'lamborghini/aventador-svj.jpg',
+      description: 'V12 770 mã lực, ALA 2.0 aerodynamics. Màu Verde Alceo, full carbon, Nürburgring record holder.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-05T13:00:00.000Z'
+    },
+    {
+      id: 'seed_018',
+      ownerEmail: 'demo_mclaren@autoluxe.vn',
+      ownerName: 'SpeedKing',
+      title: 'McLaren 600LT Spider 2019',
+      brand: 'McLaren',
+      model: '600LT',
+      year: 2019,
+      price: 265000,
+      mileage: 9200,
+      fuel: 'Xăng',
+      transmission: 'Tự động',
+      location: 'TP. Hồ Chí Minh',
+      image: IMG + 'mclaren/600lt.jpg',
+      description: 'Longtail 592 mã lực, mui trần. Top-exit exhaust, cửa butterfly, gói MSO carbon.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-07T08:45:00.000Z'
+    },
+    {
+      id: 'seed_019',
+      ownerEmail: 'demo_porsche@autoluxe.vn',
+      ownerName: 'TrackDay',
+      title: 'Porsche 718 Cayman GT4 RS 2023',
+      brand: 'Porsche',
+      model: '718 Cayman GT4 RS',
+      year: 2023,
+      price: 245000,
+      mileage: 3500,
+      fuel: 'Xăng',
+      transmission: 'PDK',
+      location: 'Đà Nẵng',
+      image: IMG + 'porsche/718-cayman-gt4-rs.jpg',
+      description: '500 mã lực flat-6, gói Weissach. Ram air intake, magnesium wheels. Xe track day, giữ gìn kỹ.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-09T10:00:00.000Z'
+    },
+    {
+      id: 'seed_020',
+      ownerEmail: 'demo_bugatti@autoluxe.vn',
+      ownerName: 'LuxuryCollector',
+      title: 'Bugatti Chiron Pur Sport 2021',
+      brand: 'Bugatti',
+      model: 'Chiron Pur Sport',
+      year: 2021,
+      price: 4100000,
+      mileage: 2100,
+      fuel: 'Xăng',
+      transmission: 'Tự động',
+      location: 'Hà Nội',
+      image: IMG + 'bugatti/chiron-pur-sport.jpg',
+      description: 'Phiên bản handling-focused, giới hạn 500 chiếc. Titanium exhaust, fixed wing, gói Handling.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-11T12:00:00.000Z'
+    },
+    {
+      id: 'seed_021',
+      ownerEmail: 'demo_koenigsegg@autoluxe.vn',
+      ownerName: 'NordicSpeed',
+      title: 'Koenigsegg Regera 2020',
+      brand: 'Koenigsegg',
+      model: 'Regera',
+      year: 2020,
+      price: 3600000,
+      mileage: 1800,
+      fuel: 'Hybrid',
+      transmission: 'Tự động',
+      location: 'TP. Hồ Chí Minh',
+      image: IMG + 'koenigsegg/regera.jpg',
+      description: '1500 mã lực, KDD direct drive không hộp số truyền thống. Ghost package, full visible carbon.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-13T09:30:00.000Z'
+    },
+    {
+      id: 'seed_022',
+      ownerEmail: 'demo_aston@autoluxe.vn',
+      ownerName: 'BondFan',
+      title: 'Aston Martin DBX707 2023',
+      brand: 'Aston Martin',
+      model: 'DBX707',
+      year: 2023,
+      price: 285000,
+      mileage: 7200,
+      fuel: 'Xăng',
+      transmission: 'Tự động',
+      location: 'TP. Hồ Chí Minh',
+      image: IMG + 'aston-martin/dbx707.jpg',
+      description: 'SUV 697 mã lực mạnh nhất Aston. Màu Q Satin Xenon Grey, 23 inch wheels, Bowers & Wilkins.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-15T14:00:00.000Z'
+    },
+    {
+      id: 'seed_023',
+      ownerEmail: 'demo_ferrari@autoluxe.vn',
+      ownerName: 'SupercarLover',
+      title: 'Ferrari 296 Speciale 2025 - Pre-order Slot',
+      brand: 'Ferrari',
+      model: '296 Speciale',
+      year: 2025,
+      price: 480000,
+      mileage: 0,
+      fuel: 'Hybrid',
+      transmission: 'Tự động',
+      location: 'Hà Nội',
+      image: IMG + 'ferrari/296-speciale.jpg',
+      description: 'Slot giao xe Q4/2025. 819 mã lực, phiên bản track-oriented. Có thể chọn màu và nội thất Tailor Made.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-17T08:00:00.000Z'
+    },
+    {
+      id: 'seed_024',
+      ownerEmail: 'demo_lambo@autoluxe.vn',
+      ownerName: 'VietRacer',
+      title: 'Lamborghini Huracán STO 2022',
+      brand: 'Lamborghini',
+      model: 'Huracán STO',
+      year: 2022,
+      price: 410000,
+      mileage: 4800,
+      fuel: 'Xăng',
+      transmission: 'Tự động',
+      location: 'Đà Nẵng',
+      image: IMG + 'lamborghini/huracan.jpg',
+      description: 'Super Trofeo Omologata, 640 mã lực V10. Aerodynamic package lớn, ghế bucket carbon, roll cage nhẹ.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-19T11:00:00.000Z'
+    },
+    {
+      id: 'seed_025',
+      ownerEmail: 'demo_mclaren@autoluxe.vn',
+      ownerName: 'SpeedKing',
+      title: 'McLaren 675LT 2017 - Low Mileage',
+      brand: 'McLaren',
+      model: '675LT',
+      year: 2017,
+      price: 295000,
+      mileage: 5400,
+      fuel: 'Xăng',
+      transmission: 'Tự động',
+      location: 'Hà Nội',
+      image: IMG + 'mclaren/675lt.jpg',
+      description: 'Longtail huyền thoại, 666 mã lực. Màu Chicane Grey, MSO exhaust, nội thất Alcantara orange.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-21T15:30:00.000Z'
+    },
+    {
+      id: 'seed_026',
+      ownerEmail: 'demo_porsche@autoluxe.vn',
+      ownerName: 'TrackDay',
+      title: 'Porsche 911 GT2 RS 2019',
+      brand: 'Porsche',
+      model: '911 GT2 RS',
+      year: 2019,
+      price: 450000,
+      mileage: 6100,
+      fuel: 'Xăng',
+      transmission: 'PDK',
+      location: 'TP. Hồ Chí Minh',
+      image: IMG + 'porsche/911-gt2-rs.jpg',
+      description: '700 mã lực, gói Weissach hoàn chỉnh. Magnesium wheels, carbon hood, lap time Nürburgring verified.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-23T09:00:00.000Z'
+    },
+    {
+      id: 'seed_027',
+      ownerEmail: 'demo_bugatti@autoluxe.vn',
+      ownerName: 'LuxuryCollector',
+      title: 'Bugatti Centodieci 2022',
+      brand: 'Bugatti',
+      model: 'Centodieci',
+      year: 2022,
+      price: 9000000,
+      mileage: 400,
+      fuel: 'Xăng',
+      transmission: 'Tự động',
+      location: 'TP. Hồ Chí Minh',
+      image: IMG + 'bugatti/centodieci.jpg',
+      description: 'Chỉ 10 chiếc, tribute EB110. W16 1600 mã lực. Xe đầu tư, bảo quản showroom.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-25T10:30:00.000Z'
+    },
+    {
+      id: 'seed_028',
+      ownerEmail: 'demo_koenigsegg@autoluxe.vn',
+      ownerName: 'NordicSpeed',
+      title: 'Koenigsegg Gemera 2024 - 4 chỗ',
+      brand: 'Koenigsegg',
+      model: 'Gemera',
+      year: 2024,
+      price: 2200000,
+      mileage: 2200,
+      fuel: 'Hybrid',
+      transmission: 'Tự động',
+      location: 'Đà Nẵng',
+      image: IMG + 'koenigsegg/gemera.jpg',
+      description: 'Mega-GT 2300 mã lực, 4 ghế thực dụng. Tiny Friendly Giant engine + 3 motor. Hiếm tại VN.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-27T13:00:00.000Z'
+    },
+    {
+      id: 'seed_029',
+      ownerEmail: 'demo_aston@autoluxe.vn',
+      ownerName: 'BondFan',
+      title: 'Aston Martin V12 Vantage 2023',
+      brand: 'Aston Martin',
+      model: 'V12 Vantage',
+      year: 2023,
+      price: 340000,
+      mileage: 3900,
+      fuel: 'Xăng',
+      transmission: 'Tự động',
+      location: 'Hà Nội',
+      image: IMG + 'aston-martin/v12-vantage.jpg',
+      description: 'V12 690 mã lực cuối cùng của dòng Vantage. Manual không có — bản tự động, carbon aero kit.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-06-29T08:30:00.000Z'
+    },
+    {
+      id: 'seed_030',
+      ownerEmail: 'demo_lambo@autoluxe.vn',
+      ownerName: 'VietRacer',
+      title: 'Lamborghini Countach LPI 800-4 2022',
+      brand: 'Lamborghini',
+      model: 'Countach LPI 800-4',
+      year: 2022,
+      price: 720000,
+      mileage: 2800,
+      fuel: 'Hybrid',
+      transmission: 'Tự động',
+      location: 'TP. Hồ Chí Minh',
+      image: IMG + 'lamborghini/countach-lpi-800-4.jpg',
+      description: 'Tribute Countach, V12 hybrid 803 mã lực. Giới hạn 112 chiếc. Periscopio lines, scissor doors.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-07-01T12:00:00.000Z'
+    },
+    {
+      id: 'seed_031',
+      ownerEmail: 'demo_porsche@autoluxe.vn',
+      ownerName: 'TrackDay',
+      title: 'Porsche 718 Spyder 2021 - Manual',
+      brand: 'Porsche',
+      model: '718 Spyder',
+      year: 2021,
+      price: 175000,
+      mileage: 10500,
+      fuel: 'Xăng',
+      transmission: 'Số sàn',
+      location: 'Đà Nẵng',
+      image: IMG + 'porsche/718-spyder.jpg',
+      description: 'Flat-6 500 mã lực, hộp số sàn 6 cấp hiếm. Mui trần thuần, âm thanh GT4 đặc trưng.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-07-03T09:15:00.000Z'
+    },
+    {
+      id: 'seed_032',
+      ownerEmail: 'demo_mclaren@autoluxe.vn',
+      ownerName: 'SpeedKing',
+      title: 'McLaren 570S 2018 - Daily Friendly',
+      brand: 'McLaren',
+      model: '570S',
+      year: 2018,
+      price: 185000,
+      mileage: 18500,
+      fuel: 'Xăng',
+      transmission: 'Tự động',
+      location: 'TP. Hồ Chí Minh',
+      image: IMG + 'mclaren/570s.jpg',
+      description: 'Entry supercar 562 mã lực, dễ sử dụng hàng ngày. Lift system, camera, bảo dưỡng đầy đủ.',
+      moderation: 'approved',
+      status: 'available',
+      availability: 'available',
+      createdAt: '2025-07-05T16:00:00.000Z'
     }
   ];
+
+  function purgeRemovedPosts(posts) {
+    if (!Array.isArray(posts)) return [];
+    return posts.filter(function (post) {
+      return REMOVED_SEED_IDS.indexOf(post.id) === -1;
+    });
+  }
+
+  function mergeSeedPosts(existingPosts) {
+    var byId = {};
+    var i;
+    for (i = 0; i < existingPosts.length; i++) {
+      byId[existingPosts[i].id] = true;
+    }
+    var merged = existingPosts.slice();
+    for (i = 0; i < SAMPLE_POSTS.length; i++) {
+      if (!byId[SAMPLE_POSTS[i].id]) {
+        merged.push(SAMPLE_POSTS[i]);
+      }
+    }
+    return merged;
+  }
 
   function run() {
     try {
       var savedVersion = Storage.get(KEYS.version, 0);
-      if (savedVersion >= CURRENT_SEED_VERSION) return;
-
       var existingPosts = Storage.get(KEYS.posts, []);
       if (!Array.isArray(existingPosts)) existingPosts = [];
 
+      existingPosts = purgeRemovedPosts(existingPosts);
+
+      if (savedVersion >= CURRENT_SEED_VERSION) {
+        Storage.set(KEYS.posts, existingPosts);
+        return;
+      }
+
       if (existingPosts.length === 0) {
         Storage.set(KEYS.posts, SAMPLE_POSTS);
+      } else {
+        Storage.set(KEYS.posts, mergeSeedPosts(existingPosts));
       }
 
       Storage.set(KEYS.version, CURRENT_SEED_VERSION);
@@ -170,5 +667,5 @@ var Seed = (function () {
     }
   }
 
-  return { run: run };
+  return { run: run, SAMPLE_POSTS: SAMPLE_POSTS };
 })();

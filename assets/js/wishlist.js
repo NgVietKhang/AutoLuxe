@@ -45,8 +45,16 @@ var Wishlist = (function () {
     }
   }
 
+  function dispatchWishlistChanged() {
+    try {
+      document.dispatchEvent(new CustomEvent('autoluxe:wishlist-changed'));
+    } catch (e) { /* ignore */ }
+  }
+
   function saveAll(items) {
-    return Storage.set(STORAGE_KEY, items);
+    var ok = Storage.set(STORAGE_KEY, items);
+    dispatchWishlistChanged();
+    return ok;
   }
 
   function getByUser(userId) {
@@ -193,7 +201,7 @@ var Wishlist = (function () {
     btn.className = btnClass + (inWishlist ? ' is-wishlisted' : '');
     btn.setAttribute('data-wl-type', itemData.itemType);
     btn.setAttribute('data-wl-id', itemData.itemId);
-    btn.innerHTML = inWishlist ? '&#9829; Đã yêu thích' : '&#9825; Yêu thích';
+    btn.innerHTML = inWishlist ? _t('wishlist.wishlisted') : _t('wishlist.add_wishlist');
 
     btn.addEventListener('click', function (e) {
       e.preventDefault();
@@ -207,7 +215,7 @@ var Wishlist = (function () {
   function renderWishlistBtnHTML(itemData) {
     var inWishlist = isInWishlist(itemData.itemType, itemData.itemId);
     var cls = inWishlist ? ' is-wishlisted' : '';
-    var text = inWishlist ? '&#9829; Đã yêu thích' : '&#9825; Yêu thích';
+    var text = inWishlist ? _t('wishlist.wishlisted') : _t('wishlist.add_wishlist');
     return '<button class="btn btn--wishlist btn--sm' + cls + '" ' +
       'data-wl-type="' + escapeHtml(itemData.itemType) + '" ' +
       'data-wl-id="' + escapeHtml(itemData.itemId) + '" ' +
@@ -222,7 +230,7 @@ var Wishlist = (function () {
   function handleToggle(btn, itemData) {
     var userId = getCurrentUserId();
     if (!userId) {
-      showToast('Vui lòng đăng nhập để sử dụng Wishlist.', 'error');
+      showToast(_t('wishlist.login_required'), 'error');
       return;
     }
 
@@ -231,9 +239,9 @@ var Wishlist = (function () {
     if (result.success) {
       var isNowIn = result.action === 'added';
       btn.classList.toggle('is-wishlisted', isNowIn);
-      btn.innerHTML = isNowIn ? '&#9829; Đã yêu thích' : '&#9825; Yêu thích';
+      btn.innerHTML = isNowIn ? _t('wishlist.wishlisted') : _t('wishlist.add_wishlist');
       showToast(
-        isNowIn ? 'Đã thêm vào Wishlist!' : 'Đã xóa khỏi Wishlist.',
+        isNowIn ? _t('wishlist.added') : _t('wishlist.removed_short'),
         isNowIn ? 'success' : 'success'
       );
     }

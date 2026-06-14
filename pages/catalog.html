@@ -4,14 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Catalog - AutoLuxe</title>
+  <script>
+    (function(){var t=localStorage.getItem('autoluxe_theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t)}else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark')}else{document.documentElement.setAttribute('data-theme','light')}})();
+    (function(){var l=localStorage.getItem('autoluxe_locale');if(l==='vi'||l==='en'){document.documentElement.lang=l}})();
+  </script>
   <link rel="stylesheet" href="../assets/css/reset.css">
   <link rel="stylesheet" href="../assets/css/variables.css">
   <link rel="stylesheet" href="../assets/css/layout.css">
   <link rel="stylesheet" href="../assets/css/components.css">
   <link rel="stylesheet" href="../assets/css/auth.css">
   <link rel="stylesheet" href="../assets/css/catalog.css">
+  <link rel="stylesheet" href="../assets/css/brands.css">
   <link rel="stylesheet" href="../assets/css/wishlist.css">
   <link rel="stylesheet" href="../assets/css/notification.css">
+  <style>
+    .catalog-hero[data-reveal]:not(.is-revealed),
+    .catalog-toolbar[data-reveal]:not(.is-revealed) { opacity: 0; transform: none; }
+  </style>
 </head>
 <body>
 
@@ -22,16 +31,16 @@
 
       <nav class="site-nav" id="siteNav">
         <ul class="site-nav__list">
-          <li><a href="../index.html" class="site-nav__link">Trang chủ</a></li>
-          <li><a href="./catalog.html" class="site-nav__link is-active">Catalog</a></li>
-          <li><a href="./brands.html" class="site-nav__link">Thương hiệu</a></li>
-          <li><a href="./marketplace.html" class="site-nav__link">Marketplace</a></li>
-          <li><a href="./wishlist.html" class="site-nav__link">Wishlist</a></li>
+                    <li><a href="../index.html" class="site-nav__link" data-i18n="nav.home">Trang chủ</a></li>
+          <li><a href="./catalog.html" class="site-nav__link is-active" data-i18n="nav.catalog">Catalog</a></li>
+          <li><a href="./marketplace.html" class="site-nav__link" data-i18n="nav.marketplace">Marketplace</a></li>
+          <li><a href="./wishlist.html" class="site-nav__link" data-i18n="nav.wishlist">Yêu thích</a></li>
+          <li><a href="./compare.html" class="site-nav__link" data-i18n="nav.compare">So sánh</a></li>
         </ul>
       </nav>
 
       <div class="site-header__cta">
-        <a href="./auth.html" class="btn btn--primary btn--sm">Đăng nhập</a>
+        <a href="./auth.html" class="btn btn--primary btn--sm" data-i18n="common.login">Đăng nhập</a>
       </div>
 
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -44,23 +53,231 @@
 
   <!-- MAIN -->
   <main class="site-main">
-    <section class="section">
-      <div class="container">
-        <h1 class="section-title">Catalog Siêu Xe</h1>
-        <div class="divider"></div>
-        <p class="section-subtitle">Khám phá danh sách model xe từ các thương hiệu hàng đầu thế giới — dữ liệu trực tiếp từ NHTSA.</p>
 
-        <!-- Controls -->
-        <div class="catalog-controls">
-          <div class="input-group">
-            <label class="label" for="filterMake">Hãng xe</label>
+    <!-- HERO BANNER -->
+    <section class="catalog-hero" data-reveal>
+      <div class="catalog-hero__bg" aria-hidden="true"></div>
+      <div class="catalog-hero__overlay" aria-hidden="true"></div>
+      <div class="container catalog-hero__inner">
+        <span class="catalog-hero__eyebrow" data-i18n="catalog.hero_eyebrow">Bộ sưu tập model toàn cầu</span>
+        <h1 class="catalog-hero__title" data-i18n="catalog.title">Catalog Siêu Xe</h1>
+        <p class="catalog-hero__subtitle" data-i18n="catalog.subtitle">Khám phá danh sách model từ NHTSA vPIC — ảnh và thông số từ AutoLuxe Database.</p>
+        <div class="catalog-hero__sources">
+          <span class="catalog-hero__chip" data-i18n="catalog.chip_database">AutoLuxe Database</span>
+          <span class="catalog-hero__chip" data-i18n="catalog.chip_nhtsa">NHTSA vPIC</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section catalog-body">
+      <div class="container">
+
+        <!-- Catalog models pane -->
+        <div id="catalogBrandsView" class="catalog-brands-view">
+        <h2 class="section-title section-title--center" data-i18n="brands.title">Thương Hiệu Siêu Xe</h2>
+        <div class="divider divider--center"></div>
+        <p class="section-subtitle section-subtitle--center" data-i18n="brands.subtitle">Tìm hiểu về những nhà sản xuất siêu xe danh tiếng nhất hành tinh.</p>
+        <div class="brands-grid">
+          <!-- Ferrari -->
+          <article class="brand-card">
+            <div class="brand-card__cover">
+              <img src="../assets/images/brands/ferrari.jpg" alt="Ferrari cover" loading="lazy" onerror="this.src='../assets/images/cars/placeholder.svg'">
+            </div>
+            <div class="brand-card__header">
+              <div class="brand-card__icon">F</div>
+              <div>
+                <h3 class="brand-card__name">Ferrari</h3>
+                <p class="brand-card__origin" data-i18n-html="brands.ferrari_origin">Italy &bull; Thành lập 1947</p>
+              </div>
+            </div>
+            <p class="brand-card__desc" data-i18n="brands.ferrari_desc">Biểu tượng của tốc độ và đam mê từ nước Ý. Ferrari không chỉ là xe, mà là một giấc mơ trên bốn bánh với lịch sử lẫy lừng tại Formula 1 và hơn 200 chiến thắng Grand Prix.</p>
+            <div class="brand-card__featured">
+              <span class="brand-card__featured-label" data-i18n="brands.featured_label">Mẫu tiêu biểu:</span>
+              <a href="./car-detail.html?id=ferrari-296-gtb" class="brand-card__featured-link">296 GTB</a>
+            </div>
+            <div class="brand-card__footer">
+              <span class="badge">Legendary</span>
+              <a href="./catalog.html?make=Ferrari" class="btn btn--secondary btn--sm" data-i18n="brands.view_all">Xem tất cả xe</a>
+            </div>
+          </article>
+
+          <!-- Lamborghini -->
+          <article class="brand-card">
+            <div class="brand-card__cover">
+              <img src="../assets/images/brands/lamborghini.jpg" alt="Lamborghini cover" loading="lazy" onerror="this.src='../assets/images/cars/placeholder.svg'">
+            </div>
+            <div class="brand-card__header">
+              <div class="brand-card__icon">L</div>
+              <div>
+                <h3 class="brand-card__name">Lamborghini</h3>
+                <p class="brand-card__origin" data-i18n-html="brands.lamborghini_origin">Italy &bull; Thành lập 1963</p>
+              </div>
+            </div>
+            <p class="brand-card__desc" data-i18n="brands.lamborghini_desc">Nổi tiếng với thiết kế góc cạnh táo bạo và âm thanh động cơ không thể nhầm lẫn. Lamborghini luôn phá vỡ mọi giới hạn của kỹ thuật ô tô và thẩm mỹ thiết kế.</p>
+            <div class="brand-card__featured">
+              <span class="brand-card__featured-label" data-i18n="brands.featured_label">Mẫu tiêu biểu:</span>
+              <a href="./car-detail.html?id=lamborghini-huracan-sto" class="brand-card__featured-link">Huracán STO</a>
+            </div>
+            <div class="brand-card__footer">
+              <span class="badge badge--outline">Iconic</span>
+              <a href="./catalog.html?make=Lamborghini" class="btn btn--secondary btn--sm" data-i18n="brands.view_all">Xem tất cả xe</a>
+            </div>
+          </article>
+
+          <!-- McLaren -->
+          <article class="brand-card">
+            <div class="brand-card__cover">
+              <img src="../assets/images/brands/mclaren.jpg" alt="McLaren cover" loading="lazy" onerror="this.src='../assets/images/cars/placeholder.svg'">
+            </div>
+            <div class="brand-card__header">
+              <div class="brand-card__icon">M</div>
+              <div>
+                <h3 class="brand-card__name">McLaren</h3>
+                <p class="brand-card__origin" data-i18n-html="brands.mclaren_origin">United Kingdom &bull; Thành lập 1963</p>
+              </div>
+            </div>
+            <p class="brand-card__desc" data-i18n="brands.mclaren_desc">Từ đường đua F1 đến đường phố, McLaren mang DNA racing thuần túy vào từng mẫu xe với công nghệ vật liệu nhẹ đột phá và hiệu suất khí động học vượt trội.</p>
+            <div class="brand-card__featured">
+              <span class="brand-card__featured-label" data-i18n="brands.featured_label">Mẫu tiêu biểu:</span>
+              <a href="./car-detail.html?id=mclaren-750s" class="brand-card__featured-link">750S</a>
+            </div>
+            <div class="brand-card__footer">
+              <span class="badge badge--outline">Racing DNA</span>
+              <a href="./catalog.html?make=McLaren" class="btn btn--secondary btn--sm" data-i18n="brands.view_all">Xem tất cả xe</a>
+            </div>
+          </article>
+
+          <!-- Porsche -->
+          <article class="brand-card">
+            <div class="brand-card__cover">
+              <img src="../assets/images/brands/porsche.jpg" alt="Porsche cover" loading="lazy" onerror="this.src='../assets/images/cars/placeholder.svg'">
+            </div>
+            <div class="brand-card__header">
+              <div class="brand-card__icon">P</div>
+              <div>
+                <h3 class="brand-card__name">Porsche</h3>
+                <p class="brand-card__origin" data-i18n-html="brands.porsche_origin">Germany &bull; Thành lập 1931</p>
+              </div>
+            </div>
+            <p class="brand-card__desc" data-i18n="brands.porsche_desc">Sự hoàn hảo của kỹ thuật Đức. Porsche kết hợp tính thực dụng hàng ngày với hiệu suất đường đua đỉnh cao, cùng truyền thống hơn 19.000 chiến thắng motorsport.</p>
+            <div class="brand-card__featured">
+              <span class="brand-card__featured-label" data-i18n="brands.featured_label">Mẫu tiêu biểu:</span>
+              <a href="./car-detail.html?id=porsche-911-gt3-rs" class="brand-card__featured-link">911 GT3 RS</a>
+            </div>
+            <div class="brand-card__footer">
+              <span class="badge badge--outline">Precision</span>
+              <a href="./catalog.html?make=Porsche" class="btn btn--secondary btn--sm" data-i18n="brands.view_all">Xem tất cả xe</a>
+            </div>
+          </article>
+
+          <!-- Bugatti -->
+          <article class="brand-card">
+            <div class="brand-card__cover">
+              <img src="../assets/images/brands/bugatti.jpg" alt="Bugatti cover" loading="lazy" onerror="this.src='../assets/images/cars/placeholder.svg'">
+            </div>
+            <div class="brand-card__header">
+              <div class="brand-card__icon">B</div>
+              <div>
+                <h3 class="brand-card__name">Bugatti</h3>
+                <p class="brand-card__origin" data-i18n-html="brands.bugatti_origin">France &bull; Thành lập 1909</p>
+              </div>
+            </div>
+            <p class="brand-card__desc" data-i18n="brands.bugatti_desc">Đỉnh cao của tốc độ và xa xỉ. Mỗi chiếc Bugatti là một tác phẩm nghệ thuật cơ khí với sức mạnh vượt trội mọi giới hạn, nơi khoa học kỹ thuật gặp gỡ nghệ thuật chế tác.</p>
+            <div class="brand-card__featured">
+              <span class="brand-card__featured-label" data-i18n="brands.featured_label">Mẫu tiêu biểu:</span>
+              <a href="./car-detail.html?id=bugatti-chiron" class="brand-card__featured-link">Chiron</a>
+            </div>
+            <div class="brand-card__footer">
+              <span class="badge">Ultimate</span>
+              <a href="./catalog.html?make=Bugatti" class="btn btn--secondary btn--sm" data-i18n="brands.view_all">Xem tất cả xe</a>
+            </div>
+          </article>
+
+          <!-- Koenigsegg -->
+          <article class="brand-card">
+            <div class="brand-card__cover">
+              <img src="../assets/images/brands/koenigsegg.jpg" alt="Koenigsegg cover" loading="lazy" onerror="this.src='../assets/images/cars/placeholder.svg'">
+            </div>
+            <div class="brand-card__header">
+              <div class="brand-card__icon">K</div>
+              <div>
+                <h3 class="brand-card__name">Koenigsegg</h3>
+                <p class="brand-card__origin" data-i18n-html="brands.koenigsegg_origin">Sweden &bull; Thành lập 1994</p>
+              </div>
+            </div>
+            <p class="brand-card__desc" data-i18n="brands.koenigsegg_desc">Nhà sản xuất megacar Thụy Điển với triết lý đổi mới không ngừng. Koenigsegg liên tục phá vỡ kỷ lục tốc độ thế giới bằng công nghệ tự phát triển 100%.</p>
+            <div class="brand-card__featured">
+              <span class="brand-card__featured-label" data-i18n="brands.featured_label">Mẫu tiêu biểu:</span>
+              <a href="./car-detail.html?id=koenigsegg-jesko" class="brand-card__featured-link">Jesko</a>
+            </div>
+            <div class="brand-card__footer">
+              <span class="badge">Megacar</span>
+              <a href="./catalog.html?make=Koenigsegg" class="btn btn--secondary btn--sm" data-i18n="brands.view_all">Xem tất cả xe</a>
+            </div>
+          </article>
+
+          <!-- Aston Martin -->
+          <article class="brand-card">
+            <div class="brand-card__cover">
+              <img src="../assets/images/brands/aston_martin.jpg" alt="Aston Martin cover" loading="lazy" onerror="this.src='../assets/images/cars/placeholder.svg'">
+            </div>
+            <div class="brand-card__header">
+              <div class="brand-card__icon">A</div>
+              <div>
+                <h3 class="brand-card__name">Aston Martin</h3>
+                <p class="brand-card__origin" data-i18n-html="brands.aston_martin_origin">United Kingdom &bull; Thành lập 1913</p>
+              </div>
+            </div>
+            <p class="brand-card__desc" data-i18n="brands.aston_martin_desc">Sự thanh lịch của quý ông Anh Quốc. Aston Martin kết hợp vẻ đẹp cổ điển với hiệu suất thể thao đầy mê hoặc, biểu tượng của James Bond và phong cách sống xa hoa.</p>
+            <div class="brand-card__featured">
+              <span class="brand-card__featured-label" data-i18n="brands.featured_label">Mẫu tiêu biểu:</span>
+              <a href="./car-detail.html?id=aston-martin-db12" class="brand-card__featured-link">DB12</a>
+            </div>
+            <div class="brand-card__footer">
+              <span class="badge badge--outline">Elegant</span>
+              <a href="./catalog.html?make=Aston%20Martin" class="btn btn--secondary btn--sm" data-i18n="brands.view_all">Xem tất cả xe</a>
+            </div>
+          </article>
+        </div>
+        </div>
+
+        <div id="catalogCatalogPane" class="catalog-catalog-pane" hidden>
+        <!-- Toolbar -->
+        <div class="catalog-toolbar" data-reveal>
+          <div class="catalog-toolbar__field">
+            <label class="label" for="filterMake" data-i18n="catalog.filter_make">Hãng xe</label>
             <select class="input" id="filterMake">
-              <option value="">Đang tải...</option>
+              <option value="" data-i18n="catalog.loading_makes">Đang tải...</option>
             </select>
           </div>
-          <div class="input-group">
-            <label class="label" for="searchModel">Tìm model</label>
-            <input type="text" class="input" id="searchModel" placeholder="Nhập tên model...">
+          <div class="catalog-toolbar__field">
+            <label class="label" for="filterYear" data-i18n="catalog.year_label">Năm</label>
+            <select class="input" id="filterYear">
+              <option value="" data-i18n="catalog.year_all">Tất cả năm</option>
+            </select>
+          </div>
+          <div class="catalog-toolbar__field catalog-toolbar__field--grow">
+            <label class="label" for="searchModel" data-i18n="catalog.search_model">Tìm model</label>
+            <input type="text" class="input" id="searchModel" placeholder="Nhập tên model..." data-i18n-placeholder="catalog.search_placeholder">
+          </div>
+          <div class="catalog-toolbar__field">
+            <label class="label" for="sortMode" data-i18n="catalog.sort_label">Sắp xếp</label>
+            <select class="input" id="sortMode">
+              <option value="az" data-i18n="catalog.sort_az">Tên A → Z</option>
+              <option value="za" data-i18n="catalog.sort_za">Tên Z → A</option>
+              <option value="available" data-i18n="catalog.sort_available">Ưu tiên có xe bán</option>
+            </select>
+          </div>
+          <div class="catalog-toolbar__field catalog-toolbar__field--view">
+            <label class="label" data-i18n="catalog.view_label">Hiển thị</label>
+            <div class="catalog-view-toggle" role="group" aria-label="View mode">
+              <button type="button" class="catalog-view-toggle__btn is-active" id="viewGrid" data-view="grid" data-i18n-aria-label="catalog.view_grid" aria-label="Lưới">
+                <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><rect x="1" y="1" width="6" height="6" rx="1"/><rect x="9" y="1" width="6" height="6" rx="1"/><rect x="1" y="9" width="6" height="6" rx="1"/><rect x="9" y="9" width="6" height="6" rx="1"/></svg>
+              </button>
+              <button type="button" class="catalog-view-toggle__btn" id="viewList" data-view="list" data-i18n-aria-label="catalog.view_list" aria-label="Danh sách">
+                <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><rect x="1" y="2" width="14" height="3" rx="1"/><rect x="1" y="7" width="14" height="3" rx="1"/><rect x="1" y="12" width="14" height="3" rx="1"/></svg>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -69,57 +286,68 @@
           <p class="catalog-results-info__count" id="resultsCount"></p>
         </div>
 
-        <!-- State (loading / error / empty / guide) -->
+        <!-- Skeleton Loading -->
+        <div class="catalog-grid catalog-skeleton" id="catalogSkeleton" style="display:none;" aria-hidden="true"></div>
+
+        <!-- State (error / empty / guide) -->
         <div class="catalog-state" id="catalogState"></div>
 
         <!-- Results Grid -->
         <div class="catalog-grid" id="catalogResults" style="display:none;"></div>
 
+        <!-- Pagination -->
+        <nav class="catalog-pagination" id="catalogPagination" style="display:none;" aria-label="Pagination"></nav>
+
         <!-- Retry Button -->
         <div style="text-align:center; margin-top:var(--space-lg);">
-          <button class="btn btn--primary" id="btnRetry" style="display:none;">Thử lại</button>
+          <button class="btn btn--primary" id="btnRetry" style="display:none;" data-i18n="common.retry">Thử lại</button>
         </div>
+        </div><!-- /catalogCatalogPane -->
       </div>
     </section>
   </main>
 
+  <!-- QUICK VIEW MODAL -->
+  <div class="catalog-quickview" id="catalogQuickview" aria-hidden="true">
+    <div class="catalog-quickview__overlay" data-quickview-close></div>
+    <div class="catalog-quickview__dialog" role="dialog" aria-modal="true" aria-labelledby="quickviewTitle">
+      <button type="button" class="catalog-quickview__close" data-quickview-close data-i18n-aria-label="common.close" aria-label="Đóng">&times;</button>
+      <div class="catalog-quickview__body" id="quickviewBody"></div>
+    </div>
+  </div>
   <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="site-footer__grid">
-        <div class="site-footer__info">
-          <p class="site-footer__brand">Auto<span>Luxe</span></p>
-          <p class="site-footer__desc">Nền tảng khám phá và chia sẻ đam mê siêu xe hàng đầu. Kết nối cộng đồng yêu tốc độ và nghệ thuật ô tô.</p>
-        </div>
-        <div class="site-footer__col">
-          <h4 class="site-footer__heading">Khám phá</h4>
-          <ul class="site-footer__links">
-            <li><a href="./catalog.html" class="site-footer__link">Catalog</a></li>
-            <li><a href="./brands.html" class="site-footer__link">Thương hiệu</a></li>
-            <li><a href="./marketplace.html" class="site-footer__link">Marketplace</a></li>
-          </ul>
-        </div>
-        <div class="site-footer__col">
-          <h4 class="site-footer__heading">Tài khoản</h4>
-          <ul class="site-footer__links">
-            <li><a href="./auth.html" class="site-footer__link">Đăng nhập</a></li>
-            <li><a href="./post-editor.html" class="site-footer__link">Đăng tin</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="site-footer__bottom">
-        <p>&copy; 2024 AutoLuxe. All rights reserved.</p>
-      </div>
+  <footer class="site-footer site-footer--compact">
+    <div class="container site-footer__compact">
+      <a href="../index.html" class="site-footer__brand">Auto<span>Luxe</span></a>
+      <p class="site-footer__compact-copy" data-i18n="footer.copyright">&copy; 2024 AutoLuxe. All rights reserved.</p>
     </div>
   </footer>
 
+  <script src="../assets/js/config.example.js"></script>
   <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/data-provider.js"></script>
+  <script src="../assets/js/compare-service.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+  <script>I18n.initI18n();</script>
+  <script src="../assets/js/account.js"></script>
   <script src="../assets/js/auth.js"></script>
   <script src="../assets/js/toast.js"></script>
   <script src="../assets/js/notifications.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/motion-prefs.js"></script>
   <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/config.example.js"></script>
+  <script src="../assets/js/config.local.js"></script>
   <script src="../assets/js/api.js"></script>
+  <script src="../assets/js/car-data.js"></script>
+  <script src="../assets/js/car-data-extended.js"></script>
+  <script src="../assets/js/car-data-specs-import.js"></script>
+  <script src="../assets/js/car-image-manifest.js"></script>
   <script src="../assets/js/wishlist.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="../assets/js/catalog.js"></script>
+  <script>
+    (function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="5LOi2m9SeAC0XdgMumJPW";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+    </script>
 </body>
 </html>

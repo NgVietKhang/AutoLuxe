@@ -1,0 +1,5 @@
+# Local API keys (copy from config.example.js)
+assets/js/config.local.js
+
+# Dependencies
+node_modules/

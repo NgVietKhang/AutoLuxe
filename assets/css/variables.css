@@ -3,35 +3,53 @@
    Design tokens & CSS custom properties
    ============================================= */
 
-:root {
-  /* === Colors === */
-  --color-bg-primary: #0d0d0d;
-  --color-bg-secondary: #1a1a1a;
-  --color-bg-card: #222222;
-  --color-bg-elevated: #2a2a2a;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap');
 
-  --color-text-primary: #f5f5f5;
-  --color-text-secondary: #b0b0b0;
-  --color-text-muted: #777777;
+:root {
+  /* === Theme Colors (Light Mode - Default) === */
+  --color-bg-primary: #f8f9fa;
+  --color-bg-secondary: #eef0f2;
+  --color-bg-card: #ffffff;
+  --color-bg-elevated: #ffffff;
+
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #4a4a5a;
+  --color-text-muted: #7a7a8a;
 
   --color-accent: #e63946;
   --color-accent-hover: #ff4d5a;
   --color-accent-dark: #b52d38;
 
-  --color-metallic: #c0c0c0;
-  --color-carbon: #1c1c1c;
+  --color-metallic: #6c6c7a;
+  --color-carbon: #2c2c3a;
   --color-gold: #d4af37;
 
-  --color-border: #333333;
-  --color-border-light: #444444;
+  --color-border: #dfe3e8;
+  --color-border-light: #c8cdd3;
 
   --color-success: #2ecc71;
   --color-warning: #f39c12;
   --color-error: #e74c3c;
 
+  /* === Header === */
+  --color-header-bg: rgba(248, 249, 250, 0.95);
+
+  /* === Hero overlay (for home page) === */
+  --hero-overlay-start: rgba(248, 249, 250, 0.88);
+  --hero-overlay-mid: rgba(238, 240, 242, 0.80);
+  --hero-overlay-end: rgba(248, 249, 250, 0.90);
+  --hero-card-overlay: rgba(255, 255, 255, 0.5);
+
+  /* === Shadows === */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.14);
+  --shadow-accent: 0 4px 20px rgba(230, 57, 70, 0.25);
+
   /* === Typography === */
-  --font-heading: 'Segoe UI', 'Arial Black', sans-serif;
-  --font-body: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: 'Sora', 'Segoe UI', 'Arial Black', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'Consolas', 'Courier New', monospace;
 
   --fs-xs: 0.75rem;
@@ -67,13 +85,6 @@
   --radius-xl: 16px;
   --radius-full: 9999px;
 
-  /* === Shadows === */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.7);
-  --shadow-accent: 0 4px 20px rgba(230, 57, 70, 0.3);
-
   /* === Layout === */
   --container-sm: 640px;
   --container-md: 768px;
@@ -82,13 +93,113 @@
   --container-max: 1400px;
 
   /* === Transitions === */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
   --transition-slow: 400ms ease;
+  --transition-smooth: 450ms var(--ease-out-expo);
+  --transition-bounce: 500ms var(--ease-out-back);
 
   /* === Z-index scale === */
   --z-dropdown: 100;
   --z-header: 500;
   --z-overlay: 900;
   --z-modal: 1000;
+  --z-transition: 1200;
+
+  /* === Token aliases (compat for account/admin/qa) === */
+  --color-surface: var(--color-bg-card);
+  --color-bg-muted: var(--color-bg-secondary);
+  --color-primary: var(--color-accent);
+  --color-text: var(--color-text-primary);
+
+  /* === Cinematic gradients & glass (light) === */
+  --gradient-accent: linear-gradient(135deg, #ff5b67 0%, #e63946 48%, #b52d38 100%);
+  --gradient-gold: linear-gradient(135deg, #f3dd8a 0%, #d4af37 52%, #a8842a 100%);
+  --gradient-surface: linear-gradient(160deg, var(--color-bg-card), var(--color-bg-secondary));
+  --gradient-sheen: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.55) 50%, transparent 100%);
+
+  --glass-bg: rgba(255, 255, 255, 0.62);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-blur: 16px;
+
+  /* === Cinematic shadows & glow === */
+  --shadow-glow: 0 0 36px rgba(230, 57, 70, 0.28);
+  --shadow-gold-glow: 0 0 32px rgba(212, 175, 55, 0.3);
+  --shadow-accent-lg: 0 22px 56px -18px rgba(230, 57, 70, 0.5);
+  --shadow-float: 0 26px 60px -24px rgba(20, 20, 40, 0.45);
+
+  /* === Cinematic easings === */
+  --ease-spring: cubic-bezier(0.22, 1.2, 0.36, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --transition-spring: 520ms var(--ease-spring);
+
+  /* === Interactive motion vars (set by JS) === */
+  --mx: 50%;
+  --my: 50%;
+  --rx: 0deg;
+  --ry: 0deg;
+  --tilt-scale: 1;
+}
+
+/* === Dark Mode === */
+html[data-theme="dark"] {
+  --color-bg-primary: #0d0d0d;
+  --color-bg-secondary: #1a1a1a;
+  --color-bg-card: #222222;
+  --color-bg-elevated: #2a2a2a;
+
+  --color-text-primary: #f5f5f5;
+  --color-text-secondary: #b0b0b0;
+  --color-text-muted: #777777;
+
+  --color-accent: #e63946;
+  --color-accent-hover: #ff4d5a;
+  --color-accent-dark: #b52d38;
+
+  --color-metallic: #c0c0c0;
+  --color-carbon: #1c1c1c;
+  --color-gold: #d4af37;
+
+  --color-border: #333333;
+  --color-border-light: #444444;
+
+  --color-success: #2ecc71;
+  --color-warning: #f39c12;
+  --color-error: #e74c3c;
+
+  --color-header-bg: rgba(13, 13, 13, 0.95);
+
+  --hero-overlay-start: rgba(13, 13, 13, 0.92);
+  --hero-overlay-mid: rgba(28, 28, 28, 0.85);
+  --hero-overlay-end: rgba(13, 13, 13, 0.90);
+  --hero-card-overlay: rgba(34, 34, 34, 0.5);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.7);
+  --shadow-accent: 0 4px 20px rgba(230, 57, 70, 0.3);
+
+  /* === Cinematic gradients & glass (dark) === */
+  --gradient-surface: linear-gradient(160deg, #262631, #16161d);
+  --gradient-sheen: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.16) 50%, transparent 100%);
+
+  --glass-bg: rgba(28, 28, 38, 0.62);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: 18px;
+
+  --shadow-glow: 0 0 44px rgba(230, 57, 70, 0.38);
+  --shadow-gold-glow: 0 0 40px rgba(212, 175, 55, 0.36);
+  --shadow-accent-lg: 0 24px 60px -16px rgba(230, 57, 70, 0.55);
+  --shadow-float: 0 28px 64px -22px rgba(0, 0, 0, 0.75);
+}
+
+/* === Theme Transition (applied after initial load to prevent FOUC) === */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
 }

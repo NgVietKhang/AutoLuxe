@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirect - AutoLuxe</title>
+  <script>
+    (function () {
+      var hash = (location.hash || '').replace(/^#/, '').toLowerCase();
+      var target = './wishlist.html';
+      if (hash === 'compare') target = './compare.html';
+      else if (hash === 'wishlist' || hash === 'collection') target = './wishlist.html';
+      var qs = location.search || '';
+      location.replace(target + qs + (hash === 'compare' ? '#compare' : ''));
+    })();
+  </script>
+</head>
+<body></body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n-page-title="account.page_title">Tài khoản - AutoLuxe</title>
+  <script>
+    (function(){var t=localStorage.getItem('autoluxe_theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t)}else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark')}else{document.documentElement.setAttribute('data-theme','light')}})();
+    (function(){var l=localStorage.getItem('autoluxe_locale');if(l==='vi'||l==='en'){document.documentElement.lang=l}})();
+  </script>
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/variables.css">
+  <link rel="stylesheet" href="../assets/css/layout.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/auth.css">
+  <link rel="stylesheet" href="../assets/css/account.css">
+  <link rel="stylesheet" href="../assets/css/notification.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="site-header__brand">Auto<span>Luxe</span></a>
+
+      <nav class="site-nav" id="siteNav">
+        <ul class="site-nav__list">
+                    <li><a href="../index.html" class="site-nav__link" data-i18n="nav.home">Trang chủ</a></li>
+          <li><a href="./catalog.html" class="site-nav__link" data-i18n="nav.catalog">Catalog</a></li>
+          <li><a href="./marketplace.html" class="site-nav__link" data-i18n="nav.marketplace">Marketplace</a></li>
+          <li><a href="./wishlist.html" class="site-nav__link" data-i18n="nav.wishlist">Yêu thích</a></li>
+          <li><a href="./compare.html" class="site-nav__link" data-i18n="nav.compare">So sánh</a></li>
+          <li><a href="./my-purchases.html" class="site-nav__link" data-i18n="nav.my_purchases">Đơn mua của tôi</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-header__cta">
+        <a href="./auth.html" class="btn btn--primary btn--sm" data-i18n="common.login">Đăng nhập</a>
+      </div>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+        <span class="nav-toggle__bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="site-main">
+    <section class="section">
+      <div class="container account-container">
+        <div id="accountGate"></div>
+
+        <div id="accountApp" class="account-app" hidden>
+          <div class="account-header">
+            <h1 class="section-title" data-i18n="account.title">Tài Khoản</h1>
+            <div class="divider"></div>
+            <p class="section-subtitle" data-i18n="account.subtitle">Quản lý hồ sơ cá nhân và tùy chọn ứng dụng.</p>
+          </div>
+
+          <div class="account-tabs tab-strip" role="tablist">
+            <button type="button" class="btn btn--secondary btn--sm is-active-tab" id="tabProfile" data-account-tab="profile" role="tab" aria-selected="true" aria-controls="panelProfile" data-i18n="account.tab_profile">Hồ sơ</button>
+            <button type="button" class="btn btn--secondary btn--sm" id="tabListings" data-account-tab="listings" role="tab" aria-selected="false" aria-controls="panelListings" data-i18n="account.tab_listings">Tin rao của tôi</button>
+            <button type="button" class="btn btn--secondary btn--sm" id="tabSettings" data-account-tab="settings" role="tab" aria-selected="false" aria-controls="panelSettings" data-i18n="account.tab_settings">Cài đặt</button>
+          </div>
+
+          <div id="panelProfile" class="account-panel" role="tabpanel" aria-labelledby="tabProfile">
+            <form id="profileForm" class="account-form" novalidate>
+              <div class="account-avatar-block">
+                <div class="account-avatar-preview" id="avatarPreview" aria-hidden="true">
+                  <span class="account-avatar-preview__initials" id="avatarInitials">AL</span>
+                  <img class="account-avatar-preview__img" id="avatarImg" alt="" hidden>
+                </div>
+                <div class="account-avatar-actions">
+                  <label class="label" for="avatarInput" data-i18n="account.avatar">Ảnh đại diện</label>
+                  <div class="account-avatar-upload" id="avatarUploadZone">
+                    <input type="file" id="avatarInput" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+                    <button type="button" class="btn btn--secondary btn--sm" id="btnAvatarUpload" data-i18n="account.avatar_upload">Tải ảnh lên</button>
+                    <p class="account-avatar-hint" data-i18n="account.avatar_hint">PNG, JPG, WEBP, GIF tối đa 500KB. Lưu ngay vào trình duyệt.</p>
+                  </div>
+                  <button type="button" class="btn btn--secondary btn--sm" id="btnAvatarRemove" hidden data-i18n="account.avatar_remove">Xóa ảnh</button>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label class="label" for="profileDisplayName" data-i18n="account.display_name">Tên hiển thị</label>
+                <input class="input" type="text" id="profileDisplayName" name="displayName" autocomplete="name" required>
+                <p class="field-error" id="profileDisplayNameError"></p>
+              </div>
+
+              <div class="input-group">
+                <label class="label" for="profileEmail" data-i18n="account.email">Email</label>
+                <input class="input" type="email" id="profileEmail" name="email" readonly disabled>
+              </div>
+
+              <div class="input-group">
+                <label class="label" for="profilePhone" data-i18n="account.phone">Số điện thoại</label>
+                <input class="input" type="tel" id="profilePhone" name="phone" autocomplete="tel" data-i18n-placeholder="account.phone_ph" placeholder="0912 345 678">
+                <p class="field-error" id="profilePhoneError"></p>
+              </div>
+
+              <div class="input-group">
+                <label class="label" for="profileAddress" data-i18n="account.address">Địa chỉ</label>
+                <textarea class="input account-textarea" id="profileAddress" name="address" rows="3" data-i18n-placeholder="account.address_ph" placeholder="Số nhà, đường, quận/huyện, tỉnh/TP"></textarea>
+              </div>
+
+              <div class="account-form-actions">
+                <button type="submit" class="btn btn--primary" id="btnSaveProfile" data-i18n="account.save_profile">Lưu hồ sơ</button>
+              </div>
+            </form>
+
+            <div class="account-password-block">
+              <h2 class="account-section-title" data-i18n="account.password_section">Đổi mật khẩu</h2>
+              <p class="account-section-hint" data-i18n="account.password_section_hint">Nhập mật khẩu hiện tại để xác thực trước khi đặt mật khẩu mới.</p>
+              <form id="passwordForm" class="account-form account-form--password" novalidate>
+                <div class="input-group">
+                  <label class="label" for="currentPassword" data-i18n="account.current_password">Mật khẩu hiện tại</label>
+                  <input class="input" type="password" id="currentPassword" name="currentPassword" autocomplete="current-password" data-i18n-placeholder="account.current_password_ph" placeholder="Nhập mật khẩu hiện tại...">
+                  <p class="field-error" id="currentPasswordError"></p>
+                </div>
+                <div class="input-group">
+                  <label class="label" for="newPassword" data-i18n="account.new_password">Mật khẩu mới</label>
+                  <input class="input" type="password" id="newPassword" name="newPassword" autocomplete="new-password" data-i18n-placeholder="account.new_password_ph" placeholder="Ít nhất 6 ký tự...">
+                  <p class="field-error" id="newPasswordError"></p>
+                </div>
+                <div class="input-group">
+                  <label class="label" for="confirmPassword" data-i18n="account.confirm_password">Xác nhận mật khẩu mới</label>
+                  <input class="input" type="password" id="confirmPassword" name="confirmPassword" autocomplete="new-password" data-i18n-placeholder="account.confirm_password_ph" placeholder="Nhập lại mật khẩu mới...">
+                  <p class="field-error" id="confirmPasswordError"></p>
+                </div>
+                <div class="account-form-actions">
+                  <button type="submit" class="btn btn--secondary" id="btnChangePassword" data-i18n="account.change_password">Cập nhật mật khẩu</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div id="panelListings" class="account-panel" role="tabpanel" aria-labelledby="tabListings" hidden>
+            <p class="account-settings-intro" data-i18n="account.listings_intro">Theo dõi trạng thái duyệt tin rao của bạn trên Marketplace.</p>
+            <div id="accountListingsList" class="account-listings"></div>
+          </div>
+
+          <div id="panelSettings" class="account-panel" role="tabpanel" aria-labelledby="tabSettings" hidden>
+            <p class="account-settings-intro" data-i18n="account.settings_intro">Tùy chỉnh giao diện, ngôn ngữ và hiệu ứng. Các tùy chọn này chỉ hiển thị tại đây khi bạn đã đăng nhập.</p>
+
+            <div class="account-settings-card">
+              <div class="account-settings-card__head">
+                <h2 class="account-section-title" data-i18n="account.settings_hero_scroll">Hiệu ứng cuộn đầu trang</h2>
+                <p class="account-section-hint" data-i18n="account.settings_hero_scroll_desc">Bật để giữ hiệu ứng pin và xe 3D khi cuộn ở trang chủ. Tắt để cuộn bình thường (áp dụng sau khi tải lại trang chủ).</p>
+              </div>
+              <label class="pref-switch">
+                <input type="checkbox" class="pref-switch__input" id="settingsHeroScroll" checked>
+                <span class="pref-switch__track" aria-hidden="true"></span>
+                <span class="pref-switch__label" data-i18n="account.settings_hero_scroll_label">Bật hiệu ứng cuộn hero</span>
+              </label>
+            </div>
+
+            <div class="account-settings-card">
+              <div class="account-settings-card__head">
+                <h2 class="account-section-title" data-i18n="account.settings_motion_preset">Chế độ chuyển động</h2>
+                <p class="account-section-hint" data-i18n="account.settings_motion_preset_desc">Cinematic / Cân bằng / Tối giản</p>
+              </div>
+              <select class="input" id="settingsMotionPreset">
+                <option value="cinematic" data-i18n="account.settings_motion_cinematic">Cinematic</option>
+                <option value="balanced" data-i18n="account.settings_motion_balanced">Cân bằng</option>
+                <option value="minimal" data-i18n="account.settings_motion_minimal">Tối giản</option>
+              </select>
+            </div>
+
+            <div class="account-settings-card">
+              <div class="account-settings-card__head">
+                <h2 class="account-section-title" data-i18n="saved_search.account_title">Cảnh báo đã lưu</h2>
+              </div>
+              <div id="accountSavedSearches"></div>
+            </div>
+
+            <div class="account-settings-card">
+              <div class="account-settings-card__head">
+                <h2 class="account-section-title" data-i18n="account.settings_lite_fx">Giảm hiệu ứng</h2>
+                <p class="account-section-hint" data-i18n="account.settings_lite_fx_desc">Tắt tilt 3D trên thẻ, ripple nút và parallax nhẹ để giảm lag (áp dụng ngay trên các trang khác).</p>
+              </div>
+              <label class="pref-switch">
+                <input type="checkbox" class="pref-switch__input" id="settingsLiteFx">
+                <span class="pref-switch__track" aria-hidden="true"></span>
+                <span class="pref-switch__label" data-i18n="account.settings_lite_fx_label">Giảm hiệu ứng tương tác</span>
+              </label>
+            </div>
+
+            <div class="account-settings-card">
+              <div class="account-settings-card__head">
+                <h2 class="account-section-title" data-i18n="account.settings_theme">Giao diện</h2>
+                <p class="account-section-hint" data-i18n="account.settings_theme_desc">Chuyển giữa chế độ sáng và tối.</p>
+              </div>
+              <button id="settingsThemeToggle" class="theme-toggle theme-toggle--settings" type="button" aria-pressed="false" data-i18n-aria-label="theme.switch_dark">
+                <span class="theme-toggle__icon">🌙</span>
+                <span class="theme-toggle__label">Dark</span>
+              </button>
+            </div>
+
+            <div class="account-settings-card">
+              <div class="account-settings-card__head">
+                <h2 class="account-section-title" data-i18n="account.settings_language">Ngôn ngữ</h2>
+                <p class="account-section-hint" data-i18n="account.settings_language_desc">Chọn ngôn ngữ hiển thị cho toàn bộ ứng dụng.</p>
+              </div>
+              <div class="lang-switch lang-switch--settings" id="settingsLangSwitch" role="group" aria-label="Language" data-i18n-aria-label="account.settings_language">
+                <button type="button" class="lang-switch__btn" data-lang="vi">VI</button>
+                <button type="button" class="lang-switch__btn" data-lang="en">EN</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- FOOTER -->
+  <footer class="site-footer site-footer--compact">
+    <div class="container site-footer__compact">
+      <a href="../index.html" class="site-footer__brand">Auto<span>Luxe</span></a>
+      <p class="site-footer__compact-copy" data-i18n="footer.copyright">&copy; 2024 AutoLuxe. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/config.example.js"></script>
+  <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/data-provider.js"></script>
+  <script src="../assets/js/saved-search-service.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+  <script src="../assets/js/auth.js"></script>
+  <script src="../assets/js/toast.js"></script>
+  <script>I18n.initI18n();</script>
+  <script src="../assets/js/seed.js"></script>
+  <script src="../assets/js/marketplace.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/motion-prefs.js"></script>
+  <script src="../assets/js/app.js"></script>
+  <script src="../assets/js/account.js"></script>
+  <script src="../assets/js/notifications.js"></script>
+</body>
+</html>

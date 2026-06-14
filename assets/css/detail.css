@@ -3,6 +3,43 @@
    Car detail page specific styles
    ============================================= */
 
+/* === Back link (top of page) === */
+.detail-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-lg);
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.detail-back:hover {
+  color: var(--color-accent);
+}
+
+.detail-back:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.detail-back__icon {
+  font-size: 1.1em;
+  line-height: 1;
+  transition: transform var(--transition-fast);
+}
+
+.detail-back:hover .detail-back__icon {
+  transform: translateX(-3px);
+}
+
 /* === Breadcrumb === */
 .detail-breadcrumb {
   font-size: var(--fs-sm);
@@ -42,6 +79,31 @@
   font-weight: var(--fw-semibold);
 }
 
+.detail-header__market {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  margin-top: var(--space-xs);
+}
+
+.detail-updating {
+  margin-bottom: var(--space-xl);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--color-border-light);
+  background: var(--color-bg-secondary);
+}
+
+.detail-updating__title {
+  font-weight: var(--fw-semibold);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.detail-updating__desc {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}
+
 /* === Hero Image === */
 .detail-hero {
   position: relative;
@@ -50,6 +112,15 @@
   overflow: hidden;
   margin-bottom: var(--space-lg);
   border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
+}
+
+.detail-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to top, rgba(10, 10, 16, 0.5) 0%, rgba(10, 10, 16, 0) 42%);
 }
 
 .detail-hero__img {
@@ -58,6 +129,11 @@
   object-fit: cover;
   display: block;
   background-color: var(--color-bg-elevated);
+  transition: transform 1.2s var(--ease-out-expo);
+}
+
+.detail-hero:hover .detail-hero__img {
+  transform: scale(1.05);
 }
 
 /* === Gallery === */
@@ -75,14 +151,19 @@
   border-radius: var(--radius-md);
   border: 2px solid var(--color-border);
   cursor: pointer;
-  transition: border-color var(--transition-fast), opacity var(--transition-fast);
+  transition: border-color var(--transition-fast), opacity var(--transition-fast), transform var(--transition-spring), box-shadow var(--transition-base);
   background-color: var(--color-bg-elevated);
 }
 
-.detail-gallery__thumb:hover,
+.detail-gallery__thumb:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: var(--shadow-md);
+}
+
 .detail-gallery__thumb.is-active {
   border-color: var(--color-accent);
-  opacity: 0.9;
+  box-shadow: var(--shadow-accent);
 }
 
 /* === Specs Grid === */
@@ -110,12 +191,13 @@
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
   text-align: center;
-  transition: border-color var(--transition-base), transform var(--transition-base);
+  transition: border-color var(--transition-base), transform var(--transition-spring), box-shadow var(--transition-base);
 }
 
 .detail-specs__item:hover {
-  border-color: var(--color-border-light);
-  transform: translateY(-2px);
+  border-color: var(--color-accent);
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
 }
 
 .detail-specs__label {
@@ -170,6 +252,18 @@
   flex-wrap: wrap;
 }
 
+.detail-actions .is-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.detail-market-hint {
+  margin-top: calc(-1 * var(--space-2xl));
+  margin-bottom: var(--space-3xl);
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+}
+
 /* === Related Cars === */
 .detail-related {
   padding-top: var(--space-3xl);
@@ -195,14 +289,15 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  transition: transform 0.5s var(--ease-spring), box-shadow var(--transition-smooth), border-color var(--transition-base);
   text-decoration: none;
   display: block;
 }
 
 .detail-related__card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-xl), var(--shadow-glow);
+  border-color: var(--color-accent);
 }
 
 .detail-related__card-img {
@@ -210,6 +305,18 @@
   height: 140px;
   object-fit: cover;
   background-color: var(--color-bg-elevated);
+  transition: transform 0.6s var(--ease-out-expo);
+}
+
+.detail-related__card-img--placeholder {
+  object-fit: contain;
+  padding: var(--space-sm);
+  background:
+    radial-gradient(circle at 50% 120%, var(--color-bg-elevated), var(--color-bg-secondary));
+}
+
+.detail-related__card:hover .detail-related__card-img {
+  transform: scale(1.08);
 }
 
 .detail-related__card-body {
@@ -279,6 +386,18 @@
 
   .detail-header__title {
     font-size: var(--fs-2xl);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .detail-hero__img,
+  .detail-gallery__thumb,
+  .detail-specs__item,
+  .detail-related__card,
+  .detail-related__card-img {
+    transition: none !important;
+    transform: none !important;
   }
 }
 

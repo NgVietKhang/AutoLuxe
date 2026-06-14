@@ -27,16 +27,43 @@ var MarketDetail = (function () {
   }
 
   function formatPrice(price) {
+    if (typeof I18n !== 'undefined' && typeof I18n.formatCurrency === 'function') {
+      return I18n.formatCurrency(price || 0);
+    }
     if (!price && price !== 0) return '$0';
     return '$' + Number(price).toLocaleString('en-US');
   }
 
   function formatNumber(num) {
+    if (typeof I18n !== 'undefined' && typeof I18n.formatNumber === 'function') {
+      return I18n.formatNumber(num || 0, { maximumFractionDigits: 0 });
+    }
     if (!num && num !== 0) return '0';
     return Number(num).toLocaleString('en-US');
   }
 
+  function translateFuel(val) {
+    if (!val) return '';
+    var map = { 'Xăng': 'data.fuel_gasoline', 'Dầu': 'data.fuel_diesel', 'Hybrid': 'data.fuel_hybrid', 'Điện': 'data.fuel_electric' };
+    return map[val] ? _t(map[val]) : val;
+  }
+
+  function translateTransmission(val) {
+    if (!val) return '';
+    var map = { 'Tự động': 'data.trans_auto', 'Số sàn': 'data.trans_manual', 'PDK': 'data.trans_pdk', 'DCT': 'data.trans_dct' };
+    return map[val] ? _t(map[val]) : val;
+  }
+
   function formatDate(isoStr) {
+    if (typeof I18n !== 'undefined' && typeof I18n.formatDateTime === 'function') {
+      return I18n.formatDateTime(isoStr, {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
     if (!isoStr) return '';
     try {
       var d = new Date(isoStr);
@@ -139,9 +166,29 @@ var MarketDetail = (function () {
     content.innerHTML =
       '<div class="md-not-found">' +
         '<div class="md-not-found__icon">🔍</div>' +
-        '<h2 class="md-not-found__title">Không tìm thấy tin rao</h2>' +
-        '<p class="md-not-found__desc">Tin rao này không tồn tại hoặc đã bị xóa.</p>' +
-        '<a href="./marketplace.html" class="btn btn--primary">← Quay lại Marketplace</a>' +
+        '<h2 class="md-not-found__title">' + _t('md.notfound_title') + '</h2>' +
+        '<p class="md-not-found__desc">' + _t('md.notfound_desc') + '</p>' +
+        '<a href="./marketplace.html" class="btn btn--primary">' + _t('md.back') + '</a>' +
+      '</div>';
+  }
+
+  function renderNotAvailable() {
+    var content = document.getElementById('mdContent');
+    if (!content) return;
+
+    var moderation = 'pending_approval';
+    if (typeof Marketplace !== 'undefined' && typeof Marketplace.getPostModeration === 'function') {
+      moderation = Marketplace.getPostModeration(currentPost);
+    }
+
+    var descKey = moderation === 'rejected' ? 'md.not_available_rejected' : 'md.not_available_pending';
+
+    content.innerHTML =
+      '<div class="md-not-found">' +
+        '<div class="md-not-found__icon">⏳</div>' +
+        '<h2 class="md-not-found__title">' + _t('md.not_available_title') + '</h2>' +
+        '<p class="md-not-found__desc">' + _t(descKey) + '</p>' +
+        '<a href="./marketplace.html" class="btn btn--primary">' + _t('md.back') + '</a>' +
       '</div>';
   }
 
@@ -153,22 +200,18 @@ var MarketDetail = (function () {
     var content = document.getElementById('mdContent');
     if (!content) return;
 
-    var imageHtml;
-    if (post.image) {
-      imageHtml = '<img class="md-detail__image" src="' + escapeHtml(post.image) + '" alt="' + escapeHtml(post.title) + '" onerror="this.parentElement.innerHTML=\'<div class=md-detail__image--fallback>🏎️</div>\'">';
-    } else {
-      imageHtml = '<div class="md-detail__image--fallback">🏎️</div>';
-    }
+    var imageHtml = buildImageSection(post);
 
     var specs = [
-      { label: 'Hãng xe', value: post.brand },
-      { label: 'Model', value: post.model },
-      { label: 'Năm SX', value: post.year ? String(post.year) : null },
-      { label: 'Số km', value: (post.mileage || post.mileage === 0) ? formatNumber(post.mileage) + ' km' : null },
-      { label: 'Nhiên liệu', value: post.fuel },
-      { label: 'Hộp số', value: post.transmission },
-      { label: 'Khu vực', value: post.location },
-      { label: 'Ngày đăng', value: formatDate(post.createdAt) }
+      { label: _t('md.spec_brand'), value: post.brand },
+      { label: _t('md.spec_model'), value: post.model },
+      { label: _t('md.spec_year'), value: post.year ? String(post.year) : null },
+      { label: _t('md.spec_mileage'), value: (post.mileage || post.mileage === 0) ? formatNumber(post.mileage) + ' km' : null },
+      { label: _t('md.spec_fuel'), value: translateFuel(post.fuel) },
+      { label: _t('md.spec_transmission'), value: translateTransmission(post.transmission) },
+      { label: _t('md.spec_location'), value: post.location },
+      { label: _t('md.spec_date'), value: formatDate(post.createdAt) },
+      { label: _t('md.spec_views'), value: String(Number(post.viewCount) || 0) }
     ];
 
     var specsHtml = '';
@@ -177,18 +220,19 @@ var MarketDetail = (function () {
       specsHtml +=
         '<div class="md-specs__item">' +
           '<span class="md-specs__label">' + escapeHtml(specs[i].label) + '</span>' +
-          '<span class="md-specs__value">' + escapeHtml(val || 'Đang cập nhật') + '</span>' +
+          '<span class="md-specs__value">' + escapeHtml(val || _t('md.spec_updating')) + '</span>' +
         '</div>';
     }
 
     var ownerInitial = (post.ownerName || 'A').charAt(0).toUpperCase();
+    var sellerAvatarHtml = buildSellerAvatarHtml(post, ownerInitial);
 
     var html =
-      '<a href="./marketplace.html" class="md-back">← Quay lại Marketplace</a>' +
+      '<a href="./marketplace.html" class="md-back">' + _t('md.back') + '</a>' +
       '<div class="md-detail">' +
-        '<div class="md-detail__image-wrap">' + imageHtml + '</div>' +
+        imageHtml +
         '<div class="md-detail__info">' +
-          '<span class="badge md-detail__badge">' + escapeHtml(post.brand || 'N/A') + '</span>' +
+          '<span class="badge md-detail__badge">' + escapeHtml(post.brand || _t('common.na')) + '</span>' +
           '<h1 class="md-detail__title">' + escapeHtml(post.title) + '</h1>' +
           '<p class="md-detail__price">' + formatPrice(post.price) + '</p>' +
           '<div class="md-specs">' + specsHtml + '</div>' +
@@ -196,15 +240,15 @@ var MarketDetail = (function () {
       '</div>' +
 
       '<div class="md-description">' +
-        '<h2 class="md-description__title">Mô tả chi tiết</h2>' +
-        '<p class="md-description__text">' + escapeHtml(post.description || 'Chưa có mô tả.') + '</p>' +
+        '<h2 class="md-description__title">' + _t('md.desc_title') + '</h2>' +
+        '<p class="md-description__text">' + escapeHtml(post.description || _t('md.no_desc')) + '</p>' +
       '</div>' +
 
       '<div class="md-seller">' +
-        '<div class="md-seller__avatar">' + escapeHtml(ownerInitial) + '</div>' +
+        sellerAvatarHtml +
         '<div>' +
-          '<div class="md-seller__name">' + escapeHtml(post.ownerName || 'Ẩn danh') + '</div>' +
-          '<div class="md-seller__email">' + escapeHtml(post.ownerEmail || 'Không có thông tin liên hệ') + '</div>' +
+          '<div class="md-seller__name">' + escapeHtml(post.ownerName || _t('market.anonymous')) + '</div>' +
+          '<div class="md-seller__email">' + escapeHtml(post.ownerEmail || _t('md.no_contact')) + '</div>' +
         '</div>' +
       '</div>' +
 
@@ -213,6 +257,82 @@ var MarketDetail = (function () {
       '<div class="md-reviews" id="mdReviews"></div>';
 
     content.innerHTML = html;
+    bindGallery(post);
+  }
+
+  function buildSellerAvatarHtml(post, ownerInitial) {
+    var avatarUrl = '';
+    if (typeof Account !== 'undefined' && typeof Account.getAvatarByEmail === 'function') {
+      avatarUrl = Account.getAvatarByEmail(post.ownerEmail);
+    }
+
+    if (avatarUrl) {
+      return '<div class="md-seller__avatar md-seller__avatar--img">' +
+        '<img src="' + escapeHtml(avatarUrl) + '" alt="' + escapeHtml(post.ownerName || '') + '">' +
+      '</div>';
+    }
+
+    return '<div class="md-seller__avatar">' + escapeHtml(ownerInitial) + '</div>';
+  }
+
+  function buildImageSection(post) {
+    var images = [];
+    if (typeof Marketplace !== 'undefined' && typeof Marketplace.getPostImages === 'function') {
+      images = Marketplace.getPostImages(post);
+    } else if (post.image) {
+      images = [post.image];
+    }
+
+    if (!images.length) {
+      return '<div class="md-detail__image-wrap"><div class="md-detail__image--fallback">🏎️</div></div>';
+    }
+
+    if (images.length === 1) {
+      return '<div class="md-detail__image-wrap">' +
+        '<img class="md-detail__image" src="' + escapeHtml(images[0]) + '" alt="' + escapeHtml(post.title) + '" onerror="this.parentElement.innerHTML=\'<div class=md-detail__image--fallback>🏎️</div>\'">' +
+      '</div>';
+    }
+
+    var thumbsHtml = '';
+    for (var i = 0; i < images.length; i++) {
+      thumbsHtml +=
+        '<button type="button" class="md-gallery__thumb' + (i === 0 ? ' is-active' : '') + '" data-index="' + i + '">' +
+          '<img src="' + escapeHtml(images[i]) + '" alt="">' +
+        '</button>';
+    }
+
+    return '<div class="md-gallery">' +
+      '<div class="md-detail__image-wrap md-gallery__main-wrap">' +
+        '<img class="md-detail__image md-gallery__main" id="mdGalleryMain" src="' + escapeHtml(images[0]) + '" alt="' + escapeHtml(post.title) + '" onerror="this.parentElement.innerHTML=\'<div class=md-detail__image--fallback>🏎️</div>\'">' +
+      '</div>' +
+      '<div class="md-gallery__thumbs" id="mdGalleryThumbs">' + thumbsHtml + '</div>' +
+    '</div>';
+  }
+
+  function bindGallery(post) {
+    var main = document.getElementById('mdGalleryMain');
+    var thumbsWrap = document.getElementById('mdGalleryThumbs');
+    if (!main || !thumbsWrap) return;
+
+    var images = [];
+    if (typeof Marketplace !== 'undefined' && typeof Marketplace.getPostImages === 'function') {
+      images = Marketplace.getPostImages(post);
+    } else if (post.image) {
+      images = [post.image];
+    }
+    if (images.length <= 1) return;
+
+    var thumbs = thumbsWrap.querySelectorAll('.md-gallery__thumb');
+    for (var i = 0; i < thumbs.length; i++) {
+      thumbs[i].addEventListener('click', function () {
+        var idx = parseInt(this.getAttribute('data-index'), 10);
+        if (isNaN(idx) || !images[idx]) return;
+        main.src = images[idx];
+        for (var j = 0; j < thumbs.length; j++) {
+          thumbs[j].classList.toggle('is-active', j === idx);
+        }
+      });
+    }
   }
 
   /* ===========================
@@ -220,7 +340,26 @@ var MarketDetail = (function () {
      =========================== */
 
   function renderBuyNowSection(post) {
+    if (typeof Marketplace !== 'undefined' && typeof Marketplace.isPostPubliclyVisible === 'function') {
+      if (!Marketplace.isPostPubliclyVisible(post)) {
+        return (
+          '<div class="md-buy-section md-buy-section--pending">' +
+            '<span class="md-buy-section__status">' + _t('md.not_available_pending') + '</span>' +
+          '</div>'
+        );
+      }
+    }
+
     var status = post.status || 'available';
+    var availability = post.availability || status;
+    if (availability === 'sold' || status === 'sold') {
+      return (
+        '<div class="md-buy-section md-buy-section--pending">' +
+          '<span class="md-buy-section__status">' + _t('md.sold_status') + '</span>' +
+        '</div>'
+      );
+    }
+
     var wishlistBtnHtml = '';
     if (typeof Wishlist !== 'undefined') {
       wishlistBtnHtml = Wishlist.renderWishlistBtnHTML({
@@ -237,18 +376,75 @@ var MarketDetail = (function () {
     if (status === 'pending') {
       return (
         '<div class="md-buy-section md-buy-section--pending">' +
-          '<span class="md-buy-section__status">⏳ Đang chờ xử lý - Không khả dụng</span>' +
+          '<span class="md-buy-section__status">' + _t('md.pending_status') + '</span>' +
           wishlistBtnHtml +
         '</div>'
       );
     }
 
+    var session = null;
+    try {
+      session = Auth.getSession();
+    } catch (e) {
+      session = null;
+    }
+
+    if (
+      typeof Marketplace !== 'undefined' &&
+      typeof Marketplace.isPostOwner === 'function' &&
+      Marketplace.isPostOwner(post, session)
+    ) {
+      return (
+        '<div class="md-buy-section md-buy-section--pending">' +
+          '<span class="md-buy-section__status">' + _t('md.owner_cannot_buy') + '</span>' +
+          wishlistBtnHtml +
+        '</div>'
+      );
+    }
+
+    var consultBtn =
+      '<button type="button" class="btn btn--secondary btn--lg" id="btnContactConsult">' +
+      _t('contact.consult_btn') +
+      '</button>';
+
     return (
       '<div class="md-buy-section">' +
-        '<a href="./checkout.html?postId=' + encodeURIComponent(post.id) + '" class="btn btn--primary btn--lg md-buy-section__btn" id="btnBuyNow">🛒 Mua ngay</a>' +
+        '<a href="./checkout.html?postId=' + encodeURIComponent(post.id) + '" class="btn btn--primary btn--lg md-buy-section__btn" id="btnBuyNow">' + _t('md.buy_now') + '</a>' +
+        consultBtn +
         wishlistBtnHtml +
       '</div>'
     );
+  }
+
+  function incrementViewCount(post) {
+    if (!post || !post.id) return;
+    var sessionKey = 'autoluxe_view_' + post.id;
+    try {
+      if (sessionStorage.getItem(sessionKey)) return;
+      sessionStorage.setItem(sessionKey, '1');
+    } catch (e) { /* ignore */ }
+    var next = (Number(post.viewCount) || 0) + 1;
+    if (typeof Marketplace !== 'undefined' && Marketplace.updatePost) {
+      Marketplace.updatePost(post.id, { viewCount: next });
+      post.viewCount = next;
+    }
+  }
+
+  function bindContactConsult(post) {
+    var btn = document.getElementById('btnContactConsult');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var sellerEmail = post && post.ownerEmail ? post.ownerEmail : '';
+      if (typeof window.AutoLuxeContact !== 'undefined' && typeof window.AutoLuxeContact.open === 'function') {
+        window.AutoLuxeContact.open(sellerEmail);
+        return;
+      }
+      if (sellerEmail) {
+        window.location.href = 'mailto:' + encodeURIComponent(sellerEmail);
+        return;
+      }
+      showToast(_t('contact.not_configured'), 'warning');
+    });
   }
 
   /* ===========================
@@ -263,7 +459,7 @@ var MarketDetail = (function () {
 
     var html =
       '<div class="md-reviews__header">' +
-        '<h2 class="md-reviews__title">Đánh giá showroom</h2>' +
+        '<h2 class="md-reviews__title">' + _t('review.title') + '</h2>' +
       '</div>';
 
     html += renderRatingSummary(reviews);
@@ -272,10 +468,10 @@ var MarketDetail = (function () {
     if (reviews.length > 0) {
       html +=
         '<div class="md-reviews__sort">' +
-          '<span class="md-reviews__sort-label">Sắp xếp:</span>' +
+          '<span class="md-reviews__sort-label">' + _t('review.sort_label') + '</span>' +
           '<select class="input md-reviews__sort-select" id="reviewSort">' +
-            '<option value="newest"' + (currentSort === 'newest' ? ' selected' : '') + '>Mới nhất</option>' +
-            '<option value="highest"' + (currentSort === 'highest' ? ' selected' : '') + '>Điểm cao</option>' +
+            '<option value="newest"' + (currentSort === 'newest' ? ' selected' : '') + '>' + _t('review.sort_newest') + '</option>' +
+            '<option value="highest"' + (currentSort === 'highest' ? ' selected' : '') + '>' + _t('review.sort_highest') + '</option>' +
           '</select>' +
         '</div>';
     }
@@ -308,7 +504,7 @@ var MarketDetail = (function () {
         '<div class="md-rating-summary__score">' + avgRounded + '/5</div>' +
         '<div>' +
           '<div class="md-rating-summary__stars">' + renderStars(avg) + '</div>' +
-          '<div class="md-rating-summary__count">' + reviews.length + ' lượt đánh giá</div>' +
+          '<div class="md-rating-summary__count">' + _t('review.count', { count: reviews.length }) + '</div>' +
         '</div>' +
       '</div>'
     );
@@ -325,9 +521,9 @@ var MarketDetail = (function () {
       if (perm.reason === 'not_logged_in') {
         return (
           '<div class="md-review-form">' +
-            '<h3 class="md-review-form__title">Viết đánh giá</h3>' +
+            '<h3 class="md-review-form__title">' + _t('review.form_title') + '</h3>' +
             '<div class="md-review-form__notice">' +
-              'Bạn cần <a href="./auth.html">đăng nhập</a> để gửi đánh giá.' +
+              _t('review.login_notice') +
             '</div>' +
           '</div>'
         );
@@ -335,9 +531,9 @@ var MarketDetail = (function () {
       if (perm.reason === 'is_owner') {
         return (
           '<div class="md-review-form">' +
-            '<h3 class="md-review-form__title">Viết đánh giá</h3>' +
+            '<h3 class="md-review-form__title">' + _t('review.form_title') + '</h3>' +
             '<div class="md-review-form__notice">' +
-              'Bạn không thể tự đánh giá tin rao của chính mình.' +
+              _t('review.owner_notice') +
             '</div>' +
           '</div>'
         );
@@ -347,26 +543,26 @@ var MarketDetail = (function () {
 
     return (
       '<div class="md-review-form" id="reviewFormWrap">' +
-        '<h3 class="md-review-form__title">Viết đánh giá</h3>' +
+        '<h3 class="md-review-form__title">' + _t('review.form_title') + '</h3>' +
         '<form id="reviewForm">' +
           '<div class="input-group">' +
-            '<label class="label">Đánh giá sao <span style="color:var(--color-accent)">*</span></label>' +
+            '<label class="label">' + _t('review.star_label') + ' <span style="color:var(--color-accent)">*</span></label>' +
             '<div class="md-star-input" id="starInput">' +
               '<button type="button" class="md-star-input__btn" data-star="1">☆</button>' +
               '<button type="button" class="md-star-input__btn" data-star="2">☆</button>' +
               '<button type="button" class="md-star-input__btn" data-star="3">☆</button>' +
               '<button type="button" class="md-star-input__btn" data-star="4">☆</button>' +
               '<button type="button" class="md-star-input__btn" data-star="5">☆</button>' +
-              '<span class="md-star-input__label" id="starLabel">Chọn số sao</span>' +
+              '<span class="md-star-input__label" id="starLabel">' + _t('review.star_placeholder') + '</span>' +
             '</div>' +
           '</div>' +
           '<div class="input-group">' +
-            '<label class="label" for="reviewContent">Nội dung đánh giá <span style="color:var(--color-accent)">*</span></label>' +
-            '<textarea class="input" id="reviewContent" placeholder="Chia sẻ trải nghiệm của bạn..." maxlength="' + MAX_REVIEW_LENGTH + '" rows="4"></textarea>' +
+            '<label class="label" for="reviewContent">' + _t('review.content_label') + ' <span style="color:var(--color-accent)">*</span></label>' +
+            '<textarea class="input" id="reviewContent" placeholder="' + _t('review.content_placeholder') + '" maxlength="' + MAX_REVIEW_LENGTH + '" rows="4"></textarea>' +
             '<span class="md-review-form__charcount" id="charCount">0/' + MAX_REVIEW_LENGTH + '</span>' +
           '</div>' +
           '<div class="md-review-form__actions">' +
-            '<button type="submit" class="btn btn--primary" id="reviewSubmitBtn">Gửi đánh giá</button>' +
+            '<button type="submit" class="btn btn--primary" id="reviewSubmitBtn">' + _t('review.submit') + '</button>' +
           '</div>' +
         '</form>' +
       '</div>'
@@ -385,7 +581,7 @@ var MarketDetail = (function () {
       listEl.innerHTML =
         '<div class="md-reviews__empty">' +
           '<div class="md-reviews__empty-icon">💬</div>' +
-          '<p class="md-reviews__empty-text">Chưa có đánh giá nào cho tin này. Hãy là người đầu tiên!</p>' +
+          '<p class="md-reviews__empty-text">' + _t('review.empty_text') + '</p>' +
         '</div>';
       return;
     }
@@ -405,7 +601,7 @@ var MarketDetail = (function () {
       html +=
         '<div class="md-review-item">' +
           '<div class="md-review-item__header">' +
-            '<span class="md-review-item__author">' + escapeHtml(r.reviewerName || 'Ẩn danh') + '</span>' +
+            '<span class="md-review-item__author">' + escapeHtml(r.reviewerName || _t('market.anonymous')) + '</span>' +
             '<span class="md-review-item__date">' + formatDate(r.createdAt) + '</span>' +
           '</div>' +
           '<div class="md-review-item__stars">' + renderStars(r.rating) + '</div>' +
@@ -433,7 +629,7 @@ var MarketDetail = (function () {
 
     var buttons = starInput.querySelectorAll('.md-star-input__btn');
     var label = document.getElementById('starLabel');
-    var labels = ['', 'Rất tệ', 'Tệ', 'Bình thường', 'Tốt', 'Xuất sắc'];
+    var labels = ['', _t('review.star_1'), _t('review.star_2'), _t('review.star_3'), _t('review.star_4'), _t('review.star_5')];
 
     for (var i = 0; i < buttons.length; i++) {
       buttons[i].addEventListener('click', function () {
@@ -496,12 +692,12 @@ var MarketDetail = (function () {
   function handleSubmitReview() {
     var perm = getPermissionStatus();
     if (!perm.allowed) {
-      showToast('Bạn không có quyền đánh giá tin này.', 'error');
+      showToast(_t('review.no_perm'), 'error');
       return;
     }
 
     if (!selectedRating || selectedRating < 1 || selectedRating > 5) {
-      showToast('Vui lòng chọn số sao đánh giá (1-5).', 'error');
+      showToast(_t('review.select_star'), 'error');
       return;
     }
 
@@ -509,12 +705,12 @@ var MarketDetail = (function () {
     var content = contentEl ? contentEl.value.trim() : '';
 
     if (!content) {
-      showToast('Vui lòng nhập nội dung đánh giá.', 'error');
+      showToast(_t('review.enter_content'), 'error');
       return;
     }
 
     if (content.length > MAX_REVIEW_LENGTH) {
-      showToast('Nội dung đánh giá tối đa ' + MAX_REVIEW_LENGTH + ' ký tự.', 'error');
+      showToast(_t('review.max_length', { max: MAX_REVIEW_LENGTH }), 'error');
       return;
     }
 
@@ -530,25 +726,34 @@ var MarketDetail = (function () {
 
     var ok = saveReview(review);
     if (ok) {
-      showToast('Đánh giá đã được gửi thành công!', 'success');
+      showToast(_t('review.success'), 'success');
       selectedRating = 0;
       renderReviewsSection();
 
       // --- Phase 10: Trigger notification for post owner ---
-      if (typeof Notifications !== 'undefined' && currentPost && currentPost.ownerEmail) {
+      if (
+        typeof Notifications !== 'undefined' &&
+        typeof Notifications.emitEvent === 'function' &&
+        currentPost &&
+        currentPost.ownerEmail
+      ) {
         if (perm.session.email !== currentPost.ownerEmail) {
-          Notifications.addNotification({
+          Notifications.emitEvent('new_review', {
             userKey: currentPost.ownerEmail,
-            type: 'new_review',
-            title: 'Đánh giá mới',
-            message: (perm.session.fullName || 'Ai đó') + ' đã đánh giá tin "' + (currentPost.title || '') + '".',
-            link: './market-detail.html?id=' + encodeURIComponent(currentPostId),
-            metadata: { reviewId: review.reviewId, postId: currentPostId }
+            postId: currentPostId,
+            params: {
+              reviewer: perm.session.fullName || _t('market.anonymous'),
+              title: currentPost.title || ''
+            },
+            metadata: {
+              reviewId: review.reviewId,
+              postId: currentPostId
+            }
           });
         }
       }
     } else {
-      showToast('Gửi đánh giá thất bại. Vui lòng thử lại.', 'error');
+      showToast(_t('review.fail'), 'error');
     }
   }
 
@@ -586,8 +791,24 @@ var MarketDetail = (function () {
       return;
     }
 
+    var session = null;
+    try {
+      session = Auth.getSession();
+    } catch (e) {
+      session = null;
+    }
+
+    if (typeof Marketplace !== 'undefined' && typeof Marketplace.canViewPost === 'function') {
+      if (!Marketplace.canViewPost(currentPost, session)) {
+        renderNotAvailable();
+        return;
+      }
+    }
+
+    incrementViewCount(currentPost);
     renderDetail(currentPost);
     renderReviewsSection();
+    bindContactConsult(currentPost);
 
     if (typeof Wishlist !== 'undefined') {
       var mdContent = document.getElementById('mdContent');

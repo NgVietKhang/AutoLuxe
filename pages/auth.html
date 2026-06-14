@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Đăng Nhập - AutoLuxe</title>
+  <script>
+    (function(){var t=localStorage.getItem('autoluxe_theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t)}else if(window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark')}else{document.documentElement.setAttribute('data-theme','light')}})();
+    (function(){var l=localStorage.getItem('autoluxe_locale');if(l==='vi'||l==='en'){document.documentElement.lang=l}})();
+  </script>
   <link rel="stylesheet" href="../assets/css/reset.css">
   <link rel="stylesheet" href="../assets/css/variables.css">
   <link rel="stylesheet" href="../assets/css/layout.css">
@@ -20,16 +24,16 @@
 
       <nav class="site-nav" id="siteNav">
         <ul class="site-nav__list">
-          <li><a href="../index.html" class="site-nav__link">Trang chủ</a></li>
-          <li><a href="./catalog.html" class="site-nav__link">Catalog</a></li>
-          <li><a href="./brands.html" class="site-nav__link">Thương hiệu</a></li>
-          <li><a href="./marketplace.html" class="site-nav__link">Marketplace</a></li>
-          <li><a href="./wishlist.html" class="site-nav__link">Wishlist</a></li>
+                    <li><a href="../index.html" class="site-nav__link" data-i18n="nav.home">Trang chủ</a></li>
+          <li><a href="./catalog.html" class="site-nav__link" data-i18n="nav.catalog">Catalog</a></li>
+          <li><a href="./marketplace.html" class="site-nav__link" data-i18n="nav.marketplace">Marketplace</a></li>
+          <li><a href="./wishlist.html" class="site-nav__link" data-i18n="nav.wishlist">Yêu thích</a></li>
+          <li><a href="./compare.html" class="site-nav__link" data-i18n="nav.compare">So sánh</a></li>
         </ul>
       </nav>
 
       <div class="site-header__cta">
-        <a href="./auth.html" class="btn btn--primary btn--sm">Đăng nhập</a>
+        <a href="./auth.html" class="btn btn--primary btn--sm" data-i18n="common.login">Đăng nhập</a>
       </div>
 
       <button class="nav-toggle" id="navToggle" aria-label="Menu">
@@ -44,114 +48,98 @@
   <main class="site-main">
     <section class="section">
       <div class="container auth-container">
-        <h1 class="section-title section-title--center">Tài Khoản</h1>
+        <h1 class="section-title section-title--center" data-i18n="auth.title">Tài Khoản</h1>
         <div class="divider divider--center"></div>
-        <p class="section-subtitle section-subtitle--center">Đăng nhập hoặc tạo tài khoản mới để sử dụng đầy đủ tính năng AutoLuxe.</p>
+        <p class="section-subtitle section-subtitle--center" data-i18n="auth.subtitle">Đăng nhập hoặc tạo tài khoản mới để sử dụng đầy đủ tính năng AutoLuxe.</p>
 
         <!-- Logged-in state message -->
         <div id="authLoggedIn" style="display:none; text-align:center; margin-bottom:var(--space-xl);">
           <p style="color:var(--color-success); font-size:var(--fs-lg); margin-bottom:var(--space-md);">Bạn đã đăng nhập với tên <strong id="loggedInName"></strong></p>
-          <button class="btn btn--secondary" id="btnAuthLogout">Đăng xuất</button>
+          <button class="btn btn--secondary" id="btnAuthLogout" data-i18n="common.logout">Đăng xuất</button>
         </div>
 
         <!-- Auth forms wrapper (hidden when logged in) -->
         <div id="authFormsWrapper">
           <!-- Tab Switch -->
-          <div class="auth-tabs">
-            <button class="btn btn--primary btn--sm is-active-tab" id="tabLogin" type="button">Đăng nhập</button>
-            <button class="btn btn--secondary btn--sm" id="tabRegister" type="button">Đăng ký</button>
+          <div class="auth-tabs tab-strip">
+            <button class="btn btn--primary btn--sm is-active-tab" id="tabLogin" type="button" data-i18n="auth.tab_login">Đăng nhập</button>
+            <button class="btn btn--secondary btn--sm" id="tabRegister" type="button" data-i18n="auth.tab_register">Đăng ký</button>
           </div>
 
+          <div class="auth-forms-stack">
           <!-- Login Form -->
-          <form id="loginForm" novalidate>
+          <form id="loginForm" class="auth-form-panel is-active" method="post" action="./auth.html" novalidate autocomplete="on">
             <div class="auth-message auth-message--error" id="loginError"></div>
             <div class="auth-message auth-message--success" id="loginSuccess"></div>
 
             <div class="input-group">
-              <label class="label" for="loginEmail">Email *</label>
-              <input type="email" class="input" id="loginEmail" placeholder="you@example.com" autocomplete="email">
+              <label class="label" for="loginEmail" data-i18n="auth.email_label">Email *</label>
+              <input type="email" class="input" id="loginEmail" name="username" placeholder="you@example.com" data-i18n-placeholder="auth.email_ph" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false" required>
               <span class="field-error" id="loginEmailError"></span>
             </div>
 
             <div class="input-group">
-              <label class="label" for="loginPassword">Mật khẩu *</label>
-              <input type="password" class="input" id="loginPassword" placeholder="Nhập mật khẩu..." autocomplete="current-password">
+              <label class="label" for="loginPassword" data-i18n="auth.password_label">Mật khẩu *</label>
+              <input type="password" class="input" id="loginPassword" name="password" placeholder="Nhập mật khẩu..." data-i18n-placeholder="auth.password_ph" autocomplete="current-password" required>
               <span class="field-error" id="loginPasswordError"></span>
             </div>
 
-            <button type="submit" class="btn btn--primary btn--lg" id="loginSubmit" style="width:100%; margin-top:var(--space-md);">Đăng nhập</button>
+            <button type="submit" class="btn btn--primary btn--lg" id="loginSubmit" style="width:100%; margin-top:var(--space-md);" data-i18n="auth.login_btn">Đăng nhập</button>
           </form>
 
           <!-- Register Form -->
-          <form id="registerForm" style="display:none;" novalidate>
+          <form id="registerForm" class="auth-form-panel" method="post" action="./auth.html" novalidate autocomplete="off" hidden>
             <div class="auth-message auth-message--error" id="registerError"></div>
             <div class="auth-message auth-message--success" id="registerSuccess"></div>
 
             <div class="input-group">
-              <label class="label" for="regName">Tên hiển thị *</label>
-              <input type="text" class="input" id="regName" placeholder="Tên của bạn (ít nhất 2 ký tự)" autocomplete="name">
+              <label class="label" for="regName" data-i18n="auth.name_label">Tên hiển thị *</label>
+              <input type="text" class="input" id="regName" name="name" placeholder="Tên của bạn (ít nhất 2 ký tự)" data-i18n-placeholder="auth.name_ph" autocomplete="name">
               <span class="field-error" id="regNameError"></span>
             </div>
 
             <div class="input-group">
-              <label class="label" for="regEmail">Email *</label>
-              <input type="email" class="input" id="regEmail" placeholder="you@example.com" autocomplete="email">
+              <label class="label" for="regEmail" data-i18n="auth.email_label">Email *</label>
+              <input type="email" class="input" id="regEmail" name="email" placeholder="you@example.com" data-i18n-placeholder="auth.email_ph" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false">
               <span class="field-error" id="regEmailError"></span>
             </div>
 
             <div class="input-group">
-              <label class="label" for="regPassword">Mật khẩu *</label>
-              <input type="password" class="input" id="regPassword" placeholder="Tối thiểu 6 ký tự" autocomplete="new-password">
+              <label class="label" for="regPassword" data-i18n="auth.password_label">Mật khẩu *</label>
+              <input type="password" class="input" id="regPassword" name="password" placeholder="Tối thiểu 6 ký tự" data-i18n-placeholder="auth.min_6_chars" autocomplete="new-password">
               <span class="field-error" id="regPasswordError"></span>
             </div>
 
             <div class="input-group">
-              <label class="label" for="regConfirm">Xác nhận mật khẩu *</label>
-              <input type="password" class="input" id="regConfirm" placeholder="Nhập lại mật khẩu" autocomplete="new-password">
+              <label class="label" for="regConfirm" data-i18n="auth.confirm_label">Xác nhận mật khẩu *</label>
+              <input type="password" class="input" id="regConfirm" name="confirm-password" placeholder="Nhập lại mật khẩu" data-i18n-placeholder="auth.confirm_ph" autocomplete="new-password">
               <span class="field-error" id="regConfirmError"></span>
             </div>
 
-            <button type="submit" class="btn btn--primary btn--lg" id="registerSubmit" style="width:100%; margin-top:var(--space-md);">Tạo tài khoản</button>
+            <button type="submit" class="btn btn--primary btn--lg" id="registerSubmit" style="width:100%; margin-top:var(--space-md);" data-i18n="auth.register_btn">Tạo tài khoản</button>
           </form>
+          </div>
         </div>
       </div>
     </section>
   </main>
-
   <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="site-footer__grid">
-        <div class="site-footer__info">
-          <p class="site-footer__brand">Auto<span>Luxe</span></p>
-          <p class="site-footer__desc">Nền tảng khám phá và chia sẻ đam mê siêu xe hàng đầu. Kết nối cộng đồng yêu tốc độ và nghệ thuật ô tô.</p>
-        </div>
-        <div class="site-footer__col">
-          <h4 class="site-footer__heading">Khám phá</h4>
-          <ul class="site-footer__links">
-            <li><a href="./catalog.html" class="site-footer__link">Catalog</a></li>
-            <li><a href="./brands.html" class="site-footer__link">Thương hiệu</a></li>
-            <li><a href="./marketplace.html" class="site-footer__link">Marketplace</a></li>
-          </ul>
-        </div>
-        <div class="site-footer__col">
-          <h4 class="site-footer__heading">Tài khoản</h4>
-          <ul class="site-footer__links">
-            <li><a href="./auth.html" class="site-footer__link">Đăng nhập</a></li>
-            <li><a href="./post-editor.html" class="site-footer__link">Đăng tin</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="site-footer__bottom">
-        <p>&copy; 2024 AutoLuxe. All rights reserved.</p>
-      </div>
+  <footer class="site-footer site-footer--compact">
+    <div class="container site-footer__compact">
+      <a href="../index.html" class="site-footer__brand">Auto<span>Luxe</span></a>
+      <p class="site-footer__compact-copy" data-i18n="footer.copyright">&copy; 2024 AutoLuxe. All rights reserved.</p>
     </div>
   </footer>
 
   <script src="../assets/js/storage.js"></script>
+  <script src="../assets/js/i18n.js"></script>
+  <script>I18n.initI18n();</script>
+  <script src="../assets/js/account.js"></script>
   <script src="../assets/js/auth.js"></script>
   <script src="../assets/js/toast.js"></script>
   <script src="../assets/js/notifications.js"></script>
+  <script src="../assets/js/theme.js"></script>
+  <script src="../assets/js/motion-prefs.js"></script>
   <script src="../assets/js/app.js"></script>
   <script>
     (function () {
@@ -195,24 +183,50 @@
         checkAuthState();
       };
 
-      // Tab switching
+      function updateAuthTabIndicator(activeBtn) {
+        var strip = document.querySelector('.auth-tabs');
+        if (!strip || !activeBtn) return;
+        var motion = window.AutoLuxeMotion;
+        if (motion && typeof motion.updateTabStripIndicator === 'function') {
+          motion.updateTabStripIndicator(strip, activeBtn);
+          return;
+        }
+        var stripRect = strip.getBoundingClientRect();
+        var btnRect = activeBtn.getBoundingClientRect();
+        var left = btnRect.left - stripRect.left + strip.scrollLeft;
+        strip.style.setProperty('--tab-indicator-left', left + 'px');
+        strip.style.setProperty('--tab-indicator-width', btnRect.width + 'px');
+      }
+
+      // Tab switching (crossfade)
       function showTab(tab) {
         clearAllErrors();
-        if (tab === 'login') {
-          loginForm.style.display = 'block';
-          registerForm.style.display = 'none';
+        var isLogin = tab === 'login';
+        loginForm.classList.toggle('is-active', isLogin);
+        registerForm.classList.toggle('is-active', !isLogin);
+        loginForm.hidden = !isLogin;
+        registerForm.hidden = isLogin;
+        loginForm.setAttribute('autocomplete', isLogin ? 'on' : 'off');
+        registerForm.setAttribute('autocomplete', isLogin ? 'off' : 'on');
+
+        if (isLogin) {
           tabLogin.className = 'btn btn--primary btn--sm is-active-tab';
           tabRegister.className = 'btn btn--secondary btn--sm';
+          updateAuthTabIndicator(tabLogin);
         } else {
-          loginForm.style.display = 'none';
-          registerForm.style.display = 'block';
           tabLogin.className = 'btn btn--secondary btn--sm';
           tabRegister.className = 'btn btn--primary btn--sm is-active-tab';
+          updateAuthTabIndicator(tabRegister);
         }
       }
 
       tabLogin.addEventListener('click', function () { showTab('login'); });
       tabRegister.addEventListener('click', function () { showTab('register'); });
+      showTab('login');
+      window.addEventListener('resize', function () {
+        var activeAuthTab = document.querySelector('.auth-tabs .is-active-tab');
+        if (activeAuthTab) updateAuthTabIndicator(activeAuthTab);
+      });
 
       // Error helpers
       function showFieldError(fieldId, message) {
@@ -260,6 +274,13 @@
         hideFormMessage('registerSuccess');
       }
 
+      function getLoginRedirectUrl() {
+        var params = new URLSearchParams(window.location.search);
+        var redirect = params.get('redirect');
+        if (redirect) return redirect;
+        return '../index.html';
+      }
+
       // LOGIN FORM SUBMIT
       loginForm.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -270,40 +291,28 @@
 
         var loginBtn = document.getElementById('loginSubmit');
         loginBtn.disabled = true;
-        loginBtn.textContent = 'Đang xử lý...';
+        loginBtn.textContent = _t('common.processing');
 
-        // Small delay for UX
-        setTimeout(function () {
-          var result = Auth.login(email, password);
+        var result = Auth.login(email, password);
 
-          if (!result.success) {
-            result.errors.forEach(function (err) {
-              showFieldError(err.field, err.message);
-            });
-            // Focus first error field
-            if (result.errors.length > 0) {
-              var firstField = document.getElementById(result.errors[0].field);
-              if (firstField) firstField.focus();
-            }
-          } else {
-            showFormMessage('loginSuccess', 'Đăng nhập thành công! Đang chuyển hướng...');
-            Auth.updateHeaderUI();
-
-            setTimeout(function () {
-              // Check for redirect param
-              var params = new URLSearchParams(window.location.search);
-              var redirect = params.get('redirect');
-              if (redirect) {
-                window.location.href = redirect;
-              } else {
-                window.location.href = '../index.html';
-              }
-            }, 800);
+        if (!result.success) {
+          result.errors.forEach(function (err) {
+            showFieldError(err.field, err.message);
+          });
+          if (result.errors.length > 0) {
+            var firstField = document.getElementById(result.errors[0].field);
+            if (firstField) firstField.focus();
           }
-
           loginBtn.disabled = false;
-          loginBtn.textContent = 'Đăng nhập';
-        }, 300);
+          loginBtn.textContent = _t('auth.login_btn');
+          return;
+        }
+
+        showFormMessage('loginSuccess', _t('auth.login_success'));
+        Auth.updateHeaderUI();
+
+        // Full navigation helps browsers offer "Save password"
+        window.location.assign(getLoginRedirectUrl());
       });
 
       // REGISTER FORM SUBMIT
@@ -318,7 +327,7 @@
 
         var regBtn = document.getElementById('registerSubmit');
         regBtn.disabled = true;
-        regBtn.textContent = 'Đang xử lý...';
+        regBtn.textContent = _t('common.processing');
 
         setTimeout(function () {
           var result = Auth.register(fullName, email, password, confirm);
@@ -333,7 +342,7 @@
               if (firstField) firstField.focus();
             }
           } else {
-            showFormMessage('registerSuccess', 'Đăng ký thành công! Đang chuyển hướng...');
+            showFormMessage('registerSuccess', _t('auth.register_success'));
             Auth.updateHeaderUI();
 
             setTimeout(function () {
@@ -342,7 +351,7 @@
           }
 
           regBtn.disabled = false;
-          regBtn.textContent = 'Tạo tài khoản';
+          regBtn.textContent = _t('auth.register_btn');
         }, 300);
       });
 

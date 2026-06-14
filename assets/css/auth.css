@@ -7,6 +7,23 @@
 .auth-container {
   max-width: 480px;
   margin: 0 auto;
+  padding: var(--space-2xl);
+  background: var(--gradient-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gradient-accent);
 }
 
 /* === Tab Switcher === */
@@ -14,14 +31,16 @@
   display: flex;
   gap: var(--space-sm);
   margin-bottom: var(--space-xl);
-  border-bottom: 1px solid var(--color-border);
-  padding-bottom: var(--space-sm);
 }
 
-.auth-tabs .btn.is-active-tab {
+.auth-tabs.tab-strip .btn.is-active-tab {
   background-color: var(--color-accent);
   color: #ffffff;
   border-color: var(--color-accent);
+}
+
+.auth-forms-stack {
+  margin-top: var(--space-md);
 }
 
 /* === Form Messages === */
@@ -47,12 +66,26 @@
 
 .auth-message.is-visible {
   display: block;
+  animation: authMessageIn 0.32s var(--ease-out-back) both;
+}
+
+@keyframes authMessageIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* === Field Error === */
 .input--error {
   border-color: var(--color-error) !important;
   box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.15) !important;
+  animation: inputShake 0.4s ease both;
+}
+
+@keyframes inputShake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
 }
 
 .field-error {
@@ -79,10 +112,18 @@
   color: var(--color-text-primary);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .auth-message.is-visible,
+  .input--error {
+    animation: none !important;
+  }
+}
+
 /* === Responsive === */
 @media (max-width: 767px) {
   .auth-container {
     max-width: 100%;
+    padding: var(--space-xl);
   }
 
   .auth-tabs {

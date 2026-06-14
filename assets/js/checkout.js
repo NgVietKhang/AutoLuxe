@@ -25,6 +25,9 @@ var Checkout = (function () {
   }
 
   function formatPrice(price) {
+    if (typeof I18n !== 'undefined' && typeof I18n.formatCurrency === 'function') {
+      return I18n.formatCurrency(price || 0);
+    }
     if (!price && price !== 0) return '$0';
     return '$' + Number(price).toLocaleString('en-US');
   }
@@ -48,38 +51,38 @@ var Checkout = (function () {
 
   function validateFullName(value) {
     var trimmed = (value || '').trim();
-    if (!trimmed) return 'Vui lòng nhập họ tên.';
-    if (trimmed.length < 2) return 'Họ tên phải có ít nhất 2 ký tự.';
+    if (!trimmed) return _t('val.required_fullname');
+    if (trimmed.length < 2) return _t('val.min_fullname');
     return null;
   }
 
   function validatePhone(value) {
     var trimmed = (value || '').trim();
-    if (!trimmed) return 'Vui lòng nhập số điện thoại.';
+    if (!trimmed) return _t('val.required_phone');
     // Allow +84 prefix or 0 prefix, 9-11 digits total
     var phoneRegex = /^(\+84|0)\d{8,10}$/;
-    if (!phoneRegex.test(trimmed)) return 'SĐT không hợp lệ (VD: 0912345678 hoặc +84912345678).';
+    if (!phoneRegex.test(trimmed)) return _t('val.invalid_phone');
     return null;
   }
 
   function validateEmail(value) {
     var trimmed = (value || '').trim();
-    if (!trimmed) return 'Vui lòng nhập email.';
+    if (!trimmed) return _t('val.required_email');
     var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(trimmed)) return 'Email không đúng định dạng.';
+    if (!emailRegex.test(trimmed)) return _t('val.invalid_email');
     return null;
   }
 
   function validateAddress(value) {
     var trimmed = (value || '').trim();
-    if (!trimmed) return 'Vui lòng nhập địa chỉ nhận xe/chứng từ.';
-    if (trimmed.length < 5) return 'Địa chỉ phải có ít nhất 5 ký tự.';
+    if (!trimmed) return _t('val.required_address');
+    if (trimmed.length < 5) return _t('val.min_address');
     return null;
   }
 
   function validatePaymentMethod(value) {
     var trimmed = (value || '').trim();
-    if (!trimmed) return 'Vui lòng chọn phương thức thanh toán.';
+    if (!trimmed) return _t('val.required_payment');
     return null;
   }
 
@@ -119,7 +122,7 @@ var Checkout = (function () {
         '<h2 class="ck-error-state__title">' + escapeHtml(title) + '</h2>' +
         '<p class="ck-error-state__desc">' + escapeHtml(desc) + '</p>' +
         '<div class="ck-error-state__actions">' +
-          '<a href="./marketplace.html" class="btn btn--primary">← Quay lại Marketplace</a>' +
+          '<a href="./marketplace.html" class="btn btn--primary">' + _t('md.back') + '</a>' +
         '</div>' +
       '</div>';
   }
@@ -134,11 +137,11 @@ var Checkout = (function () {
     content.innerHTML =
       '<div class="ck-success-state">' +
         '<div class="ck-success-state__icon">✅</div>' +
-        '<h2 class="ck-success-state__title">Đặt mua thành công!</h2>' +
-        '<p class="ck-success-state__desc">Đơn hàng <strong>' + escapeHtml(order.orderId) + '</strong> đã được tạo. Chúng tôi sẽ liên hệ bạn sớm nhất.</p>' +
+        '<h2 class="ck-success-state__title">' + _t('checkout.success_title') + '</h2>' +
+        '<p class="ck-success-state__desc">' + _t('checkout.success_desc', { orderId: order.orderId }) + '</p>' +
         '<div class="ck-success-state__actions">' +
-          '<a href="./market-detail.html?id=' + encodeURIComponent(order.postId) + '" class="btn btn--secondary">Xem lại tin</a>' +
-          '<a href="./marketplace.html" class="btn btn--primary">Marketplace</a>' +
+          '<a href="./market-detail.html?id=' + encodeURIComponent(order.postId) + '" class="btn btn--secondary">' + _t('checkout.view_post') + '</a>' +
+          '<a href="./marketplace.html" class="btn btn--primary">' + _t('checkout.view_marketplace') + '</a>' +
         '</div>' +
       '</div>';
   }
@@ -159,20 +162,20 @@ var Checkout = (function () {
     }
 
     var html =
-      '<a href="./market-detail.html?id=' + encodeURIComponent(post.id) + '" class="ck-back">← Quay lại chi tiết tin</a>' +
+      '<a href="./market-detail.html?id=' + encodeURIComponent(post.id) + '" class="ck-back">' + _t('checkout.back') + '</a>' +
 
-      '<h1 class="section-title">Thanh toán đơn hàng</h1>' +
-      '<p class="section-subtitle">Xác nhận thông tin mua xe và hoàn tất đặt hàng</p>' +
+      '<h1 class="section-title">' + _t('checkout.title') + '</h1>' +
+      '<p class="section-subtitle">' + _t('checkout.subtitle') + '</p>' +
 
       '<div class="ck-layout">' +
 
         /* Order summary */
         '<div class="ck-summary">' +
-          '<h2 class="ck-summary__heading">Thông tin xe</h2>' +
+          '<h2 class="ck-summary__heading">' + _t('checkout.car_info') + '</h2>' +
           '<div class="ck-summary__card">' +
             imageHtml +
             '<div class="ck-summary__info">' +
-              '<span class="badge">' + escapeHtml(post.brand || 'N/A') + '</span>' +
+              '<span class="badge">' + escapeHtml(post.brand || _t('common.na')) + '</span>' +
               '<h3 class="ck-summary__title">' + escapeHtml(post.title) + '</h3>' +
               '<p class="ck-summary__price">' + formatPrice(post.price) + '</p>' +
               '<p class="ck-summary__meta">' + escapeHtml((post.year ? post.year + ' • ' : '') + (post.location || '')) + '</p>' +
@@ -182,52 +185,52 @@ var Checkout = (function () {
 
         /* Checkout form */
         '<div class="ck-form-wrap">' +
-          '<h2 class="ck-form-wrap__heading">Thông tin người mua</h2>' +
+          '<h2 class="ck-form-wrap__heading">' + _t('checkout.buyer_info') + '</h2>' +
           '<form id="checkoutForm" novalidate>' +
 
             '<div class="input-group">' +
-              '<label class="label" for="ckFullName">Họ tên <span class="ck-required">*</span></label>' +
-              '<input type="text" class="input" id="ckFullName" placeholder="Nguyễn Văn A" autocomplete="name">' +
+              '<label class="label" for="ckFullName">' + _t('checkout.fullname') + ' <span class="ck-required">*</span></label>' +
+              '<input type="text" class="input" id="ckFullName" placeholder="' + _t('checkout.fullname_ph') + '" autocomplete="name">' +
               '<span class="field-error" id="errFullName"></span>' +
             '</div>' +
 
             '<div class="input-group">' +
-              '<label class="label" for="ckPhone">Số điện thoại <span class="ck-required">*</span></label>' +
-              '<input type="tel" class="input" id="ckPhone" placeholder="0912345678" autocomplete="tel">' +
+              '<label class="label" for="ckPhone">' + _t('checkout.phone') + ' <span class="ck-required">*</span></label>' +
+              '<input type="tel" class="input" id="ckPhone" placeholder="' + _t('checkout.phone_ph') + '" autocomplete="tel">' +
               '<span class="field-error" id="errPhone"></span>' +
             '</div>' +
 
             '<div class="input-group">' +
-              '<label class="label" for="ckEmail">Email <span class="ck-required">*</span></label>' +
-              '<input type="email" class="input" id="ckEmail" placeholder="example@email.com" autocomplete="email">' +
+              '<label class="label" for="ckEmail">' + _t('checkout.email') + ' <span class="ck-required">*</span></label>' +
+              '<input type="email" class="input" id="ckEmail" placeholder="' + _t('checkout.email_ph') + '" autocomplete="email">' +
               '<span class="field-error" id="errEmail"></span>' +
             '</div>' +
 
             '<div class="input-group">' +
-              '<label class="label" for="ckAddress">Địa chỉ nhận xe/chứng từ <span class="ck-required">*</span></label>' +
-              '<textarea class="input" id="ckAddress" placeholder="Số nhà, đường, quận/huyện, tỉnh/TP" rows="3"></textarea>' +
+              '<label class="label" for="ckAddress">' + _t('checkout.address') + ' <span class="ck-required">*</span></label>' +
+              '<textarea class="input" id="ckAddress" placeholder="' + _t('checkout.address_ph') + '" rows="3"></textarea>' +
               '<span class="field-error" id="errAddress"></span>' +
             '</div>' +
 
             '<div class="input-group">' +
-              '<label class="label" for="ckPayment">Phương thức thanh toán <span class="ck-required">*</span></label>' +
+              '<label class="label" for="ckPayment">' + _t('checkout.payment') + ' <span class="ck-required">*</span></label>' +
               '<select class="input" id="ckPayment">' +
-                '<option value="">-- Chọn phương thức --</option>' +
-                '<option value="bank_transfer">Chuyển khoản ngân hàng</option>' +
-                '<option value="cash">Thanh toán tiền mặt khi nhận xe</option>' +
-                '<option value="installment">Trả góp qua ngân hàng</option>' +
-                '<option value="crypto">Thanh toán qua ví điện tử</option>' +
+                '<option value="">' + _t('checkout.payment_ph') + '</option>' +
+                '<option value="bank_transfer">' + _t('checkout.payment_bank') + '</option>' +
+                '<option value="cash">' + _t('checkout.payment_cash') + '</option>' +
+                '<option value="installment">' + _t('checkout.payment_installment') + '</option>' +
+                '<option value="crypto">' + _t('checkout.payment_crypto') + '</option>' +
               '</select>' +
               '<span class="field-error" id="errPayment"></span>' +
             '</div>' +
 
             '<div class="input-group">' +
-              '<label class="label" for="ckNote">Ghi chú (tùy chọn)</label>' +
-              '<textarea class="input" id="ckNote" placeholder="Ghi chú thêm cho đơn hàng..." rows="2"></textarea>' +
+              '<label class="label" for="ckNote">' + _t('checkout.note') + '</label>' +
+              '<textarea class="input" id="ckNote" placeholder="' + _t('checkout.note_ph') + '" rows="2"></textarea>' +
             '</div>' +
 
             '<div class="ck-form-wrap__actions">' +
-              '<button type="submit" class="btn btn--primary btn--lg" id="btnSubmitOrder">🛒 Đặt mua</button>' +
+              '<button type="submit" class="btn btn--primary btn--lg" id="btnSubmitOrder">' + _t('checkout.submit') + '</button>' +
             '</div>' +
 
           '</form>' +
@@ -317,11 +320,11 @@ var Checkout = (function () {
     // Re-check post status (prevent race condition / double buy)
     var freshPost = Marketplace.getPostById(currentPostId);
     if (!freshPost) {
-      showToast('Tin rao không còn tồn tại.', 'error');
+      showToast(_t('checkout.err_post_gone'), 'error');
       return;
     }
     if (freshPost.status === 'pending') {
-      showToast('Tin rao này đã được đặt mua bởi người khác.', 'error');
+      showToast(_t('checkout.err_already_pending'), 'error');
       return;
     }
 
@@ -350,7 +353,7 @@ var Checkout = (function () {
     // Step 1: Update post status to pending
     var postUpdated = Marketplace.updatePost(currentPostId, { status: 'pending' });
     if (!postUpdated) {
-      showToast('Không thể cập nhật trạng thái tin. Vui lòng thử lại.', 'error');
+      showToast(_t('checkout.err_update_post'), 'error');
       return;
     }
 
@@ -359,7 +362,7 @@ var Checkout = (function () {
     if (!orderSaved) {
       // Rollback post status
       Marketplace.updatePost(currentPostId, { status: 'available' });
-      showToast('Không thể lưu đơn hàng. Vui lòng thử lại.', 'error');
+      showToast(_t('checkout.err_save_order'), 'error');
       return;
     }
 
@@ -367,27 +370,50 @@ var Checkout = (function () {
     renderSuccess(order);
 
     // --- Phase 10: Trigger notifications ---
-    if (typeof Notifications !== 'undefined') {
-      // Notification for buyer
-      if (order.buyerUserEmail) {
-        Notifications.addNotification({
-          userKey: order.buyerUserEmail,
-          type: 'order_success',
-          title: 'Đặt mua thành công!',
-          message: 'Đơn hàng ' + order.orderId + ' cho "' + (freshPost.title || '') + '" đã được tạo.',
-          link: './market-detail.html?id=' + encodeURIComponent(order.postId),
-          metadata: { orderId: order.orderId, postId: order.postId }
+    if (typeof Notifications !== 'undefined' && typeof Notifications.emitEvent === 'function') {
+      var buyerEmail = String(order.buyerUserEmail || '').trim().toLowerCase();
+      var sellerEmail = String(freshPost.ownerEmail || '').trim().toLowerCase();
+      var adminEmail = (typeof Auth !== 'undefined' && Auth.ADMIN_EMAIL)
+        ? String(Auth.ADMIN_EMAIL).trim().toLowerCase()
+        : '';
+      var buyerName = order.buyer && order.buyer.fullName ? order.buyer.fullName : _t('market.anonymous');
+      var meta = { orderId: order.orderId, postId: order.postId };
+
+      if (buyerEmail) {
+        Notifications.emitEvent('order_created_buyer', {
+          userKey: buyerEmail,
+          orderId: order.orderId,
+          postId: order.postId,
+          params: { orderId: order.orderId, title: freshPost.title || '' },
+          metadata: meta
         });
       }
-      // Notification for seller (post status change)
-      if (freshPost.ownerEmail && freshPost.ownerEmail !== (order.buyerUserEmail || '')) {
-        Notifications.addNotification({
-          userKey: freshPost.ownerEmail,
-          type: 'post_status_change',
-          title: 'Có đơn mua mới',
-          message: 'Xe "' + (freshPost.title || '') + '" đã được đặt mua bởi ' + (order.buyer.fullName || 'một người dùng') + '.',
-          link: './market-detail.html?id=' + encodeURIComponent(order.postId),
-          metadata: { orderId: order.orderId, postId: order.postId }
+
+      if (sellerEmail && sellerEmail !== buyerEmail) {
+        Notifications.emitEvent('order_created_seller', {
+          userKey: sellerEmail,
+          orderId: order.orderId,
+          postId: order.postId,
+          params: {
+            orderId: order.orderId,
+            title: freshPost.title || '',
+            buyer: buyerName
+          },
+          metadata: meta
+        });
+      }
+
+      if (adminEmail) {
+        Notifications.emitEvent('order_created_admin', {
+          userKey: adminEmail,
+          orderId: order.orderId,
+          postId: order.postId,
+          params: {
+            orderId: order.orderId,
+            title: freshPost.title || '',
+            buyer: buyerName
+          },
+          metadata: meta
         });
       }
     }
@@ -414,7 +440,7 @@ var Checkout = (function () {
 
     // No postId in URL
     if (!currentPostId) {
-      renderError('Thiếu thông tin tin rao', 'Không tìm thấy mã tin rao trong URL. Vui lòng quay lại marketplace và chọn xe cần mua.');
+      renderError(_t('checkout.err_no_post_id'), _t('checkout.err_no_post_id_desc'));
       return;
     }
 
@@ -427,13 +453,13 @@ var Checkout = (function () {
 
     // Post not found
     if (!currentPost) {
-      renderError('Tin rao không tồn tại', 'Tin rao bạn đang cố mua không tồn tại hoặc đã bị xóa.');
+      renderError(_t('checkout.err_not_found'), _t('checkout.err_not_found_desc'));
       return;
     }
 
     // Post already pending
     if (currentPost.status === 'pending') {
-      renderError('Tin rao không khả dụng', 'Tin rao này đang trong trạng thái chờ xử lý và không thể đặt mua.');
+      renderError(_t('checkout.err_pending'), _t('checkout.err_pending_desc'));
       return;
     }
 

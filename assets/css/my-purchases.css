@@ -1,0 +1,340 @@
+/* =============================================
+  MY-PURCHASES.CSS - AutoLuxe Supercar Web
+  ============================================= */
+
+.purchases-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.purchases-header .section-subtitle {
+  margin-bottom: var(--space-lg);
+}
+
+.purchases-context {
+  color: var(--color-text-secondary);
+  margin: var(--space-sm) 0 0;
+  line-height: 1.6;
+}
+
+.purchases-hint {
+  margin: var(--space-sm) 0 var(--space-lg);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-elevated);
+  color: var(--color-text-secondary);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
+}
+
+.purchases-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-lg);
+}
+
+.purchases-toolbar .input-group {
+  min-width: 220px;
+  margin: 0;
+}
+
+.purchase-list {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.purchase-list.list-surface--refresh .purchase-card,
+.purchase-list.list-surface--refresh .purchase-empty {
+  animation: listSurfaceRefresh var(--transition-smooth) both;
+}
+
+.purchase-list.list-surface--refresh .purchase-card:nth-child(2),
+.purchase-list.list-surface--refresh .purchase-empty {
+  animation-delay: 60ms;
+}
+
+.purchase-list.list-surface--refresh .purchase-card:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.purchase-card {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-bg-card);
+}
+
+.purchase-card--focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 25%, transparent);
+  animation: purchaseFocusPulse 1.6s ease;
+}
+
+@keyframes purchaseFocusPulse {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}
+
+.purchase-card__image {
+  background: var(--color-bg-elevated);
+  overflow: hidden;
+}
+
+.purchase-card__image img {
+  width: 100%;
+  height: 100%;
+  min-height: 210px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s var(--ease-out-expo);
+}
+
+.purchase-card:hover .purchase-card__image img {
+  transform: scale(1.05);
+}
+
+.purchase-card__image--fallback {
+  min-height: 210px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-4xl);
+  color: var(--color-text-muted);
+}
+
+.purchase-card__body {
+  padding: var(--space-lg);
+  display: grid;
+  gap: var(--space-md);
+}
+
+.purchase-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.purchase-card__title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-lg);
+  margin: 0 0 var(--space-xs);
+}
+
+.purchase-card__meta {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.purchase-card__meta + .purchase-card__meta {
+  margin-top: var(--space-xs);
+}
+
+.purchase-card__price {
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-black);
+  color: var(--color-accent);
+}
+
+.purchase-card__timeline {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+  margin-top: var(--space-xs);
+}
+
+.js-cancel-countdown {
+  font-weight: var(--fw-bold);
+  color: var(--color-accent);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.3px;
+}
+
+.purchase-card__hint {
+  margin: 0;
+  font-size: var(--fs-sm);
+}
+
+.purchase-card__hint--muted {
+  color: var(--color-text-muted);
+}
+
+.purchase-review-banner {
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  background: rgba(34, 197, 94, 0.08);
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.purchase-review-banner__title {
+  margin: 0;
+  font-weight: var(--fw-semibold);
+  color: #166534;
+}
+
+.purchase-review-banner__desc {
+  margin: 0 0 var(--space-xs);
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}
+
+.purchase-card__actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.purchase-status {
+  align-self: flex-start;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  border: 1px solid transparent;
+  animation: badgePop 0.45s var(--ease-out-back) both;
+}
+
+.purchase-status--new,
+.purchase-status--confirmed,
+.purchase-status--pending,
+.purchase-status--shipping {
+  color: #9a6700;
+  background: rgba(234, 179, 8, 0.12);
+  border-color: rgba(234, 179, 8, 0.4);
+}
+
+.purchase-status--rejected {
+  color: #9a3412;
+  background: rgba(249, 115, 22, 0.12);
+  border-color: rgba(249, 115, 22, 0.35);
+}
+
+.purchase-status--delivered {
+  color: #166534;
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+.purchase-status--cancelled {
+  color: #991b1b;
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.purchase-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-4xl) var(--space-md);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-card);
+}
+
+.purchase-empty__icon {
+  font-size: var(--fs-4xl);
+  margin-bottom: var(--space-lg);
+}
+
+.purchase-empty__title {
+  font-family: var(--font-heading);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-bold);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-sm);
+}
+
+.purchase-empty__desc {
+  font-size: var(--fs-base);
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+  margin: 0 0 var(--space-xl);
+  max-width: 420px;
+}
+
+.purchase-empty__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .purchase-card__image img,
+  .purchase-status {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .purchase-card {
+    grid-template-columns: 1fr;
+  }
+
+  .purchase-card__image img,
+  .purchase-card__image--fallback {
+    min-height: 180px;
+  }
+}
+
+@media (max-width: 767px) {
+  .purchases-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .purchase-card__header {
+    flex-direction: column;
+  }
+}
+
+/* Order timeline (shared markup with admin orders) */
+.purchase-timeline {
+  margin-top: var(--space-md);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-muted);
+  border: 1px solid var(--color-border);
+}
+
+.purchase-timeline__title {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  margin-bottom: var(--space-sm);
+}
+
+.purchase-timeline__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.purchase-timeline__item {
+  font-size: var(--fs-sm);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.purchase-timeline__item strong {
+  color: var(--color-text);
+}
+
+.purchase-timeline__note {
+  display: block;
+  margin-top: var(--space-xs);
+  font-style: italic;
+}

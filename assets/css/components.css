@@ -16,7 +16,7 @@
   letter-spacing: 0.5px;
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: color var(--transition-base), background-color var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-smooth), transform var(--transition-smooth);
   white-space: nowrap;
 }
 
@@ -30,7 +30,7 @@
   background-color: var(--color-accent-hover);
   border-color: var(--color-accent-hover);
   box-shadow: var(--shadow-accent);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .btn--primary:active {
@@ -51,6 +51,28 @@
 
 .btn--secondary:active {
   transform: translateY(0);
+}
+
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 2px solid var(--color-border-light);
+}
+
+.btn--ghost:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.btn--ghost:active {
+  transform: translateY(0);
+}
+
+.compare-btn-add.is-active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: rgba(230, 57, 70, 0.08);
 }
 
 .btn--sm {
@@ -250,6 +272,164 @@ textarea:focus-visible {
   box-shadow: none !important;
 }
 
+/* === Language Switcher === */
+.lang-switch {
+  display: inline-flex;
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.lang-switch__btn {
+  padding: 4px 10px;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  transition: all var(--transition-base);
+}
+
+.lang-switch__btn.is-active {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.lang-switch__btn:hover:not(.is-active) {
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+}
+
+/* === Header account menu (Phase 2) === */
+.account-menu {
+  position: relative;
+}
+
+.account-menu__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-bg-elevated);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+  max-width: 220px;
+}
+
+.account-menu__trigger:hover,
+.account-menu__trigger.is-open {
+  border-color: var(--color-accent);
+  background: var(--color-bg-card);
+}
+
+.account-menu__trigger:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.account-menu__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-accent), #6b4f0f);
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-bold);
+  color: #fff;
+}
+
+.account-menu__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.account-menu__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-menu__chevron {
+  font-size: 0.65rem;
+  color: var(--color-text-muted);
+  transition: transform var(--transition-fast);
+}
+
+.account-menu__trigger.is-open .account-menu__chevron {
+  transform: rotate(180deg);
+}
+
+.account-menu__dropdown {
+  position: absolute;
+  top: calc(100% + var(--space-xs));
+  right: 0;
+  min-width: 200px;
+  padding: var(--space-xs);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-card);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  z-index: calc(var(--z-header) + 10);
+}
+
+.account-menu__item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: var(--space-sm) var(--space-md);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-primary);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--transition-fast);
+}
+
+.account-menu__item:hover {
+  background: var(--color-bg-elevated);
+  color: var(--color-accent);
+}
+
+.account-menu__item--danger {
+  color: var(--color-error);
+}
+
+.account-menu__item--danger:hover {
+  background: rgba(231, 76, 60, 0.1);
+  color: var(--color-error);
+}
+
+.account-menu__divider {
+  height: 1px;
+  margin: var(--space-xs) 0;
+  background: var(--color-border);
+}
+
+@media (max-width: 767px) {
+  .account-menu__name {
+    display: none;
+  }
+
+  .account-menu__trigger {
+    padding: var(--space-xs);
+  }
+}
+
 /* === Responsive Component Adjustments === */
 @media (max-width: 767px) {
   .section-title {
@@ -263,5 +443,708 @@ textarea:focus-visible {
   .btn--lg {
     padding: var(--space-sm) var(--space-lg);
     font-size: var(--fs-sm);
+  }
+}
+
+/* =============================================
+   SHARED MOTION: tabs, lists, shine, cards
+   ============================================= */
+
+@keyframes tabPanelEnter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes listSurfaceRefresh {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tab-panel--enter,
+.account-panel--enter {
+  animation: tabPanelEnter var(--transition-smooth) both;
+}
+
+.list-surface--refresh {
+  animation: listSurfaceRefresh var(--transition-smooth) both;
+}
+
+/* === Tab strip with sliding indicator === */
+.tab-strip {
+  position: relative;
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-sm);
+}
+
+.tab-strip::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: var(--tab-indicator-left, 0);
+  width: var(--tab-indicator-width, 0);
+  height: 2px;
+  background: var(--color-accent);
+  border-radius: 2px;
+  transition: left var(--transition-smooth), width var(--transition-smooth);
+  pointer-events: none;
+}
+
+.tab-strip .btn.is-active-tab {
+  background-color: transparent;
+  color: var(--color-accent);
+  border-color: transparent;
+}
+
+/* === Auth form crossfade stack === */
+.auth-forms-stack {
+  position: relative;
+  min-height: 280px;
+}
+
+.auth-form-panel {
+  transition: opacity var(--transition-smooth), transform var(--transition-smooth), visibility var(--transition-smooth);
+}
+
+.auth-form-panel:not(.is-active) {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  transform: translateY(10px);
+}
+
+.auth-form-panel.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  position: relative;
+  transform: none;
+}
+
+/* === Button shine (site-wide) === */
+.btn--shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn--shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-18deg);
+  transition: left 0.55s var(--ease-out-expo);
+}
+
+.btn--shine:hover::after {
+  left: 140%;
+}
+
+/* === Enhanced card hover (shared) === */
+.card,
+.purchase-card,
+.account-listing-card,
+.why__card,
+.brand-strip__item,
+.testimonial {
+  transition: transform var(--transition-smooth), box-shadow var(--transition-smooth), border-color var(--transition-base);
+}
+
+.purchase-card:hover,
+.account-listing-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  border-color: var(--color-accent);
+}
+
+.why__card:hover,
+.brand-strip__item:hover,
+.testimonial:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+/* === Account dropdown open animation === */
+.account-menu__dropdown {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px) scale(0.96);
+  transform-origin: top right;
+  display: block;
+  pointer-events: none;
+  transition: opacity var(--transition-base), transform var(--transition-smooth), visibility var(--transition-base);
+}
+
+.account-menu__dropdown.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-panel--enter,
+  .account-panel--enter,
+  .list-surface--refresh,
+  .auth-form-panel,
+  .account-menu__dropdown,
+  .account-menu__dropdown.is-open,
+  .card,
+  .purchase-card,
+  .account-listing-card,
+  .why__card,
+  .brand-strip__item,
+  .testimonial {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .btn--shine::after {
+    display: none;
+  }
+}
+
+/* =============================================
+   CINEMATIC MOTION UTILITIES (Phase 0 — site-wide)
+   Loaded after layout.css, before page CSS.
+   ============================================= */
+
+/* --- Buttons: gradient depth, ripple host, micro-bounce --- */
+.btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color var(--transition-base), background-color var(--transition-base),
+    border-color var(--transition-base), box-shadow var(--transition-smooth),
+    transform 0.3s var(--ease-spring), filter var(--transition-base);
+}
+
+.btn--primary {
+  background-image: var(--gradient-accent);
+  border-color: transparent;
+  box-shadow: 0 6px 18px -8px rgba(230, 57, 70, 0.55);
+}
+
+.btn--primary:hover {
+  box-shadow: var(--shadow-accent-lg);
+  transform: translateY(-2px);
+}
+
+.btn--primary:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.btn--secondary:hover {
+  box-shadow: 0 0 0 1px var(--color-accent), 0 10px 24px -16px var(--color-accent);
+}
+
+.btn--secondary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn--danger {
+  background-color: var(--color-error);
+  color: #fff;
+  border: 2px solid var(--color-error);
+}
+
+.btn--danger:hover {
+  filter: brightness(1.06);
+  box-shadow: 0 12px 28px -14px var(--color-error);
+  transform: translateY(-2px);
+}
+
+.btn--danger:active {
+  transform: translateY(0) scale(0.97);
+}
+
+/* primary CTA sheen sweep (::before; ::after reserved for .btn--shine).
+   z-index:-1 keeps the sheen above the button's gradient background but behind
+   the label text (isolation:isolate scopes it inside the button). */
+.btn--primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(120deg, transparent 18%, rgba(255, 255, 255, 0.4) 50%, transparent 82%);
+  transform: translateX(-130%);
+  transition: transform 0.65s var(--ease-out-expo);
+  pointer-events: none;
+}
+
+.btn--primary:hover::before {
+  transform: translateX(130%);
+}
+
+/* ripple injected by app.js */
+.al-ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  background: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+  z-index: 0;
+  animation: alRipple 0.62s var(--ease-out-expo);
+}
+
+@keyframes alRipple {
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* --- Inputs: animated focus ring + label focus shift --- */
+.input {
+  transition: border-color var(--transition-base), box-shadow var(--transition-base),
+    background-color var(--transition-base), transform var(--transition-base);
+}
+
+.input:focus {
+  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.16), 0 8px 22px -16px rgba(230, 57, 70, 0.55);
+}
+
+.input-group:focus-within .label {
+  color: var(--color-accent);
+}
+
+/* --- Badge pop --- */
+@keyframes badgePop {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.08); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.badge--pop {
+  animation: badgePop 0.45s var(--ease-out-back) both;
+}
+
+/* --- Lang switch micro-press --- */
+.lang-switch__btn {
+  transition: color var(--transition-base), background-color var(--transition-base), transform var(--transition-fast);
+}
+
+.lang-switch__btn:active {
+  transform: scale(0.94);
+}
+
+/* --- 3D tilt (site-wide car cards) --- */
+.card--tilt,
+.catalog-card,
+.market-card,
+.wishlist-card,
+.brand-card,
+.detail-related__card,
+[data-tilt] {
+  position: relative;
+}
+
+[data-tilt] {
+  transition: transform 0.5s var(--ease-spring), box-shadow 0.5s var(--ease-out-expo);
+  will-change: transform;
+}
+
+/* Responsive transform-follow while actively tilting. !important is used so
+   the short transform transition wins even over the higher-specificity reveal
+   rule (.anim-ready [data-reveal].is-revealed) that would otherwise make the
+   tilt lag. This rule only matches while the JS engine is actively tilting, so
+   it never affects reduced-motion users (the class is never added there). */
+.card--tilt.is-tilting,
+.catalog-card.is-tilting,
+.market-card.is-tilting,
+.wishlist-card.is-tilting,
+.brand-card.is-tilting,
+.detail-related__card.is-tilting,
+[data-tilt].is-tilting {
+  transition: transform 0.12s ease-out !important;
+}
+
+/* --- Spotlight glow for panels --- */
+[data-spotlight] {
+  position: relative;
+  isolation: isolate;
+}
+
+[data-spotlight]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(440px circle at var(--mx) var(--my), rgba(230, 57, 70, 0.12), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: -1;
+}
+
+[data-spotlight]:hover::before {
+  opacity: 1;
+}
+
+/* --- Glass surface utility --- */
+.glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+}
+
+/* --- Reveal direction variants (override layout.css base) --- */
+.anim-ready [data-reveal="left"]:not(.is-revealed) { opacity: 0; transform: translateX(-40px); }
+.anim-ready [data-reveal="right"]:not(.is-revealed) { opacity: 0; transform: translateX(40px); }
+.anim-ready [data-reveal="zoom"]:not(.is-revealed) { opacity: 0; transform: scale(0.9); }
+.anim-ready [data-reveal="down"]:not(.is-revealed) { opacity: 0; transform: translateY(-28px); }
+
+.anim-ready [data-reveal="left"].is-revealed,
+.anim-ready [data-reveal="right"].is-revealed,
+.anim-ready [data-reveal="zoom"].is-revealed,
+.anim-ready [data-reveal="down"].is-revealed {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--transition-smooth), transform var(--transition-smooth);
+}
+
+/* generic stagger for any revealed element */
+.anim-ready [data-reveal].is-revealed {
+  transition-delay: calc(var(--reveal-i, 0) * 60ms);
+}
+
+/* --- Skeleton shimmer (shared) --- */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+.skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  animation: alSkeleton 1.4s ease-in-out infinite;
+}
+
+@keyframes alSkeleton {
+  100% { transform: translateX(100%); }
+}
+
+/* --- Scroll lock during home preload (is-loading on <html>) --- */
+html.is-loading,
+html.is-loading body {
+  overflow: hidden;
+}
+
+/* --- Page-transition curtain (app.js; pre-rendered on home) --- */
+.al-page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-accent);
+  transform: scaleY(0);
+  transform-origin: bottom center;
+  pointer-events: none;
+  transition: transform 0.46s var(--ease-spring);
+}
+
+.al-page-transition__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xl);
+}
+
+.al-page-transition__brand {
+  font-family: var(--font-heading);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-black);
+  letter-spacing: 2px;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.al-page-transition__brand span { color: #14142a; }
+
+.al-page-transition__progress,
+.al-page-transition__bar {
+  display: none;
+}
+
+.al-page-transition.is-home-preload .al-page-transition__progress,
+.al-page-transition.is-home-preload .al-page-transition__bar {
+  display: block;
+}
+
+.al-page-transition__progress {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.al-page-transition__bar {
+  width: min(280px, 72vw);
+  height: 3px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.al-page-transition__bar-fill {
+  display: block;
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.75));
+  transition: none;
+}
+
+.al-page-transition.is-active {
+  transform: scaleY(1);
+  transform-origin: top center;
+  pointer-events: all;
+}
+
+.al-page-transition.is-active .al-page-transition__brand {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease 0.12s, transform 0.4s ease 0.12s;
+}
+
+.al-page-transition.is-active.is-home-preload .al-page-transition__progress,
+.al-page-transition.is-active.is-home-preload .al-page-transition__bar {
+  opacity: 1;
+  transition: opacity 0.4s ease 0.2s;
+}
+
+/* --- Count-up numbers --- */
+[data-count-to] { font-variant-numeric: tabular-nums; }
+
+/* --- Scroll progress + back-to-top (shared; injected by app.js off-home) --- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: calc(var(--z-header) + 10);
+  background: transparent;
+  pointer-events: none;
+}
+
+.scroll-progress__bar {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-gold));
+  box-shadow: 0 0 8px rgba(230, 57, 70, 0.5);
+}
+
+.back-to-top {
+  position: fixed;
+  bottom: var(--space-xl);
+  right: var(--space-xl);
+  z-index: var(--z-overlay);
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: var(--radius-full);
+  background-color: var(--color-accent);
+  background-image: var(--gradient-accent);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  transition: opacity var(--transition-base), transform var(--transition-spring), visibility var(--transition-base), box-shadow var(--transition-base);
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  box-shadow: var(--shadow-accent-lg);
+  transform: translateY(-3px) scale(1.05);
+}
+
+.back-to-top svg {
+  width: 22px;
+  height: 22px;
+}
+
+@media (max-width: 767px) {
+  .back-to-top {
+    bottom: var(--space-md);
+    right: var(--space-md);
+  }
+}
+
+/* --- User lite-FX preference (account settings) --- */
+html[data-fx-lite="on"] .account-settings-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* === Confirm Dialog === */
+.confirm-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  background: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.confirm-dialog:not([hidden]) {
+  display: flex;
+  animation: confirmDialogFade 0.26s ease;
+}
+
+.confirm-dialog__panel {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-xl), var(--shadow-glow);
+}
+
+.confirm-dialog:not([hidden]) .confirm-dialog__panel {
+  animation: confirmDialogPanelIn 0.42s var(--ease-spring);
+}
+
+@keyframes confirmDialogFade {
+  from { opacity: 0; }
+}
+
+@keyframes confirmDialogPanelIn {
+  from { opacity: 0; transform: translateY(26px) scale(0.93); }
+  to { opacity: 1; transform: none; }
+}
+
+.confirm-dialog__close {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--color-text-muted);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--transition-base), background-color var(--transition-base);
+}
+
+.confirm-dialog__close:hover {
+  color: var(--color-text);
+  background: var(--color-surface-hover);
+}
+
+.confirm-dialog__title {
+  margin: 0 0 var(--space-md);
+  padding-right: var(--space-xl);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-bold);
+  color: var(--color-text);
+}
+
+.confirm-dialog__message {
+  margin: 0 0 var(--space-xl);
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.confirm-dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+}
+
+/* --- Reduced motion guard (Phase 0 utilities) --- */
+@media (prefers-reduced-motion: reduce) {
+  .btn--primary::before,
+  .al-ripple,
+  [data-spotlight]::before,
+  .skeleton::after {
+    display: none !important;
+    animation: none !important;
+  }
+
+  .al-page-transition {
+    display: none !important;
+  }
+
+  .btn,
+  [data-magnetic],
+  .input,
+  .lang-switch__btn,
+  .badge--pop {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .confirm-dialog,
+  .confirm-dialog__panel {
+    animation: none !important;
+  }
+}
+
+/* --- Touch devices: drop hover-only spotlight --- */
+@media (hover: none) {
+  [data-spotlight]::before {
+    display: none !important;
   }
 }
